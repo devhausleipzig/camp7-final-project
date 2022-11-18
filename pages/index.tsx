@@ -3,7 +3,7 @@ import Test from "../components/test/test";
 import useProtectedPage from "../hooks/useProtectedPage";
 
 export default function Home() {
-	const authContext = useProtectedPage();
+	// const authContext = useProtectedPage();
 
 	return (
 		<div>
