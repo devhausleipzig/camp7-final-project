@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FormEvent, useContext } from "react";
+import Button, { ButtonSizes } from "../components/button/button";
 import { methods } from "../utils/methods";
 import { AuthContext } from "./_app";
 
@@ -15,13 +16,10 @@ export default function Login() {
 		const formData = new FormData(target);
 		const formDataObj = Object.fromEntries(formData.entries());
 
-		const loginResponse = await fetch(
-			"http://localhost:3000/api/auth/login",
-			{
-				method: methods.post,
-				body: JSON.stringify(formDataObj)
-			}
-		);
+		const loginResponse = await fetch("http://localhost:3000/api/auth/login", {
+			method: methods.post,
+			body: JSON.stringify(formDataObj),
+		});
 
 		if (loginResponse.status != 200) {
 			// not logged in
@@ -33,7 +31,7 @@ export default function Login() {
 
 		const userResponse = await fetch("http://localhost:3000/api/user/me", {
 			method: methods.get,
-			headers: { Authorization: token }
+			headers: { Authorization: token },
 		});
 
 		const userBody = await userResponse.json();
@@ -44,7 +42,7 @@ export default function Login() {
 	}
 
 	return (
-		<div className="h-screen bg-white font-sans my-5 ml-5 rounded-lg text-center text-custom_darkblue">
+		<div className="h-screen bg-white font-sans my-5 ml-5 rounded-lg text-center text-purple-600">
 			<div className="pt-14">
 				{/* <img
 					src={LoginImg.src}
@@ -52,10 +50,7 @@ export default function Login() {
 					className="text-[#68B684] h-48 mx-auto"
 				/> */}
 				<h1 className="text-3xl font-bold">Almost there...</h1>
-				<form
-					className="p-8 text-left w-screen"
-					onSubmit={handleSubmit}
-				>
+				<form className="p-8 text-left w-screen" onSubmit={handleSubmit}>
 					<label className="form_label">
 						Email
 						<input
@@ -81,13 +76,15 @@ export default function Login() {
 					<input
 						type="submit"
 						value="Log In"
-						className="bg-custom_darkblue w-11/12 h-10 rounded-lg text-white text-lg mb-4"
+						className="bg-purple-600 w-11/12 h-10 rounded-lg text-white text-lg mb-4"
 					/>
 				</form>
 			</div>
-			<Link href={{ pathname: "/register" }}>
-				<button>Register</button>
-			</Link>
+			<Button
+				label={"Register"}
+				link={"/register"}
+				size={ButtonSizes.default}
+			/>
 		</div>
 	);
 }
