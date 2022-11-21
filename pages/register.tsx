@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { route } from "nextjs-routes";
 import { methods } from "../utils/methods";
 import Link from "next/link";
+import Button, { ButtonSizes } from "../components/button/button";
 
 export type RegisterFormData = {
 	name: string;
@@ -55,13 +56,10 @@ export default function Register() {
 
 		delete formDataObj["confirmEmail"];
 
-		const response = await fetch(
-			route({ pathname: "/api/auth/register" }),
-			{
-				method: methods.post,
-				body: JSON.stringify(formDataObj)
-			}
-		);
+		const response = await fetch(route({ pathname: "/api/auth/register" }), {
+			method: methods.post,
+			body: JSON.stringify(formDataObj),
+		});
 
 		if (response.status != 201) {
 			// request unsuccessful
@@ -72,13 +70,10 @@ export default function Register() {
 	}
 
 	return (
-		<div className="h-screen bg-white font-sans my-5 ml-5 rounded-lg text-center text-custom_darkblue">
+		<div className="h-screen bg-white font-sans my-5 ml-5 rounded-lg text-center text-purple-600">
 			<div>
 				<h2 className="text-xl font-bold pt-6">Register</h2>
-				<form
-					className="p-8 text-left w-screen"
-					onSubmit={handleSubmit}
-				>
+				<form className="p-8 text-left w-screen" onSubmit={handleSubmit}>
 					<label className="form_label">
 						Name
 						<input
@@ -96,9 +91,7 @@ export default function Register() {
 							type="email"
 							name="email"
 							placeholder="Please enter your email"
-							className={`${
-								isValidEmail ? "form_input" : "form_input_wrong"
-							}`}
+							className={`${isValidEmail ? "form_input" : "form_input_wrong"}`}
 							size={32}
 							onChange={emailEventHandler}
 							onBlur={validEmail}
@@ -111,12 +104,8 @@ export default function Register() {
 							type="email"
 							name="confirmEmail"
 							placeholder="Please re-enter your email"
-							className={`${
-								emailsSame ? "form_input" : "form_input_wrong"
-							} ${
-								email == "" || !isValidEmail
-									? "form_disabled"
-									: ""
+							className={`${emailsSame ? "form_input" : "form_input_wrong"} ${
+								email == "" || !isValidEmail ? "form_disabled" : ""
 							}`}
 							size={32}
 							onChange={confirmEmailEventHandler}
@@ -139,13 +128,11 @@ export default function Register() {
 					<input
 						type="submit"
 						value="Register"
-						className="bg-custom_darkblue w-11/12 h-10 rounded-lg text-white text-lg mb-4"
+						className="bg-purple-600 w-11/12 h-10 rounded-lg text-white text-lg mb-4"
 					/>
 				</form>
 			</div>
-			<Link href={{ pathname: "/login" }}>
-				<button>Login</button>
-			</Link>
+			<Button label={"Log In"} link={"/login"} size={ButtonSizes.default} />
 		</div>
 	);
 }
