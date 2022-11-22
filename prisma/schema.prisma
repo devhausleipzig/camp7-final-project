@@ -14,8 +14,10 @@ model User {
   saltAndHash String
   email       String     @unique
   images      String[]
+  bornAt      DateTime 
   info        Info?  @relation("UserInfo")
   interests   Interest[] @relation("UserInterests")
+  location    Location?
 
   @@map("user")
 }
@@ -24,7 +26,7 @@ model Info {
   id          String    @id @default(uuid())
   languages   String[]
   location    Json
-  age         Int
+  age         Int       
   gender      String
   userId      String    @unique
   user        User      @relation("UserInfo", fields: [userId] , references: [id])
@@ -39,4 +41,13 @@ model Interest {
   Users User[] @relation("UserInterests")
 
   @@map("interest")
+}
+
+model Location {
+  identifier String @id @default(uuid())
+  address    String
+  lat        Float
+  lon        Float
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String @unique
 }
