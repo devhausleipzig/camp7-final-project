@@ -14,7 +14,7 @@ model User {
   saltAndHash String
   email       String     @unique
   images      String[]
-  bornAt      DateTime 
+  bornAt      DateTime?
   info        Info?  @relation("UserInfo")
   interests   Interest[] @relation("UserInterests")
   location    Location? @relation("UserLocation")
