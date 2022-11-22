@@ -17,7 +17,7 @@ model User {
   bornAt      DateTime 
   info        Info?  @relation("UserInfo")
   interests   Interest[] @relation("UserInterests")
-  location    Location?
+  location    Location? @relation("UserLocation")
 
   @@map("user")
 }
@@ -48,6 +48,8 @@ model Location {
   address    String
   lat        Float
   lon        Float
-  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String @unique
+  user       User   @relation("UserLocation", fields: [userId] , references: [id], onDelete: Cascade)
+
+  @@map("location")
 }
