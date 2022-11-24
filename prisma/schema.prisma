@@ -44,7 +44,7 @@ model Interest {
 }
 
 model Location {
-  identifier String @id @default(uuid())
+  id         String @id @default(uuid())
   address    String
   lat        Float
   lon        Float
