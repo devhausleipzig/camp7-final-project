@@ -1,6 +1,6 @@
-import Head from "next/head";
-import Test from "../components/test/test";
 import useProtectedPage from "../hooks/useProtectedPage";
+import styled from "styled-components";
+import InputField from "../components/inputField/inputField";
 
 export default function Home() {
 	const authContext = useProtectedPage();
@@ -8,9 +8,8 @@ export default function Home() {
 	return (
 		<div>
 			<main>
-				<h1 className="text-3xl text-red-600">Camp #7 Final Project</h1>
+				<InputField />
 			</main>
-			<Test />
 		</div>
 	);
 }
