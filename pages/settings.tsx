@@ -20,7 +20,7 @@ export default function Settings(props: Props) {
 		// 	<h1>Interests</h1>
 		// 	<div className="col-span-2"></div>
 		// </div>
-		<div className="w-screen m-8">
+		<div className="w-screen m-8 text-center">
 			{/* <h1>{props.username}</h1> */}
 			<h1>Placeholder Username</h1>
 			<Button
