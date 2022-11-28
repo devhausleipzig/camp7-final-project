@@ -20,9 +20,9 @@ export default function Settings(props: Props) {
 		// 	<h1>Interests</h1>
 		// 	<div className="col-span-2"></div>
 		// </div>
-		<div className="w-screen m-8 text-center">
+		<div className="w-screen mt-8 text-center">
 			{/* <h1>{props.username}</h1> */}
-			<h1>Placeholder Username</h1>
+			<h1 className="text-2xl bold mb-4">Placeholder Username</h1>
 			<Button
 				label={"Change Password"}
 				link={"/password"}
@@ -34,7 +34,7 @@ export default function Settings(props: Props) {
 				link={"/notifications"}
 				size={ButtonSizes.wide}
 			/>
-			<hr className="my-4 border-black" />
+			<hr className="mt-4 mb-8 border-black ml-4 w-11/12" />
 			<Button label={"About Us"} link={"/about"} size={ButtonSizes.wide} />
 			<Button label={"Support"} link={"/support"} size={ButtonSizes.wide} />
 			<Button

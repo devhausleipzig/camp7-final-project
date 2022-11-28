@@ -8,9 +8,9 @@ interface Props {
 export default function Settings(props: Props) {
 	// const authContext = useProtectedPage();
 	return (
-		<div className="w-screen m-8 text-center">
+		<div className="w-screen mt-8 text-center">
 			{/* <h1>{props.username}</h1> */}
-			<h1>Username Placeholder</h1>
+			<h1 className="text-2xl bold mb-4">Placeholder Username</h1>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
