@@ -28,18 +28,16 @@ export default function LocationSearch({}: LocationSearchProps) {
 	}, [query]);
 
 	return (
-		<div className="mt-8 mx-auto flex justify-center h-8 w-1/4">
+		<div className="mt-8 mx-auto flex justify-center h-8 w-80">
 			<Combobox value={selected} onChange={setSelected}>
 				<Combobox.Input
-					className={
-						"w-80  bg-white border border-black p-1 relative"
-					}
+					className={"w-80  bg-white border border-black p-1 relative"}
 					onChange={(event) => setQuery(event.target.value)}
 					value={query}
 				/>
 				<Combobox.Options
 					className={
-						"bg-white absolute w-1/4 my-9 border border-black border-t-0"
+						"bg-white w-80 absolute my-9 border border-black border-t-0"
 					}
 				>
 					{addressList.map((address, index) => {
