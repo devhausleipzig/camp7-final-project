@@ -1,15 +1,12 @@
 import useProtectedPage from "../hooks/useProtectedPage";
-import styled from "styled-components";
-import InputField from "../components/inputField/inputField";
+import LocationSearch from "../components/locationSearch/locationSearch";
 
 export default function Home() {
 	const authContext = useProtectedPage();
 
 	return (
 		<div>
-			<main>
-				<InputField />
-			</main>
+			<main>Home page</main>
 		</div>
 	);
 }

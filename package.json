@@ -10,6 +10,7 @@
 		"build-storybook": "build-storybook"
 	},
 	"dependencies": {
+		"@headlessui/react": "^1.7.4",
 		"@prisma/client": "4.6.1",
 		"@turf/turf": "^6.5.0",
 		"axios": "^1.1.3",
