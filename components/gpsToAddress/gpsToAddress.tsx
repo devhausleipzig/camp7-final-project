@@ -1,16 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { Combobox } from "@headlessui/react";
 
-type MapboxAddress = Record<string, any> & { place_name: string };
+type GPSAddress = Record<string, any> & { place_name: string };
 
-async function getMapboxSuggestions(
-	setter: React.Dispatch<React.SetStateAction<Array<MapboxAddress>>>,
+async function getGPSAddressSuggestions(
+	setter: React.Dispatch<React.SetStateAction<Array<GPSAddress>>>,
 	query: string
 ) {
-	const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=pk.eyJ1IjoicmVhbGx5Ym9hcmQiLCJhIjoiY2xhdXd6Yzd4MDA2ZTNvbHR5dGlrbzlhZyJ9.-VLPpmZjVi5zq_eeM-Q5yA&autocomplete=true`;
-	const response = await fetch(endpoint);
-	const results = await response.json();
-	setter(results?.features ?? []);
+	let lat = 0;
+	let lon = 0;
+	if ("geolocation" in navigator) {
+		console.log("Available");
+	} else {
+		console.log("Not Available");
+	}
+	navigator.geolocation.getCurrentPosition(async function (position) {
+		lat = position.coords.latitude;
+		lon = position.coords.longitude;
+		// console.log(lon, lat);
+		const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=pk.eyJ1IjoicmVhbGx5Ym9hcmQiLCJhIjoiY2xhdXd6Yzd4MDA2ZTNvbHR5dGlrbzlhZyJ9.-VLPpmZjVi5zq_eeM-Q5yA`;
+		const response = await fetch(endpoint);
+		const results = await response.json();
+		setter(results?.features ?? []);
+	});
 }
 
 type LocationSearchProps = {
@@ -18,13 +30,13 @@ type LocationSearchProps = {
 	setSelected: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export default function LocationSearch({}: LocationSearchProps) {
-	const [addressList, setAddressList] = useState([] as Array<MapboxAddress>);
+export default function GPSToAddress({}: LocationSearchProps) {
+	const [addressList, setAddressList] = useState([] as Array<GPSAddress>);
 	const [selected, setSelected] = useState("");
 	const [query, setQuery] = useState("");
 
 	useEffect(() => {
-		getMapboxSuggestions(setAddressList, query);
+		getGPSAddressSuggestions(setAddressList, query);
 	}, [query]);
 
 	return (
@@ -41,7 +53,7 @@ export default function LocationSearch({}: LocationSearchProps) {
 					}
 				>
 					{addressList.map((address, index) => {
-						// console.log(address);
+						console.log(address);
 
 						return (
 							<Combobox.Option
