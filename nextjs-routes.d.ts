@@ -8,10 +8,17 @@ declare module "nextjs-routes" {
     | { pathname: "/api/auth/login"; query?: Query | undefined }
     | { pathname: "/api/auth/register"; query?: Query | undefined }
     | { pathname: "/api/auth/test"; query?: Query | undefined }
+    | { pathname: "/api/chat/[chat_id]/createMessage"; query: Query<{ "chat_id": string }> }
+    | { pathname: "/api/chat/[chat_id]/getMessages"; query: Query<{ "chat_id": string }> }
+    | { pathname: "/api/chat/[chat_id]/indexCh"; query: Query<{ "chat_id": string }> }
+    | { pathname: "/api/chat/chat_id"; query?: Query | undefined }
+    | { pathname: "/api/chat"; query?: Query | undefined }
     | { pathname: "/api/user"; query?: Query | undefined }
     | { pathname: "/api/user/me"; query?: Query | undefined }
     | { pathname: "/api/user/test"; query?: Query | undefined }
     | { pathname: "/chat/[chat_id]"; query: Query<{ "chat_id": string }> }
+    | { pathname: "/chat/chatOverview"; query?: Query | undefined }
+    | { pathname: "/chat/example"; query?: Query | undefined }
     | { pathname: "/chat"; query?: Query | undefined }
     | { pathname: "/"; query?: Query | undefined }
     | { pathname: "/login"; query?: Query | undefined }

@@ -1,15 +1,38 @@
+import { Conversation } from "@prisma/client";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import Chat from "../chat";
-import useProtectedChat from "../../hooks/useProtectedChat";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import Chat from ".";
+import useProtectedChat from "../../hooks/useProtectedPage";
+import { methods } from "../../utils/methods";
+
+async function GetMessages(
+  setMessages: Dispatch<SetStateAction<Conversation[]>>,
+  chat_id: string
+) {
+  const chatResponse = await fetch(
+    `http://localhost:3000/api/chat/${chat_id}/getMessages`,
+    {
+      method: methods.get,
+    }
+  );
+  const data = await chatResponse.json();
+  setMessages(data);
+}
 
 export default function ChatPage() {
   const router = useRouter();
-  const { chat_id } = router.query;
 
-  ////// temporary hack to see how it looks with data
-  //   const { isLoading, chat } = useProtectedChat(chat_id as string);
-  //////
+  const [messages, setMessages] = useState([] as Conversation[]);
+
+  useEffect(() => {
+    const { chat_id } = router.query;
+    GetMessages(setMessages, chat_id as string);
+  }, [router.query]);
+
+  useEffect(() => {
+    console.log(messages);
+  }, [messages]);
 
   return (
     <div className="h-screen">
@@ -19,8 +42,9 @@ export default function ChatPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex flex-col justify-between h-full">
+        Test
         {/* {chat ? (
-          <Chat type={TaskCardTypes.extended} task={task} />
+          <Chat type={}  />
         ) : (
           <p>no data</p>
         )} */}

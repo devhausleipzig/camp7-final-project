@@ -16,9 +16,38 @@ model User {
   images      String[]
   info        Info?  @relation("UserInfo")
   interests   Interest[] @relation("UserInterests")
+  conversations   Conversation[] @relation("UserConversations")
+  messages    Message[]
 
   @@map("user")
 }
+
+
+model Conversation {
+
+  id    String @id @default(uuid())
+  createdAt    DateTime @default(now())
+  participant   User[] @relation("UserConversations")
+  messages   Message[]
+
+  @@map("conversation")
+}
+
+
+model Message {
+
+  id    String @id @default(uuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  content     String
+  conversation    Conversation @relation(fields: [conversationId], references: [id])
+  conversationId    String
+  author   User @relation(fields: [authorId], references: [id])
+  authorId   String
+
+  @@map("message") 
+}
+
 
 model Info {
   id          String    @id @default(uuid())
@@ -40,3 +69,5 @@ model Interest {
 
   @@map("interest")
 }
+
+
