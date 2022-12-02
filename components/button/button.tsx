@@ -1,32 +1,49 @@
 import Link from "next/link";
 import clsx from "clsx";
+import { Route } from "nextjs-routes";
 
-export enum ButtonSizes {
-	default = "default",
-	wide = "wide",
+export enum ButtonVariant {
+	transparent = "transparent",
+	fill = "fill",
 }
 
 interface ButtonProps {
 	label?: string;
-	link?: string;
-	size: ButtonSizes;
+	link?: Route;
+	variant: ButtonVariant;
+	type?: "submit" | "button" | "reset";
 }
 
-export default function Button({ label, link, size }: ButtonProps) {
-	return (
-		<Link href={`${link}`}>
+export default function Button({ label, link, variant, type }: ButtonProps) {
+	return link ? (
+		<Link href={link}>
 			<button
+				type={type}
 				className={clsx(
-					"w-11/12 h-10 rounded-lg text-white text-lg mb-4",
-					size == ButtonSizes.default
-						? "bg-purple-400 w-24"
-						: size == ButtonSizes.wide
-						? "bg-purple-600 w-52"
+					"w-full mt-4 h-10 text-xl font-bold",
+					variant == ButtonVariant.transparent
+						? "bg-transparent text-violet-800"
+						: variant == ButtonVariant.fill
+						? "bg-violet-800 text-white"
 						: ""
 				)}
 			>
 				{label}
 			</button>
 		</Link>
+	) : (
+		<button
+			type={type}
+			className={clsx(
+				"w-full mt-4 h-10 text-xl font-bold",
+				variant == ButtonVariant.transparent
+					? "bg-transparent text-violet-800"
+					: variant == ButtonVariant.fill
+					? "bg-violet-800 text-white"
+					: ""
+			)}
+		>
+			{label}
+		</button>
 	);
 }

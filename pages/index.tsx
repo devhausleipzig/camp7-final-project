@@ -1,3 +1,6 @@
+import Head from "next/head";
+import Button, { ButtonVariant } from "../components/button/button";
+import Test from "../components/test/test";
 import useProtectedPage from "../hooks/useProtectedPage";
 import LocationSearch from "../components/locationSearch/locationSearch";
 import { useState } from "react";
@@ -15,6 +18,11 @@ export default function Home() {
 					<LocationSearch selected={selected} setSelected={setSelected} />
 				</div>
 			</main>
+			<Button
+				label={"SEARCH"}
+				link={{ pathname: "/cards" }}
+				variant={ButtonVariant.fill}
+			/>
 		</div>
 	);
 }
