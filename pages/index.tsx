@@ -16,13 +16,17 @@ export default function Home() {
 				<div>
 					{/* <GPSToAddress selected={selected} setSelected={setSelected} /> */}
 					<LocationSearch selected={selected} setSelected={setSelected} />
+					<div className="flex justify-center">
+						<div className="w-80">
+							<Button
+								label={"SEARCH"}
+								link={{ pathname: "/cards" }}
+								variant={ButtonVariant.fill}
+							/>
+						</div>
+					</div>
 				</div>
 			</main>
-			<Button
-				label={"SEARCH"}
-				link={{ pathname: "/cards" }}
-				variant={ButtonVariant.fill}
-			/>
 		</div>
 	);
 }
