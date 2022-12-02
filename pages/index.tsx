@@ -14,8 +14,8 @@ export default function Home() {
 		<div>
 			<main>
 				<div>
-					{/* <GPSToAddress selected={selected} setSelected={setSelected} /> */}
-					<LocationSearch selected={selected} setSelected={setSelected} />
+					<GPSToAddress selected={selected} setSelected={setSelected} />
+					{/* <LocationSearch selected={selected} setSelected={setSelected} /> */}
 					<div className="flex justify-center">
 						<div className="w-80">
 							<Button

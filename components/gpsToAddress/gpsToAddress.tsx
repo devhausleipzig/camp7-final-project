@@ -14,15 +14,19 @@ async function getGPSAddressSuggestions(
 	} else {
 		console.log("Not Available");
 	}
-	navigator.geolocation.getCurrentPosition(async function (position) {
-		lat = position.coords.latitude;
-		lon = position.coords.longitude;
-		// console.log(lon, lat);
-		const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=pk.eyJ1IjoicmVhbGx5Ym9hcmQiLCJhIjoiY2xhdXd6Yzd4MDA2ZTNvbHR5dGlrbzlhZyJ9.-VLPpmZjVi5zq_eeM-Q5yA`;
-		const response = await fetch(endpoint);
-		const results = await response.json();
-		setter(results?.features ?? []);
-	});
+	navigator.geolocation.getCurrentPosition(
+		async function (position) {
+			lat = position.coords.latitude;
+			lon = position.coords.longitude;
+			// console.log(lon, lat);
+			const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=pk.eyJ1IjoicmVhbGx5Ym9hcmQiLCJhIjoiY2xhdXd6Yzd4MDA2ZTNvbHR5dGlrbzlhZyJ9.-VLPpmZjVi5zq_eeM-Q5yA`;
+			const response = await fetch(endpoint);
+			const results = await response.json();
+			setter(results?.features ?? []);
+		},
+		undefined,
+		{ enableHighAccuracy: true }
+	);
 }
 
 type LocationSearchProps = {
