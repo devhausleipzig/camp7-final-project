@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { route } from "nextjs-routes";
 import { methods } from "../utils/methods";
 import Link from "next/link";
-import Button, { ButtonSizes } from "../components/button/button";
+import Button, { ButtonVariant } from "../components/button/button";
 
 export type RegisterFormData = {
 	name: string;
@@ -125,14 +125,18 @@ export default function Register() {
 							required
 						/>
 					</label>
-					<input
-						type="submit"
-						value="Register"
-						className="bg-purple-600 w-11/12 h-10 rounded-lg text-white text-lg mb-4"
+					<Button
+						label={"REGISTER"}
+						variant={ButtonVariant.fill}
+						type={"submit"}
 					/>
 				</form>
+				<Button
+					label={"LOGIN"}
+					link={{ pathname: "/login" }}
+					variant={ButtonVariant.transparent}
+				/>
 			</div>
-			<Button label={"Log In"} link={"/login"} size={ButtonSizes.default} />
 		</div>
 	);
 }
