@@ -11,6 +11,7 @@ declare module "nextjs-routes" {
     | { pathname: "/api/user"; query?: Query | undefined }
     | { pathname: "/api/user/me"; query?: Query | undefined }
     | { pathname: "/api/user/test"; query?: Query | undefined }
+    | { pathname: "/cards"; query?: Query | undefined }
     | { pathname: "/chat"; query?: Query | undefined }
     | { pathname: "/"; query?: Query | undefined }
     | { pathname: "/login"; query?: Query | undefined }
