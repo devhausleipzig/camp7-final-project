@@ -9,7 +9,7 @@ type PostMessageQuery = {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    if (req.method == methods.post) {
+    if (req.method == methods.get) {
       const { chat_id } = req.query as PostMessageQuery;
       console.log(chat_id);
 

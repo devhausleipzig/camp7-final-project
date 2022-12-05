@@ -17,7 +17,6 @@ declare module "nextjs-routes" {
     | { pathname: "/api/user/me"; query?: Query | undefined }
     | { pathname: "/api/user/test"; query?: Query | undefined }
     | { pathname: "/chat/[chat_id]"; query: Query<{ "chat_id": string }> }
-    | { pathname: "/chat/chatOverview"; query?: Query | undefined }
     | { pathname: "/chat/example"; query?: Query | undefined }
     | { pathname: "/chat"; query?: Query | undefined }
     | { pathname: "/"; query?: Query | undefined }

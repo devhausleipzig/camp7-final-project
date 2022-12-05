@@ -2,23 +2,30 @@ import { User } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../prisma/db";
 import { methods } from "../../../utils/methods";
-
-type GetUserConvQuery = {
-  conversation_id: string;
-};
+import protectedRoute from "../../../utils/protectedRoute";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (req.method == methods.get) {
+      const token = protectedRoute(req, res);
+      if (!token) {
+        return;
+      }
+
       const user = await prisma.user.findUnique({
         where: {
-          id: "afb5233c-89e1-4b1c-ae68-845a3aaa0dd7",
+          id: token.user_id,
         },
         include: {
-          conversations: true,
+          conversations: {
+            include: {
+              messages: { take: 1, orderBy: { createdAt: "desc" } },
+              participant: true,
+            },
+          },
         },
       });
-      res.status(201).json(user?.conversations);
+      res.status(200).json(user?.conversations);
       return;
     }
 
