@@ -13,7 +13,7 @@ model User {
   name        String
   saltAndHash String
   email       String     @unique
-  images      Image[] @relation("UserImage")
+  image      String
   bornAt      DateTime?
   info        Info?  @relation("UserInfo")
   interests   Interest[] @relation("UserInterests")
@@ -52,10 +52,4 @@ model Location {
   user       User   @relation("UserLocation", fields: [userId] , references: [id], onDelete: Cascade)
 
   @@map("location")
-}
-model Image {
-  id         String @id @default(uuid())
-  imageData  Bytes
-  userId     String @unique
-  user       User   @relation("UserImage", fields: [userId] , references: [id], onDelete: Cascade)
 }

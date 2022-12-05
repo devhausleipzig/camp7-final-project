@@ -15,6 +15,7 @@
 		"bcrypt": "^5.1.0",
 		"clsx": "^1.2.1",
 		"date-fns": "^2.29.3",
+		"firebase": "^9.14.0",
 		"jsonwebtoken": "^8.5.1",
 		"next": "13.0.3",
 		"postcss-loader": "^7.0.1",

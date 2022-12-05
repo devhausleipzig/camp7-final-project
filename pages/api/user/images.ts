@@ -5,11 +5,18 @@ import jwt from "jsonwebtoken";
 
 import { prisma } from "../../../prisma/db";
 import { methods } from "../../../utils/methods";
+import React from "react";
 
 type TokenData = {
 	user_id: string;
 	// email: string;
 };
+
+// interface ExtendedNextApiRequest extends NextApiRequest {
+// 	body: {
+// 		imageURL: string;
+// 	};
+// }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method !== methods.post) {
@@ -19,6 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 	}
 
 	try {
+		console.log(req.body);
 		// validate token
 		const token = req.headers.authorization;
 		if (!token) {
@@ -39,10 +47,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		const imageData = requestData.data;
 
 		// insert into db
-		await prisma.image.create({
+		await prisma.user.update({
+			where: {
+				id: decodedToken.user_id,
+			},
 			data: {
-				userId: userId,
-				imageData: imageData,
+				image: requestData.imageURL as string,
 			},
 		});
 

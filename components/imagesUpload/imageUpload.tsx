@@ -1,15 +1,33 @@
 import { route } from "nextjs-routes";
 import test from "node:test";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { methods } from "../../utils/methods";
+import storage from "../../firebaseConfig";
+import {
+	ref,
+	uploadBytesResumable,
+	UploadTaskSnapshot,
+	getDownloadURL,
+} from "firebase/storage";
+import { url } from "node:inspector";
 
 const ImageUpload = () => {
 	const [selectedImages, setSelectedImages] = useState<string[]>([]);
+	const [file, setFile] = useState<File | null>(null);
+	const [imageURL, setImageURL] = useState<string | null>(null);
+	useEffect(() => {
+		if (imageURL) {
+			fetch("http://localhost:3000/api/user/images", {
+				method: "POST",
+				body: JSON.stringify({ imageURL }),
+			});
+		}
+	}, [imageURL]);
 
 	const onSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const selectedFiles = event.target.files!;
 		const selectedFilesArray = Array.from(selectedFiles);
-
+		setFile(event.target.files![0]);
 		const imagesArray: string[] = selectedFilesArray.map((file: File) => {
 			return URL.createObjectURL(file);
 		});
@@ -23,24 +41,48 @@ const ImageUpload = () => {
 	}
 
 	async function uploadHandler() {
-		console.log("starting upload");
-		// load image from disk
-		const image = "???";
+		if (!file) {
+			alert("No file selected");
+			return;
+		}
+		const storageRef = ref(storage, `/userImages/${file.name}`);
 
-		// convert format
-		const formData = new FormData();
-		formData.append("uploaded-image", image, image.name);
+		const uploadTask = uploadBytesResumable(storageRef, file);
 
-		const uploadResponse = await fetch(
-			route({ pathname: "/api/user/images" }),
-			{
-				method: methods.post,
-				body: JSON.stringify({ data: image }),
+		uploadTask.on(
+			"state_changed",
+			(snapshot) => {
+				const progress = Math.round(
+					(snapshot.bytesTransferred / snapshot.totalBytes) * 100
+				);
+				console.log(progress);
+			},
+			(error) => console.log(error),
+			() => {
+				getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+					console.log(url);
+					setSelectedImages([]);
+					setImageURL(url);
+				});
 			}
 		);
-		if (!uploadResponse.ok) {
-			// oh no!!
-		}
+
+		// console.log("starting upload");
+		// // load image from disk
+		// const image = "???";
+		// // convert format
+		// const formData = new FormData();
+		// formData.append("uploaded-image", image, image.name);
+		// const uploadResponse = await fetch(
+		// 	route({ pathname: "/api/user/images" }),
+		// 	{
+		// 		method: methods.post,
+		// 		body: JSON.stringify({ data: image }),
+		// 	}
+		// );
+		// if (!uploadResponse.ok) {
+		// 	// oh no!!
+		// }
 	}
 
 	return (
@@ -52,7 +94,7 @@ const ImageUpload = () => {
 					type="file"
 					name="images"
 					onChange={onSelectFile}
-					multiple
+					// multiple
 					accept="image/png , image/jpeg, image/webp"
 					className="w-8/12 h-10 rounded-lg text-white text-lg mb-4 bg-purple-400"
 				/>
