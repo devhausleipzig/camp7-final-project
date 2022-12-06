@@ -1,4 +1,0 @@
-POST http://localhost:3000/api/chat/024bae8f-b092-41a9-8d59-26c25faf1b85
-Content-Type: application/json
-
-{"authorId": "afb5233c-89e1-4b1c-ae68-845a3aaa0dd7", "content": "sbgragfarbrafafbjb"}

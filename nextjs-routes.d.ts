@@ -11,7 +11,7 @@ declare module "nextjs-routes" {
     | { pathname: "/api/chat/[chat_id]/createMessage"; query: Query<{ "chat_id": string }> }
     | { pathname: "/api/chat/[chat_id]/getMessages"; query: Query<{ "chat_id": string }> }
     | { pathname: "/api/chat/[chat_id]/indexCh"; query: Query<{ "chat_id": string }> }
-    | { pathname: "/api/chat/chat_id"; query?: Query | undefined }
+    | { pathname: "/api/chat/chat"; query?: Query | undefined }
     | { pathname: "/api/chat"; query?: Query | undefined }
     | { pathname: "/api/user"; query?: Query | undefined }
     | { pathname: "/api/user/me"; query?: Query | undefined }

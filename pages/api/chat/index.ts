@@ -20,7 +20,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           conversations: {
             include: {
               messages: { take: 1, orderBy: { createdAt: "desc" } },
-              participant: true,
+              participant: {
+                select: {
+                  id: true,
+                  name: true,
+                  avatar: true,
+                  interests: true,
+                },
+              },
             },
           },
         },
