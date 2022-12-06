@@ -1,84 +1,114 @@
 import { Conversation } from "@prisma/client";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import Chat from ".";
-import useProtectedChat from "../../hooks/useProtectedPage";
 import { methods } from "../../utils/methods";
+import BackBottn from "../../public/go_back.svg";
+import chat from ".";
+import useProtectedPage from "../../hooks/useProtectedPage";
+import Link from "next/link";
 
 async function GetMessages(
   setMessages: Dispatch<SetStateAction<Conversation[]>>,
-  chat_id: string
+  chat_id: string,
+  authContext: any
 ) {
-  const chatResponse = await fetch(
+  const token = authContext.token;
+
+  const messageResponse = await fetch(
     `http://localhost:3000/api/chat/${chat_id}/getMessages`,
     {
       method: methods.get,
     }
   );
-  const data = await chatResponse.json();
+  const chatResponse = await fetch("http://localhost:3000/api/chat", {
+    method: methods.get,
+    headers: { Authorization: token },
+  });
+  const data = await messageResponse.json();
   setMessages(data);
 }
 
 export default function ChatPage() {
   const router = useRouter();
-
+  const authContext = useProtectedPage();
+  const [chats, setChats] = useState([] as Conversation[]);
   const [messages, setMessages] = useState([] as Conversation[]);
 
   useEffect(() => {
     const { chat_id } = router.query;
-    GetMessages(setMessages, chat_id as string);
+    GetMessages(setMessages, chat_id as string, authContext);
   }, [router.query]);
 
   useEffect(() => {
     console.log(messages);
   }, [messages]);
 
-  // return (
-  //   <div className=" h-screen w-screen">
-  //     HEADER
-  //     <div className="flex justify-around items-center h-[12%] w-full">
-  //       <HamMenu className="h-8 w-8" />
-  //       <AppIcon className="h-8 w-[80%]" />
-  //     </div>
-  //     {/* FRIEND INFOS */}
-  //     <div className="flex justify-around items-center h-[8%] w-full bg-green-400">
-  //       <button
-  //         onClick={() => router.back()}
-  //         className=" text-lg h-6 w-6 rounded-full border-solid border-[1px] border-slate-600 flex items-center"
-  //       >
-  //         {""}
-  //         <BackBottn className="h-6 w-6" />
-  //       </button>
-  //       {/* Avatar */}
-  //       <div className="flex justify-around items-center h-8 w-8 rounded-full bg-red-500">
-  //         Img
-  //       </div>
-  //       <p>Friend Name</p>
-  //       <p>Interests</p>
-  //     </div>
-  //     {/* The Chat Layout BODY */}
+  useEffect(() => {
+    console.log(chats);
+  }, [chats]);
 
-  //     <div className="flex flex-col gap-2">
-  //       {chats.map((chat, index) => {
-  //         return (
-  //           <Link
-  //             key={index}
-  //             href={{
-  //               pathname: "/chat/[chat_id]",
-  //               query: { chat_id: chat.id },
-  //             }}
-  //           >
-  //             <div className="flex w-full px-4 py-2 gap-3 bg-blue-400">
-  //               {chat.id}
-  //             </div>
-  //           </Link>
-  //         );
-  //       })}
-  //     </div>
-
-  //     {/* Text Entery FOOTER */}
-  //     <div className="h-[10%] w-full bg-slate-400"></div>
-  //   </div>
-  // );
+  return (
+    <>
+      <div className="flex h-[15%] w-full">
+        <button
+          onClick={() => router.back()}
+          className="h-6 w-6 rounded-full flex items-center"
+        >
+          {""}
+          <BackBottn className="h-6 w-6 rounded-full" />
+        </button>
+        <div className="flex h-4/5 w-full p-3 gap-4 bg-slate-500">
+          {chats.((chat, index) => {
+            return (
+              <Link
+                key={index}
+                href={{
+                  pathname: "/chat",
+                  query: { chat_id: chat.id },
+                }}
+              >
+                <div className="flex justify-start items-center px-4 py-2 h-[60px] w-full border-b-2 border-[#603BAD] gap-8">
+                  <div className="h-8 w-8 rounded-full bg-slate-300">
+                    {/* {[chat.participanr[0].images]} */}
+                  </div>
+                  <div className="flex ">
+                    {[
+                      // chat.id,
+                      // chat.messages[0].content,
+                      // chat.messages[0].createdAt,
+                      chat.participant.find(
+                        (user) => user.name !== authContext.user.name
+                      ).name,
+                    ]}
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+        <div>
+          {chats.map((chat, index) => {
+            return (
+              <Link
+                key={index}
+                href={{
+                  pathname: "/chat",
+                  query: { chat_id: chat.id },
+                }}
+              >
+                <div className="h-auto w-auto rounded-tl-full rounded-b-full bg-slate-600">
+                  {[
+                    // chat.id,
+                    chat.messages[0].content,
+                    // chat.messages[0].createdAt,
+                    // chat.participant[0].name,
+                  ]}
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </>
+  );
 }
