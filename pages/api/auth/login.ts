@@ -19,7 +19,8 @@ export type Payload = {
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (req.method == methods.post) {
-      const { email, password }: TokenData = req.body;
+      console.log(req.body);
+      const { email, password }: TokenData = JSON.parse(req.body);
 
       const user = await prisma.user.findUniqueOrThrow({
         where: {
