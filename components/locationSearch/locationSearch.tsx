@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Combobox } from "@headlessui/react";
 import { useGpsLocation, useLocation } from "../../hooks/useLocation";
 import { MapPinIcon } from "@heroicons/react/24/outline";
+import { DistanceFilter } from "../../components/distanceFilter/distanceFilter";
 
 export default function LocationSearch() {
 	const [selected, setSelected] = useState("");
@@ -12,18 +13,19 @@ export default function LocationSearch() {
 	return (
 		<div className="mt-8 mx-auto flex justify-center h-8 w-80  bg-white border border-black">
 			<Combobox value={selected} onChange={setSelected}>
-				<Combobox.Input
-					placeholder="Location"
-					className={"w-80  p-1 relative"}
-					onChange={(event) => setQuery(event.target.value)}
-					value={query}
-				/>
 				<MapPinIcon
 					onClick={(event) => {
 						gps && setSelected(gps[0].place_name.toString());
 					}}
 					className="h-6 w-6"
 				/>
+				<Combobox.Input
+					placeholder="Location"
+					className={"w-80  p-1 relative"}
+					onChange={(event) => setQuery(event.target.value)}
+					value={query}
+				/>
+
 				<Combobox.Options
 					className={
 						"bg-white w-80 absolute my-9 border border-black border-t-0"
@@ -43,6 +45,7 @@ export default function LocationSearch() {
 						})}
 				</Combobox.Options>
 			</Combobox>
+			<DistanceFilter />
 		</div>
 	);
 }
