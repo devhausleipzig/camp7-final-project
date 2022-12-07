@@ -18,7 +18,7 @@ export function DistanceFilter() {
 				<span className="block truncate">{selectedDistance.distance}</span>
 			</Listbox.Button>
 
-			<Listbox.Options className=" mt-1 max-h-60 bg-white shadow-lg ring-1 ring-black ring-opacity-5 sm:text-sm">
+			<Listbox.Options className="mt-1 max-h-60 bg-white shadow-lg ring-1 ring-black ring-opacity-5 sm:text-sm">
 				{distance.map((distance, distanceIdx) => (
 					<Listbox.Option
 						key={distanceIdx}
