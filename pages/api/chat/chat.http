@@ -41,5 +41,15 @@ Content-Type: text/plain
 
 ###
 
+POST http://localhost:3000/api/chat/{{conversationId}}
+Content-Type: text/plain
+
+{
+    "content": "How are you",
+    "authorId": "fbbabd99-d755-4dfc-8129-171aff1a7409"
+}
+
+###
+
 GET http://localhost:3000/api/chat/{{conversationId}}
 

@@ -1,58 +1,16 @@
-import { Conversation } from "@prisma/client";
 import Link from "next/link";
-import router from "next/router";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import AppIcon from "../../public/app-icon.svg";
-import HamMenu from "../../public/Ham-Menu.svg";
-import BackBottn from "../../public/Back-Bottn.svg";
-import { methods } from "../../utils/methods";
-import chat from "../api/chat";
-import useProtectedPage from "../../hooks/useProtectedPage";
 import ChatHeader from "../../components/chatComponents/header";
-
-async function GetChat(
-  setChats: Dispatch<SetStateAction<Conversation[]>>,
-  setIsLoading: Dispatch<SetStateAction<boolean>>,
-  setIsError: Dispatch<SetStateAction<boolean>>,
-  authContext: any
-) {
-  const token = authContext.token;
-  setIsLoading(true);
-
-  const chatResponse = await fetch("http://localhost:3000/api/chat", {
-    method: methods.get,
-    headers: { Authorization: token },
-  });
-
-  setIsLoading(false);
-
-  if (chatResponse.status == 200) {
-    const responseData = await chatResponse.json();
-    setChats(responseData);
-    return responseData;
-  }
-  if (chatResponse.status == 401) {
-    setIsError(true);
-    console.log("attemted to make a request: bad token");
-    return;
-  }
-  setIsError(true);
-  console.log("server error");
-}
+import { Participant, useConversations } from "../../hooks/useConversations";
+import useProtectedPage from "../../hooks/useProtectedPage";
+import { getAvatar } from "../../utils/avatar";
+import { getOtherParticipant } from "../../utils/chat";
 
 export default function Chat() {
   const authContext = useProtectedPage();
-  const [chats, setChats] = useState([] as Conversation[]);
-  const [isloading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const { data: conversations, isLoading, isError } = useConversations();
 
-  useEffect(() => {
-    GetChat(setChats, setIsLoading, setIsError, authContext);
-  }, []);
+  if (isError) return <p>Something went wrong</p>;
 
-  useEffect(() => {
-    console.log(chats);
-  }, [chats]);
   return (
     <div className="h-screen w-screen">
       <div className="flex flex-col justify-between h-full">
@@ -65,12 +23,10 @@ export default function Chat() {
         {/* The Chats Layout BODY */}
 
         <div className="flex flex-col h-4/5 w-full p-3 gap-4 overflow-y-auto">
-          {isloading ? (
+          {isLoading ? (
             <p>loading...</p>
-          ) : isError ? (
-            <p>try again later</p>
           ) : (
-            chats.map((chat, index) => {
+            conversations.map((chat, index) => {
               return (
                 <Link
                   key={index}
@@ -80,18 +36,22 @@ export default function Chat() {
                   }}
                 >
                   <div className="flex justify-start items-center px-4 py-2 h-[60px] w-full border-b-2 border-[#603BAD] gap-8">
-                    <div className="h-8 w-8 rounded-full bg-slate-300">
-                      {/* {[chat.participanr[0].images]} */}
-                    </div>
+                    {getAvatar(
+                      getOtherParticipant(
+                        chat.participant,
+                        authContext.user.name
+                      ) ?? {}
+                    )}
                     <div className="flex ">
-                      {[
-                        // chat.id,
-                        // chat.messages[0].content,
-                        // chat.messages[0].createdAt,
-                        chat.participant.find(
-                          (user) => user.name !== authContext.user.name
-                        ).name,
-                      ]}
+                      {getOtherParticipant(
+                        chat.participant,
+                        authContext.user.name
+                      )
+                        ? getOtherParticipant(
+                            chat.participant,
+                            authContext.user.name
+                          )?.name
+                        : "Unknown"}
                     </div>
                   </div>
                 </Link>
