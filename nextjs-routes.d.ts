@@ -8,9 +8,7 @@ declare module "nextjs-routes" {
     | { pathname: "/api/auth/login"; query?: Query | undefined }
     | { pathname: "/api/auth/register"; query?: Query | undefined }
     | { pathname: "/api/auth/test"; query?: Query | undefined }
-    | { pathname: "/api/chat/[chat_id]/createMessage"; query: Query<{ "chat_id": string }> }
-    | { pathname: "/api/chat/[chat_id]/getMessages"; query: Query<{ "chat_id": string }> }
-    | { pathname: "/api/chat/[chat_id]/indexCh"; query: Query<{ "chat_id": string }> }
+    | { pathname: "/api/chat/[chatId]"; query: Query<{ "chatId": string }> }
     | { pathname: "/api/chat/chat"; query?: Query | undefined }
     | { pathname: "/api/chat"; query?: Query | undefined }
     | { pathname: "/api/user"; query?: Query | undefined }
