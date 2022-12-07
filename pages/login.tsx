@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FormEvent, useContext } from "react";
-import Button, { ButtonSizes } from "../components/button/button";
+import Button, { ButtonVariant } from "../components/button/button";
 import { methods } from "../utils/methods";
 import { AuthContext } from "./_app";
 
@@ -73,18 +73,19 @@ export default function Login() {
 							required
 						/>
 					</label>
-					<input
-						type="submit"
-						value="Log In"
-						className="bg-purple-600 w-11/12 h-10 rounded-lg text-white text-lg mb-4"
+					<Button
+						label={"LOGIN"}
+						variant={ButtonVariant.fill}
+						type={"submit"}
 					/>
 				</form>
+
+				<Button
+					label={"REGISTER"}
+					link={{ pathname: "/register" }}
+					variant={ButtonVariant.transparent}
+				/>
 			</div>
-			<Button
-				label={"Register"}
-				link={"/register"}
-				size={ButtonSizes.default}
-			/>
 		</div>
 	);
 }

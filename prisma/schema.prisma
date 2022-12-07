@@ -12,12 +12,14 @@ model User {
   name          String
   saltAndHash   String
   email         String         @unique
+  bornAt      DateTime?
   images        String[]
   avatar        String?
   info          Info?          @relation("UserInfo")
   interests     Interest[]     @relation("UserInterests")
   conversations Conversation[] @relation("UserConversations")
   messages      Message[]
+  location    Location? @relation("UserLocation")
 
   @@map("user")
 }
@@ -62,4 +64,15 @@ model Interest {
   Users User[] @relation("UserInterests")
 
   @@map("interest")
+}
+
+model Location {
+  id         String @id @default(uuid())
+  address    String
+  lat        Float
+  lon        Float
+  userId     String @unique
+  user       User   @relation("UserLocation", fields: [userId] , references: [id], onDelete: Cascade)
+
+  @@map("location")
 }
