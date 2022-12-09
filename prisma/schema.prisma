@@ -38,7 +38,7 @@ model Interest {
 
   id    String @id @default(uuid())
   name  String
-  Users User[] @relation("UserInterests")
+  users User[] @relation("UserInterests")
 
   @@map("interest")
 }

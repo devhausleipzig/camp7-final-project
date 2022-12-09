@@ -18,6 +18,11 @@ export default function Home() {
 								link={{ pathname: "/cards" }}
 								variant={ButtonVariant.fill}
 							/>
+							<Button
+								label={"USER"}
+								link={{ pathname: "/ageAndLocation" }}
+								variant={ButtonVariant.transparent}
+							/>
 						</div>
 					</div>
 				</div>

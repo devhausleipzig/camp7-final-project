@@ -5,10 +5,12 @@
 // prettier-ignore
 declare module "nextjs-routes" {
   export type Route =
+    | { pathname: "/ageAndLocation"; query?: Query | undefined }
     | { pathname: "/api/auth/login"; query?: Query | undefined }
     | { pathname: "/api/auth/register"; query?: Query | undefined }
     | { pathname: "/api/auth/test"; query?: Query | undefined }
     | { pathname: "/api/user"; query?: Query | undefined }
+    | { pathname: "/api/user/interest"; query?: Query | undefined }
     | { pathname: "/api/user/me"; query?: Query | undefined }
     | { pathname: "/api/user/test"; query?: Query | undefined }
     | { pathname: "/cards"; query?: Query | undefined }
