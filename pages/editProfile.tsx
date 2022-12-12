@@ -1,6 +1,7 @@
 import useProtectedPage from "../hooks/useProtectedPage";
 import Button, { ButtonSizes } from "../components/button/button";
 import ImageUpload from "../components/imagesUpload/imageUpload";
+import ImageCrop from "../components/imagesUpload/imageCrop";
 
 interface Props {
 	username: string;
@@ -31,6 +32,7 @@ export default function Settings(props: Props) {
 				{/* <Button label={"Edit"} link={"/photo"} size={ButtonSizes.default} />
 			</div> */}
 				<ImageUpload />
+				{/* <ImageCrop /> */}
 
 				<Button label={"Age"} link={"/age"} size={ButtonSizes.wide} />
 				<Button label={"Gender"} link={"/gender"} size={ButtonSizes.wide} />

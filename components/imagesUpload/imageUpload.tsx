@@ -1,18 +1,8 @@
-import { route } from "nextjs-routes";
-import test from "node:test";
 import React, { useState, useEffect } from "react";
-import { methods } from "../../utils/methods";
 import storage from "../../firebaseConfig";
-import {
-	ref,
-	uploadBytesResumable,
-	UploadTaskSnapshot,
-	getDownloadURL,
-} from "firebase/storage";
-import { url } from "node:inspector";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const ImageUpload = () => {
-	const [selectedImages, setSelectedImages] = useState<string[]>([]);
 	const [file, setFile] = useState<File | null>(null);
 	const [imageURL, setImageURL] = useState<string | null>(null);
 	useEffect(() => {
@@ -25,19 +15,11 @@ const ImageUpload = () => {
 	}, [imageURL]);
 
 	const onSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const selectedFiles = event.target.files!;
-		const selectedFilesArray = Array.from(selectedFiles);
 		setFile(event.target.files![0]);
-		const imagesArray: string[] = selectedFilesArray.map((file: File) => {
-			return URL.createObjectURL(file);
-		});
-
-		setSelectedImages((previousImages) => [...previousImages, ...imagesArray]);
 	};
 
-	function deleteHandler(image: string) {
-		setSelectedImages(selectedImages.filter((e) => e !== image));
-		URL.revokeObjectURL(image);
+	function deleteHandler() {
+		setFile((current) => null);
 	}
 
 	async function uploadHandler() {
@@ -61,89 +43,100 @@ const ImageUpload = () => {
 			() => {
 				getDownloadURL(uploadTask.snapshot.ref).then((url) => {
 					console.log(url);
-					setSelectedImages([]);
 					setImageURL(url);
+					alert("Image successfully uploaded");
 				});
 			}
 		);
-
-		// console.log("starting upload");
-		// // load image from disk
-		// const image = "???";
-		// // convert format
-		// const formData = new FormData();
-		// formData.append("uploaded-image", image, image.name);
-		// const uploadResponse = await fetch(
-		// 	route({ pathname: "/api/user/images" }),
-		// 	{
-		// 		method: methods.post,
-		// 		body: JSON.stringify({ data: image }),
-		// 	}
-		// );
-		// if (!uploadResponse.ok) {
-		// 	// oh no!!
-		// }
 	}
 
 	return (
-		<section>
-			<label>
-				<span>Add a picture to your profile. </span>
-				<br />
-				<input
-					type="file"
-					name="images"
-					onChange={onSelectFile}
-					// multiple
-					accept="image/png , image/jpeg, image/webp"
-					className="w-8/12 h-10 rounded-lg text-white text-lg mb-4 bg-purple-400"
-				/>
-			</label>
-			<br />
-
-			{selectedImages.length > 0 &&
-				(selectedImages.length > 1 ? (
-					<p className="error bg-purple-600 text-xl text-white w-screen py-4 mb-4">
-						You can only upload <b>1</b> image! <br />
-						{/* <span>
-							please delete <b> {selectedImages.length - 3} </b> of them{" "}
-						</span> */}
-					</p>
+		<section className="bg-[#EEF6EF]">
+			<label className="flex justify-center">
+				{!file ? (
+					<div className="w-[150px] h-[150px] text-white text-lg bg-[url('https://firebasestorage.googleapis.com/v0/b/camp7-18400.appspot.com/o/system%2Favatar_big.png?alt=media&token=4c7cadf8-46ac-4601-8145-c20a4bc48954')] bg-no-repeat ml-2">
+						<span className="my-9 mr-2 flex items-center">
+							Click here to upload your picture
+						</span>
+						<input
+							type="file"
+							name="images"
+							onChange={onSelectFile}
+							accept="image/png , image/jpeg, image/webp"
+							className="hidden"
+						/>
+					</div>
 				) : (
-					<button
-						className="w-8/12 h-10 rounded-lg text-white text-lg mb-4 bg-purple-600"
-						onClick={uploadHandler}
-					>
-						UPLOAD IMAGE
-						{/* UPLOAD {selectedImages.length} IMAGE
-						{selectedImages.length === 1 ? "" : "S"} */}
-					</button>
-				))}
-
-			<div className="images">
-				{selectedImages &&
-					selectedImages.map((image, index) => {
-						return (
-							<div
-								key={image}
-								className="image border-4 border-purple-600 m-4 rounded-lg"
-							>
+					<div>
+						<label htmlFor="file-input">
+							<div className="h-[150px] w-[150px] rounded-full">
 								<img
-									src={image}
+									src={URL.createObjectURL(file)}
 									height="10"
 									alt="upload"
-									onClick={() => deleteHandler(image)}
+									className="h-[150px] w-[150px] rounded-full object-cover"
 								/>
-								<button
-									onClick={() => deleteHandler(image)}
-									className="text-lg text-white bg-purple-600 bold w-[100%] py-1"
-								>
-									remove
-								</button>
-								{/* <p>{index + 1}</p> */}
 							</div>
-						);
-					})}
+						</label>
+						<input
+							id="file-input"
+							type="file"
+							name="images"
+							onChange={onSelectFile}
+							accept="image/png , image/jpeg, image/webp"
+							className="hidden"
+						/>
+					</div>
+				)}
+			</label>
+
+			<br />
+			<div className="flex justify-around">
+				<button
+					className="w-32 h-10 rounded-lg bg-white text-lg mb-4 text-[#603BAD]"
+					onClick={deleteHandler}
+					disabled={!file}
+				>
+					<div className="flex items-center justify-around mx-1">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							className="w-6 h-6 fill-[#603BAD] text-white"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+							/>
+						</svg>
+						DELETE
+					</div>
+				</button>
+				<button
+					className="w-32 h-10 rounded-lg bg-white text-lg mb-4 text-[#603BAD]"
+					onClick={uploadHandler}
+				>
+					<div className="flex items-center justify-around mx-1">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							className="w-6 h-6"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+							/>
+						</svg>
+						UPLOAD
+					</div>
+				</button>
 			</div>
 		</section>
 	);

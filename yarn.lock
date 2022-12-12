@@ -9860,6 +9860,13 @@ react-element-to-jsx-string@^14.3.4:
     is-plain-object "5.0.0"
     react-is "17.0.2"
 
+react-image-crop@^10.0.9:
+  version "10.0.9"
+  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-10.0.9.tgz#94c65833d4e8ed16fe645227ff26915bba177359"
+  integrity sha512-fqn6a811cx/sE7jtu8txL4lBTwgZYuEVNvy7UPKMNMWeRcZa6v0ja11+Gd9nZQiBfaxDal3PBcKhGBLQ956UNg==
+  dependencies:
+    clsx "^1.2.1"
+
 react-inspector@^5.1.0:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/react-inspector/-/react-inspector-5.1.1.tgz#58476c78fde05d5055646ed8ec02030af42953c8"
