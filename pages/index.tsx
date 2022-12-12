@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, SetStateAction, SetStateAction, useState } from "react";
 import Button, { ButtonVariant } from "../components/button/button";
 import Interest from "../components/interestCard/interestCard";
 import CardComponent from "../components/interestCard/interestCard";
@@ -16,14 +16,22 @@ export default function Home() {
 	const [address, setAddress] = useState("");
 	const [distance, setDistance] = useState(0);
 	const [interests, setInterests] = useState([]);
-	const [selectedInterests, setSelectedInterests] = useState([]);
+	const [selectedInterests, setSelectedInterests] = useState<Array<string>>([]);
 
 	return (
 		<div>
 			<main>
 				<form onSubmit={handleSubmit}>
-					<LocationSearch />
-					<CardComponent />
+					<LocationSearch
+						address={""}
+						setAddress={function (value: SetStateAction<string>): void {
+							throw new Error("Function not implemented.");
+						}}
+					/>
+					<CardComponent
+						selected={selectedInterests}
+						setSelected={setSelectedInterests}
+					/>
 					<div className="flex justify-center">
 						<div className="w-full mx-4">
 							<Button
