@@ -46,6 +46,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (req.method === methods.post) {
       const input = JSON.parse(req.body) as PostMessageBody;
+      console.log(input);
 
       const message = await prisma.message.create({
         data: {

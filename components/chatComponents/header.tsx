@@ -5,7 +5,7 @@ import router from "next/router";
 export default function ChatHeader() {
   return (
     <>
-      <div className="flex justify-around items-center h-[10%] w-full px-2">
+      <div className="flex justify-around items-center h-[8%] w-full px-2">
         {/* <HamMenu className="h-8 w-8" /> */}
         <button
           onClick={() => router.back()}

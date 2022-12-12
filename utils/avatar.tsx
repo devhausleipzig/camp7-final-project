@@ -7,7 +7,7 @@ export function getAvatar(user: Partial<User>) {
     );
   } else {
     return (
-      <div className="h-8 w-8 flex items-center justify-center rounded-full bg-slate-300">
+      <div className="h-8 w-8 flex items-center justify-center rounded-full bg-slate-500">
         {user.name ? user.name[0].toUpperCase() : "U"}
       </div>
     );

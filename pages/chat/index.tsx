@@ -17,8 +17,8 @@ export default function Chat() {
         <ChatHeader />
 
         {/* TITLE Messasges */}
-        <div className="text-xl flex justify-around items-center h-[8%] w-full bg-[#603BAD]">
-          <p>Swipe a Friend</p>
+        <div className="text-xl text-white flex justify-around items-center h-[8%] w-full bg-[#603BAD]">
+          <p>Message</p>
         </div>
         {/* The Chats Layout BODY */}
 
@@ -42,7 +42,7 @@ export default function Chat() {
                         authContext.user.name
                       ) ?? {}
                     )}
-                    <div className="flex ">
+                    <div className="flex  pl-3">
                       {getOtherParticipant(
                         chat.participant,
                         authContext.user.name

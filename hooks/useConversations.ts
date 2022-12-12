@@ -2,11 +2,16 @@ import useProtectedPage from "./useProtectedPage";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
+export type Interest = {
+  id: string;
+  name: string;
+};
+
 export type Participant = {
   id: string;
   name: string;
   avatar?: string;
-  interests: string[];
+  interests: Interest[];
 };
 
 export type Message = {
