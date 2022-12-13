@@ -5,12 +5,14 @@ import { GlobeAsiaAustraliaIcon } from "@heroicons/react/24/solid";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { CakeIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface CardMultiSelectProps {
 	selected: Array<string>;
 	setSelected: Dispatch<SetStateAction<Array<string>>>;
 }
+
+const maxSelectable = 2;
 
 export default function CardMultiSelect({
 	selected,
@@ -24,14 +26,24 @@ export default function CardMultiSelect({
 		{ id: "5", svg: <PencilIcon />, name: "WRITING" },
 		{ id: "6", svg: <CakeIcon />, name: "BAKING" },
 	];
+	const [maximumSelected, setMaximumSelected] = useState(false);
+	useEffect(() => {
+		if (selected.length >= maxSelectable) {
+			setMaximumSelected(true);
+		} else {
+			setMaximumSelected(false);
+		}
+	}, [selected]);
 	return (
 		<div className="h-full w-full grid grid-cols-3 place-items-center">
-			{interests.map((items, key) => (
+			{interests.map((item, key) => (
 				<CheckBox
-					items={items}
+					item={item}
 					key={key}
 					selected={selected}
 					setSelected={setSelected}
+					maximumSelected={maximumSelected}
+					setMaximumSelected={setMaximumSelected}
 				/>
 			))}
 		</div>
@@ -39,19 +51,26 @@ export default function CardMultiSelect({
 }
 
 type CheckBoxProps = {
-	items: {
+	item: {
 		id: string;
 		svg: JSX.Element;
 		name: string;
 	};
 	selected: Array<string>;
 	setSelected: Dispatch<SetStateAction<Array<string>>>;
+	maximumSelected: boolean;
+	setMaximumSelected: (value: React.SetStateAction<boolean>) => void;
 };
 
-export function CheckBox({ items, selected, setSelected }: CheckBoxProps) {
-	const [checked, setChecked] = useState(
-		!!selected.find((el) => el === items.id)
-	);
+export function CheckBox({
+	item,
+	selected,
+	setSelected,
+	maximumSelected,
+	setMaximumSelected,
+}: CheckBoxProps) {
+	const isSelected = selected.find((el) => el === item.id);
+	const [checked, setChecked] = useState(!!isSelected);
 
 	return (
 		<div className="group w-full">
@@ -67,7 +86,7 @@ export function CheckBox({ items, selected, setSelected }: CheckBoxProps) {
 						checked ? "text-white" : "text-green-500"
 					)}
 				>
-					{items.svg}
+					{item.svg}
 				</div>
 				<p
 					className={clsx(
@@ -75,13 +94,15 @@ export function CheckBox({ items, selected, setSelected }: CheckBoxProps) {
 						checked ? "text-white" : "text-green-500"
 					)}
 				>
-					{items.name}
+					{item.name}
 				</p>
+
 				<input
 					type="checkbox"
 					checked={checked}
 					className="leading-normal hidden"
-					value={items.id}
+					value={item.id}
+					disabled={checked ? false : maximumSelected}
 					onChange={(event) => {
 						const element = event.target;
 
@@ -94,6 +115,7 @@ export function CheckBox({ items, selected, setSelected }: CheckBoxProps) {
 					}}
 				/>
 			</label>
+			<p> </p>
 		</div>
 	);
 }
