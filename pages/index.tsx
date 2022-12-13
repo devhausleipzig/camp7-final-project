@@ -1,4 +1,4 @@
-import { FormEvent, SetStateAction, SetStateAction, useState } from "react";
+import { FormEvent, SetStateAction, useState } from "react";
 import Button, { ButtonVariant } from "../components/button/button";
 import Interest from "../components/interestCard/interestCard";
 import CardComponent from "../components/interestCard/interestCard";
