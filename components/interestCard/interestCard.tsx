@@ -35,17 +35,23 @@ export default function CardMultiSelect({
 		}
 	}, [selected]);
 	return (
-		<div className="h-full w-full grid grid-cols-3 place-items-center">
-			{interests.map((item, key) => (
-				<CheckBox
-					item={item}
-					key={key}
-					selected={selected}
-					setSelected={setSelected}
-					maximumSelected={maximumSelected}
-					setMaximumSelected={setMaximumSelected}
-				/>
-			))}
+		<div>
+			<div className="h-full w-full grid grid-cols-3 place-items-center">
+				{interests.map((item, key) => (
+					<CheckBox
+						item={item}
+						key={key}
+						selected={selected}
+						setSelected={setSelected}
+						maximumSelected={maximumSelected}
+						setMaximumSelected={setMaximumSelected}
+					/>
+				))}
+			</div>
+			<p className="text-center text-violet-800">
+				<span className="font-bold">{selected.length}</span> of 2 interests
+				remaining to choose!
+			</p>
 		</div>
 	);
 }
@@ -115,7 +121,6 @@ export function CheckBox({
 					}}
 				/>
 			</label>
-			<p> </p>
 		</div>
 	);
 }
