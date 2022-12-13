@@ -16,7 +16,9 @@ export default function Home() {
 	const [address, setAddress] = useState("");
 	const [distance, setDistance] = useState(0);
 	const [interests, setInterests] = useState([]);
-	const [selectedInterests, setSelectedInterests] = useState<Array<string>>([]);
+	const [selectedInterests, setSelectedInterests] = useState<Array<string>>(
+		[]
+	);
 
 	return (
 		<div>
@@ -24,7 +26,9 @@ export default function Home() {
 				<form onSubmit={handleSubmit}>
 					<LocationSearch
 						address={""}
-						setAddress={function (value: SetStateAction<string>): void {
+						setAddress={function (
+							value: SetStateAction<string>
+						): void {
 							throw new Error("Function not implemented.");
 						}}
 					/>

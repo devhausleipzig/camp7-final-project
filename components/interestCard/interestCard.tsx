@@ -16,7 +16,7 @@ const maxSelectable = 2;
 
 export default function CardMultiSelect({
 	selected,
-	setSelected,
+	setSelected
 }: CardMultiSelectProps) {
 	const interests = [
 		{ id: "1", svg: <BoltIcon />, name: "DANCING" },
@@ -24,7 +24,7 @@ export default function CardMultiSelect({
 		{ id: "3", svg: <MusicalNoteIcon />, name: "MUSIC" },
 		{ id: "4", svg: <GlobeAsiaAustraliaIcon />, name: "TRAVEL" },
 		{ id: "5", svg: <PencilIcon />, name: "WRITING" },
-		{ id: "6", svg: <CakeIcon />, name: "BAKING" },
+		{ id: "6", svg: <CakeIcon />, name: "BAKING" }
 	];
 	const [maximumSelected, setMaximumSelected] = useState(false);
 	useEffect(() => {
@@ -49,8 +49,8 @@ export default function CardMultiSelect({
 				))}
 			</div>
 			<p className="text-center text-violet-800">
-				<span className="font-bold">{selected.length}</span> of 2 interests
-				remaining to choose!
+				<span className="font-bold">{selected.length}</span> of 2
+				interests chosen!
 			</p>
 		</div>
 	);
@@ -73,16 +73,19 @@ export function CheckBox({
 	selected,
 	setSelected,
 	maximumSelected,
-	setMaximumSelected,
+	setMaximumSelected
 }: CheckBoxProps) {
 	const isSelected = selected.find((el) => el === item.id);
 	const [checked, setChecked] = useState(!!isSelected);
+
+	const isDisabled = checked ? false : maximumSelected;
 
 	return (
 		<div className="group w-full">
 			<label
 				className={clsx(
-					"w-auto border border-green-800 m-4 mt flex flex-col items-center rounded-lg shadow-bottomRight",
+					"w-auto border border-green-800 m-4 mt flex flex-col items-center rounded-lg",
+					isDisabled ? "opacity-50" : "shadow-bottomRight",
 					checked && "bg-green-500 shadow-bottomRightDarker"
 				)}
 			>
@@ -108,14 +111,16 @@ export function CheckBox({
 					checked={checked}
 					className="leading-normal hidden"
 					value={item.id}
-					disabled={checked ? false : maximumSelected}
+					disabled={isDisabled}
 					onChange={(event) => {
 						const element = event.target;
 
 						if (element.checked) {
 							setSelected((prev) => [...prev, element.value]);
 						} else {
-							setSelected((prev) => prev.filter((el) => el !== element.value));
+							setSelected((prev) =>
+								prev.filter((el) => el !== element.value)
+							);
 						}
 						setChecked(!checked);
 					}}
