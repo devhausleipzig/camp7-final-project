@@ -1,6 +1,7 @@
 import { User } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../prisma/db";
+import { newCoordFromDist } from "../../../utils/distance";
 import { methods } from "../../../utils/methods";
 
 type GetUsersQuery = {
@@ -20,9 +21,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			console.log(parsedInterests);
 			console.log(parsedLocation);
 
-			return await prisma.$queryRaw`
-			SELECT id, ( 3959 * acos( cos( radians(37) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(-122) ) + sin( radians(37) ) * sin( radians( lat ) ) ) ) AS distance FROM location JOIN user ON userId == user.id WHERE distance < 25 ORDER BY distance LIMIT 20;
-			`;
+			const refLat = 51;
+			const refLon = 12;
+
+			newCoordFromDist();
+
+			res.json(
+				await prisma.$queryRaw`
+			SELECT id, name, distance FROM (
+				SELECT "user"."id" AS id, "user"."name" AS name,
+				( 6371 * acos( cos( radians(${refLat}) ) * cos( radians( "location"."lat" ) ) * cos( radians( "location"."lon" ) - radians(${refLon}) ) + sin( radians(${refLat}) ) * sin( radians( "location"."lat" ) ) ) ) AS distance
+				FROM (
+					"location" JOIN "user" ON "location"."userId" = "user"."id"
+				)
+			) AS subquery WHERE subquery.distance < 20;
+			`
+			);
+
+			return;
 
 			let allInterests: User[] = [];
 
