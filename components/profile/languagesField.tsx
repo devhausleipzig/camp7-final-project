@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useState } from "react";
 
 const languages = [
@@ -10,6 +11,7 @@ const languages = [
   { value: "russian", desc: "Russian" },
   { value: "danish", desc: "Danish" },
   { value: "turkish", desc: "Turkish" },
+  { value: "hindi", desc: "Hindi" },
   { value: "polish", desc: "Polish" },
   { value: "arabic", desc: "Arabic" },
 ];
@@ -21,49 +23,56 @@ export default function LanguagesField() {
         Languages I know
       </h3>
       <form className="w-full font-quicksand grid gap-6 grid-cols-2">
-        {languages.map((language) => (
-          <label
-            htmlFor={language.value}
-            className="relative flex justify-between items-center bg-white p-4 rounded-lg"
-            key={language.value}
-          >
-            <span className="font-semibold text-purple text-left outline-purple">
-              {language.desc}
-            </span>
-
-            <input
-              type="checkbox"
-              name="languages"
-              id={language.value}
-              checked={selectedLanguages.includes(language.value)}
-              value={language.value}
-              className="absolute h-0 w-0 appearance-none"
-              onChange={(event) => {
-                event.target.checked
-                  ? setSelectedLanguages((prev) => [...prev, language.value])
-                  : setSelectedLanguages(
-                      selectedLanguages.filter((l) => l !== language.value)
-                    );
-              }}
-            />
-            {selectedLanguages.includes(language.value) && (
-              <span className="h-6 w-6 inline-flex items-center justify-center rounded-full bg-purple">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="h-5 w-5 text-white"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
+        {languages
+          .sort((a, b) => (a.desc < b.desc ? -1 : 1))
+          .map((language) => (
+            <label
+              htmlFor={language.value}
+              className={clsx(
+                "relative flex border justify-between items-center bg-white p-4 rounded-lg",
+                selectedLanguages.includes(language.value)
+                  ? "border-purple"
+                  : "border-transparent"
+              )}
+              key={language.value}
+            >
+              <span className="font-semibold text-purple text-left outline-purple">
+                {language.desc}
               </span>
-            )}
-          </label>
-        ))}
+
+              <input
+                type="checkbox"
+                name="languages"
+                id={language.value}
+                checked={selectedLanguages.includes(language.value)}
+                value={language.value}
+                className="absolute h-0 w-0 appearance-none"
+                onChange={(event) => {
+                  event.target.checked
+                    ? setSelectedLanguages((prev) => [...prev, language.value])
+                    : setSelectedLanguages(
+                        selectedLanguages.filter((l) => l !== language.value)
+                      );
+                }}
+              />
+              {selectedLanguages.includes(language.value) && (
+                <span className="h-6 w-6 inline-flex items-center justify-center rounded-full bg-purple">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="h-5 w-5 text-white"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </span>
+              )}
+            </label>
+          ))}
       </form>
     </div>
   );
