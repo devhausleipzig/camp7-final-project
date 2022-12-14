@@ -6,13 +6,5 @@
 @tailwind utilities;
 
 body {
-	@apply bg-[#EEF6EF];
-}
-
-input[type="radio"]:checked + span {
-	@apply block;
-}
-
-input[type="checkbox"]:checked + span {
-	@apply block;
+  @apply bg-[#EEF6EF];
 }
