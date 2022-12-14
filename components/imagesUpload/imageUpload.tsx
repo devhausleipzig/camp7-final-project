@@ -93,7 +93,7 @@ const ImageUpload = () => {
 			<br />
 			<div className="flex justify-around">
 				<button
-					className="w-32 h-10 rounded-lg bg-white text-lg mb-4 text-[#603BAD]"
+					className="w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple"
 					onClick={deleteHandler}
 					disabled={!file}
 				>
@@ -104,7 +104,7 @@ const ImageUpload = () => {
 							viewBox="0 0 24 24"
 							stroke-width="1.5"
 							stroke="currentColor"
-							className="w-6 h-6 fill-[#603BAD] text-white"
+							className="w-6 h-6 fill-purple text-white"
 						>
 							<path
 								stroke-linecap="round"
@@ -116,7 +116,7 @@ const ImageUpload = () => {
 					</div>
 				</button>
 				<button
-					className="w-32 h-10 rounded-lg bg-white text-lg mb-4 text-[#603BAD]"
+					className="w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple"
 					onClick={uploadHandler}
 				>
 					<div className="flex items-center justify-around mx-1">

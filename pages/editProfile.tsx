@@ -2,6 +2,10 @@ import useProtectedPage from "../hooks/useProtectedPage";
 import Button, { ButtonSizes } from "../components/button/button";
 import ImageUpload from "../components/imagesUpload/imageUpload";
 import ImageCrop from "../components/imagesUpload/imageCrop";
+import NameField from "../components/profile/nameField";
+import DescriptionField from "../components/profile/descriptionField";
+import GenderField from "../components/profile/genderField";
+import LanguagesField from "../components/profile/languagesField";
 
 interface Props {
 	username: string;
@@ -10,9 +14,9 @@ interface Props {
 export default function Settings(props: Props) {
 	// const authContext = useProtectedPage();
 	return (
-		<div className="w-screen mt-8 text-center">
+		<div className="w-screen h-screen py-8 text-center bg-[#EEF6EF]">
 			{/* <h1>{props.username}</h1> */}
-			<h1 className="text-2xl bold mb-4">Placeholder Username</h1>
+			{/* <h1 className="text-2xl bold mb-4">Placeholder Username</h1> */}
 			{/* <svg
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
@@ -28,12 +32,16 @@ export default function Settings(props: Props) {
 				/>
 			</svg> */}
 
-			<div className="block mb-12">
+			<div className="block mb-12 grid gap-8">
 				{/* <Button label={"Edit"} link={"/photo"} size={ButtonSizes.default} />
 			</div> */}
 				<ImageUpload />
 				{/* <ImageCrop /> */}
-
+				<NameField />
+				<DescriptionField />
+				<GenderField />
+				<LanguagesField />
+				{/* 
 				<Button label={"Age"} link={"/age"} size={ButtonSizes.wide} />
 				<Button label={"Gender"} link={"/gender"} size={ButtonSizes.wide} />
 				<Button
@@ -53,7 +61,7 @@ export default function Settings(props: Props) {
 						size={ButtonSizes.wide}
 					/>
 					<Button label={"Cancel"} link={"/"} size={ButtonSizes.wide} />
-				</div>
+		</div> */}
 			</div>
 		</div>
 	);
