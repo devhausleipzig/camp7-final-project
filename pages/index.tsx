@@ -17,7 +17,6 @@ export default function Home() {
 
 	const [address, setAddress] = useState("");
 	const [distance, setDistance] = useState(0);
-	const [interests, setInterests] = useState([]);
 	const [selectedInterests, setSelectedInterests] = useState<Array<string>>(
 		[]
 	);
@@ -26,14 +25,7 @@ export default function Home() {
 		<div>
 			<main>
 				<form onSubmit={handleSubmit}>
-					<LocationSearch
-						address={""}
-						setAddress={function (
-							value: SetStateAction<string>
-						): void {
-							throw new Error("Function not implemented.");
-						}}
-					/>
+					<LocationSearch address={address} setAddress={setAddress} />
 					<CardComponent
 						selected={selectedInterests}
 						setSelected={setSelectedInterests}

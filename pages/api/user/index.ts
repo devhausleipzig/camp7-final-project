@@ -73,47 +73,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			);
 
 			return;
-
-			// let allInterests: User[] = [];
-
-			// const whereClauses = parsedInterests.map((interest) => {
-			// 	return { name: interest };
-			// });
-
-			// if (parsedInterests.length > 2) {
-			// 	allInterests = await prisma.user.findMany({
-			// 		where: {
-			// 			interests: { some: { AND: whereClauses } }
-			// 		},
-			// 		include: {
-			// 			info: true,
-			// 			interests: {
-			// 				select: {
-			// 					name: true
-			// 				}
-			// 			}
-			// 		}
-			// 	});
-			// }
-
-			// const someInterests = await prisma.user.findMany({
-			// 	where: {
-			// 		interests: { some: { OR: whereClauses } }
-			// 	},
-			// 	include: {
-			// 		info: true,
-			// 		interests: {
-			// 			select: {
-			// 				name: true
-			// 			}
-			// 		}
-			// 	}
-			// });
-
-			// const matchingUsers = [...allInterests, ...someInterests];
-
-			// res.status(200).json(matchingUsers);
-			// return;
 		}
 
 		res.status(500).json({ message: "Unknown request." });
