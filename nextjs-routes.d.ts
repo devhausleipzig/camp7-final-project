@@ -8,11 +8,14 @@ declare module "nextjs-routes" {
     | { pathname: "/api/auth/login"; query?: Query | undefined }
     | { pathname: "/api/auth/register"; query?: Query | undefined }
     | { pathname: "/api/auth/test"; query?: Query | undefined }
+    | { pathname: "/api/user/images"; query?: Query | undefined }
     | { pathname: "/api/user"; query?: Query | undefined }
+    | { pathname: "/api/user/inputFields"; query?: Query | undefined }
     | { pathname: "/api/user/me"; query?: Query | undefined }
     | { pathname: "/api/user/test"; query?: Query | undefined }
     | { pathname: "/cards"; query?: Query | undefined }
     | { pathname: "/chat"; query?: Query | undefined }
+    | { pathname: "/editProfile"; query?: Query | undefined }
     | { pathname: "/"; query?: Query | undefined }
     | { pathname: "/login"; query?: Query | undefined }
     | { pathname: "/register"; query?: Query | undefined }

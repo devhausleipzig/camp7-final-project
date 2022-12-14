@@ -13,7 +13,7 @@ model User {
   name        String
   saltAndHash String
   email       String     @unique
-  images      String[]
+  image      String
   bornAt      DateTime?
   info        Info?  @relation("UserInfo")
   interests   Interest[] @relation("UserInterests")
