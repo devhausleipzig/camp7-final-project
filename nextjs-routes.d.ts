@@ -13,12 +13,12 @@ declare module "nextjs-routes" {
     | { pathname: "/api/user/inputFields"; query?: Query | undefined }
     | { pathname: "/api/user/me"; query?: Query | undefined }
     | { pathname: "/api/user/test"; query?: Query | undefined }
+    | { pathname: "/cards"; query?: Query | undefined }
     | { pathname: "/chat"; query?: Query | undefined }
     | { pathname: "/editProfile"; query?: Query | undefined }
     | { pathname: "/"; query?: Query | undefined }
     | { pathname: "/login"; query?: Query | undefined }
     | { pathname: "/register"; query?: Query | undefined }
-    | { pathname: "/search"; query?: Query | undefined }
     | { pathname: "/settings"; query?: Query | undefined };
 
   type Query<Params = {}> = Params & {
