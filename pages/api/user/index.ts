@@ -1,85 +1,119 @@
 import { User } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
 import { prisma } from "../../../prisma/db";
-import { newCoordFromDist } from "../../../utils/distance";
+import { BoundingRectangle } from "../../../utils/distance";
 import { methods } from "../../../utils/methods";
 
-type GetUsersQuery = {
-	interests: string;
-	location: string;
-};
+const QueryUserModel = z
+	.object({
+		interests: z.optional(z.string()),
+		location: z.optional(z.string()),
+		radius: z.optional(z.string())
+	})
+	.refine(
+		(val) => {
+			const locationGiven = Boolean(val.location);
+			const radiusGiven = Boolean(val.radius);
+			console.log(locationGiven);
+			console.log(radiusGiven);
+			return (
+				(locationGiven || radiusGiven) && radiusGiven && locationGiven
+			);
+		},
+		{ message: "Location and Radius must both be specified." }
+	)
+	.transform((val) => {
+		return {
+			radius: val.radius ? Number(val.radius) : undefined,
+			location: val.location
+				? val.location.split(",").map(Number)
+				: undefined,
+			interests: val.interests ? val.interests.split(",") : undefined
+		};
+	});
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		if (req.method == methods.get) {
-			const { interests, location } = req.query as GetUsersQuery;
-			const parsedInterests = interests ? interests.split(",") : [];
-			const parsedLocation = location
-				? location.split(",").map(Number)
-				: [];
+			const { interests, location, radius } = QueryUserModel.parse(
+				req.query
+			);
 
-			console.log(parsedInterests);
-			console.log(parsedLocation);
+			const [refLat, refLon] = location!;
 
-			const refLat = 51;
-			const refLon = 12;
+			const boundingRect = new BoundingRectangle(radius!, [
+				refLat,
+				refLon
+			]);
 
-			newCoordFromDist();
-
+			// this shit will break if any of radius, location, or interests are missing
+			// making all the parts of this query conditional is a bit tricky
 			res.json(
 				await prisma.$queryRaw`
-			SELECT id, name, distance FROM (
-				SELECT "user"."id" AS id, "user"."name" AS name,
-				( 6371 * acos( cos( radians(${refLat}) ) * cos( radians( "location"."lat" ) ) * cos( radians( "location"."lon" ) - radians(${refLon}) ) + sin( radians(${refLat}) ) * sin( radians( "location"."lat" ) ) ) ) AS distance
-				FROM (
-					"location" JOIN "user" ON "location"."userId" = "user"."id"
-				)
-			) AS subquery WHERE subquery.distance < 20;
-			`
+					WITH prelim_query AS (
+						SELECT "user"."id" AS "id", "user"."name" AS "name", "location"."lat" AS "lat", "location"."lon" AS "lon"
+						FROM "user"
+						JOIN "location"
+						ON "location"."userId" = "user"."id"
+						WHERE "location"."lat" > ${boundingRect.left}
+						AND "location"."lat" < ${boundingRect.right}
+						AND "location"."lon" > ${boundingRect.top}
+						AND "location"."lon" < ${boundingRect.bottom}
+					)
+					SELECT "id", "name", "distance" FROM (
+						SELECT DISTINCT "prelim_query"."id" AS "id" , "prelim_query"."name" AS "name",
+						( 6371 * acos( cos( radians(${refLat}) ) * cos( radians( "prelim_query"."lat" ) ) * cos( radians( "prelim_query"."lon" ) - radians(${refLon}) ) + sin( radians(${refLat}) ) * sin( radians( "prelim_query"."lat" ) ) ) ) AS "distance"
+						FROM prelim_query
+						JOIN "_UserInterests" ON "_UserInterests"."B" = "prelim_query"."id"
+						JOIN "interest" ON "_UserInterests"."A" = "interest"."id"
+						WHERE "interest"."name" = ${interests![0]}
+						OR "interest"."name" = ${interests![1]}
+					) AS "subquery" WHERE "subquery"."distance" < ${radius};`
 			);
 
 			return;
 
-			let allInterests: User[] = [];
+			// let allInterests: User[] = [];
 
-			const whereClauses = parsedInterests.map((interest) => {
-				return { name: interest };
-			});
+			// const whereClauses = parsedInterests.map((interest) => {
+			// 	return { name: interest };
+			// });
 
-			if (parsedInterests.length > 2) {
-				allInterests = await prisma.user.findMany({
-					where: {
-						interests: { some: { AND: whereClauses } }
-					},
-					include: {
-						info: true,
-						interests: {
-							select: {
-								name: true
-							}
-						}
-					}
-				});
-			}
+			// if (parsedInterests.length > 2) {
+			// 	allInterests = await prisma.user.findMany({
+			// 		where: {
+			// 			interests: { some: { AND: whereClauses } }
+			// 		},
+			// 		include: {
+			// 			info: true,
+			// 			interests: {
+			// 				select: {
+			// 					name: true
+			// 				}
+			// 			}
+			// 		}
+			// 	});
+			// }
 
-			const someInterests = await prisma.user.findMany({
-				where: {
-					interests: { some: { OR: whereClauses } }
-				},
-				include: {
-					info: true,
-					interests: {
-						select: {
-							name: true
-						}
-					}
-				}
-			});
+			// const someInterests = await prisma.user.findMany({
+			// 	where: {
+			// 		interests: { some: { OR: whereClauses } }
+			// 	},
+			// 	include: {
+			// 		info: true,
+			// 		interests: {
+			// 			select: {
+			// 				name: true
+			// 			}
+			// 		}
+			// 	}
+			// });
 
-			const matchingUsers = [...allInterests, ...someInterests];
+			// const matchingUsers = [...allInterests, ...someInterests];
 
-			res.status(200).json(matchingUsers);
-			return;
+			// res.status(200).json(matchingUsers);
+			// return;
 		}
 
 		res.status(500).json({ message: "Unknown request." });

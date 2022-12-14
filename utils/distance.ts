@@ -4,6 +4,10 @@ function toRadians(degrees: number) {
 	return (degrees * Math.PI) / 180;
 }
 
+function toDegrees(radians: number) {
+	return (radians / Math.PI) * 180;
+}
+
 /**
  * Calculates the distance between two coordinates using the Haversine formula with a reference radius. Accurate to within .5% error or so.
  */
@@ -62,10 +66,10 @@ export class BoundingRectangle {
 			distance
 		);
 
-		this.top = retLons[0];
-		this.bottom = retLons[1];
-		this.left = retLats[0];
-		this.right = retLats[1];
+		this.top = toDegrees(retLons[0]);
+		this.bottom = toDegrees(retLons[1]);
+		this.left = toDegrees(retLats[0]);
+		this.right = toDegrees(retLats[1]);
 	}
 
 	/**

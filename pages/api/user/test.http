@@ -14,4 +14,4 @@ GET http://localhost:3000/api/user?interests=football,books,traveling
 
 ###
 
-GET http://localhost:3000/api/user?location=51,12
+GET http://localhost:3000/api/user?location=51,12&radius=20&interests=hiking,reading
