@@ -1,10 +1,15 @@
 import { Combobox } from "@headlessui/react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { DistanceFilter } from "../../components/distanceFilter/distanceFilter";
 import { useGpsLocation, useLocation } from "../../hooks/useLocation";
 
-export default function LocationSearch() {
+interface AddressProps {
+	address: string;
+	setAddress: Dispatch<SetStateAction<string>>;
+}
+
+export default function LocationSearch({ address, setAddress }: AddressProps) {
 	const [selected, setSelected] = useState("");
 	const { data: gps } = useGpsLocation();
 	const [query, setQuery] = useState("");
@@ -18,13 +23,13 @@ export default function LocationSearch() {
 						onClick={() => {
 							gps && setSelected(gps[0].place_name.toString());
 						}}
-						className="h-8 w-8 p-1 bg-purple-700 text-white m-1 rounded-sm"
+						className="h-8 w-8 p-1 bg-purple-700 text-white bg-purple m-1 rounded-sm"
 					/>
 					<Combobox.Input
 						placeholder="Location"
 						className={"px-1 flex-1 relative"}
 						onChange={(event) => setQuery(event.target.value)}
-						value={query}
+						displayValue={() => selected}
 					/>
 					<Combobox.Options
 						className={

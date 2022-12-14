@@ -8,34 +8,32 @@ datasource db {
 }
 
 model User {
-
   id          String     @id @default(uuid())
   name        String
   saltAndHash String
   email       String     @unique
-  images      String[]
+  image       String?
   bornAt      DateTime?
-  info        Info?  @relation("UserInfo")
+  info        Info?      @relation("UserInfo")
   interests   Interest[] @relation("UserInterests")
-  location    Location? @relation("UserLocation")
+  location    Location?  @relation("UserLocation")
 
   @@map("user")
 }
 
 model Info {
-  id          String    @id @default(uuid())
-  languages   String[]
-  location    Json
-  age         Int       
-  gender      String
-  userId      String    @unique
-  user        User      @relation("UserInfo", fields: [userId] , references: [id])
+  id        String   @id @default(uuid())
+  languages String[]
+  location  Json
+  age       Int
+  gender    String
+  userId    String   @unique
+  user      User     @relation("UserInfo", fields: [userId], references: [id])
 
   @@map("info")
 }
 
 model Interest {
-
   id    String @id @default(uuid())
   name  String
   Users User[] @relation("UserInterests")
@@ -44,12 +42,12 @@ model Interest {
 }
 
 model Location {
-  id         String @id @default(uuid())
-  address    String
-  lat        Float
-  lon        Float
-  userId     String @unique
-  user       User   @relation("UserLocation", fields: [userId] , references: [id], onDelete: Cascade)
+  id      String @id @default(uuid())
+  address String
+  lat     Float
+  lon     Float
+  userId  String @unique
+  user    User   @relation("UserLocation", fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("location")
 }

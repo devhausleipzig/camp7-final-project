@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, Dispatch, SetStateAction } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 
 const distance = ["1km", "2km", "5km", "8km", "10km"];
