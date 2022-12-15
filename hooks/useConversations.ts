@@ -22,6 +22,7 @@ export type Message = {
   content: string;
   conversationId: string;
   authorId: string;
+  read: boolean;
 };
 
 export type Conversation = {
@@ -49,7 +50,7 @@ export function useConversations() {
 }
 
 export function useConversation(chatId: string) {
-  const { token } = useAuthStore();
+  const { token, user } = useAuthStore();
 
   return useQuery({
     queryKey: ["conversations", chatId],
@@ -62,6 +63,11 @@ export function useConversation(chatId: string) {
         })
         .then((res) => res.data),
     onError: (err) => console.log("Error in Conversation Query", err),
+    onSuccess: async () => {
+      axios.patch(`http://localhost:3000/api/chat/${chatId}`, {
+        userId: user?.id,
+      });
+    },
     enabled: !!chatId,
     refetchInterval: 500,
   });
