@@ -8,8 +8,6 @@ const ImageUpload = () => {
   const [file, setFile] = useState<File | null>(null);
   const { send } = useNotificationStore();
   const [imageURL, setImageURL] = useState<string | null>(null);
-  const [isActiveDelete, setIsActiveDelete] = useState(false);
-  const [isActiveUpload, setIsActiveUpload] = useState(false);
 
   useEffect(() => {
     if (imageURL) {
@@ -56,30 +54,6 @@ const ImageUpload = () => {
     );
   }
 
-  const handleClickDelete = () => {
-    setIsActiveDelete(current => !current);
-    setTimeout(() => {
-      setIsActiveDelete(false);
-    }, 200);
-  };
-
-  const handleClickUpload = () => {
-    setIsActiveUpload(current => !current);
-    setTimeout(() => {
-      setIsActiveUpload(false);
-    }, 200);
-  };
-
-  const deleteButton = () => {
-    handleClickDelete();
-    deleteHandler();
-  };
-
-  const uploadButton = () => {
-    handleClickUpload();
-    uploadHandler();
-  };
-
   return (
     <section className="bg-[#EEF6EF]">
       <label className="flex justify-center">
@@ -123,13 +97,8 @@ const ImageUpload = () => {
       <br />
       <div className="flex justify-around">
         <button
-          className={clsx(
-            "disabled:opacity-50",
-            isActiveDelete
-              ? "w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple border border-purple"
-              : "w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple"
-          )}
-          onClick={deleteButton}
+          className="disabled:opacity-50 w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple border border-transparent active:border-purple"
+          onClick={deleteHandler}
           disabled={!file}
         >
           <div className="flex items-center justify-around mx-1">
@@ -151,13 +120,8 @@ const ImageUpload = () => {
           </div>
         </button>
         <button
-          className={clsx(
-            "disabled:opacity-50",
-            isActiveUpload
-              ? "w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple border border-purple"
-              : "w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple"
-          )}
-          onClick={uploadButton}
+          className="disabled:opacity-50 w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple border border-transparent active:border-purple"
+          onClick={uploadHandler}
           disabled={!file}
         >
           <div className="flex items-center justify-around mx-1">
