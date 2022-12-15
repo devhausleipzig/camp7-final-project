@@ -17,6 +17,7 @@
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
     "jsonwebtoken": "^8.5.1",
+    "just-group-by": "^2.1.2",
     "next": "13.0.3",
     "postcss-loader": "^7.0.1",
     "prisma": "^4.6.1",

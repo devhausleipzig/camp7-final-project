@@ -5,3 +5,7 @@
 :root {
   background-color: #eef6ef;
 }
+
+/* :not(#faaa) {
+  box-sizing: border-box;
+} */

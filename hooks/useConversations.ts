@@ -66,6 +66,6 @@ export function useConversation(chatId: string) {
         .then((res) => res.data),
     onError: (err) => console.log("Error in Conversation Query", err),
     enabled: !!chatId,
-    refetchInterval: 5000,
+    refetchInterval: 500,
   });
 }
