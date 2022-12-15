@@ -1,16 +1,14 @@
 import { useRouter } from "next/router";
-import { useContext, useEffect } from "react";
-import { AuthContext } from "../pages/_app";
+import { useEffect } from "react";
+import { useAuthStore } from "../stores/authStore";
 
 export default function () {
-	const router = useRouter();
-	const authContext = useContext(AuthContext);
+  const router = useRouter();
+  const { token } = useAuthStore();
 
-	useEffect(() => {
-		if (!authContext.token) {
-			router.replace({ pathname: "/login" });
-		}
-	});
-
-	return authContext;
+  useEffect(() => {
+    if (!token) {
+      router.replace({ pathname: "/login" });
+    }
+  });
 }
