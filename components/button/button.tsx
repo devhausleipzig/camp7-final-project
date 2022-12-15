@@ -14,17 +14,22 @@ interface ButtonProps {
   type?: "submit" | "button" | "reset";
 }
 
-export default function Button({ label, link, variant, type }: ButtonProps) {
+export default function Button({
+  label,
+  link,
+  variant,
+  type = "button",
+}: ButtonProps) {
   return link ? (
     <Link href={link}>
       <button
         type={type}
         className={clsx(
-          "w-full mt-4 h-10 text-xl font-bold",
+          "w-full mt-4 h-10 text-xl font-bold rounded-full",
           variant == ButtonVariant.transparent
-            ? "bg-transparent text-violet-800"
+            ? "bg-transparent text-purple"
             : variant == ButtonVariant.fill
-            ? "bg-violet-800 text-white"
+            ? "bg-purple text-white"
             : ""
         )}
       >
@@ -35,11 +40,11 @@ export default function Button({ label, link, variant, type }: ButtonProps) {
     <button
       type={type}
       className={clsx(
-        "w-full mt-4 h-10 text-xl font-bold",
+        "w-full mt-4 h-10 text-xl font-bold rounded-full",
         variant == ButtonVariant.transparent
-          ? "bg-transparent text-violet-800"
+          ? "bg-transparent text-purple"
           : variant == ButtonVariant.fill
-          ? "bg-violet-800 text-white"
+          ? "bg-purple text-white"
           : ""
       )}
     >
