@@ -5,8 +5,8 @@ import { DistanceFilter } from "../../components/distanceFilter/distanceFilter";
 import { Address, useGpsLocation, useLocation } from "../../hooks/useLocation";
 
 interface AddressProps {
-  address: string;
-  setAddress: Dispatch<SetStateAction<string>>;
+	address: string;
+	setAddress: Dispatch<SetStateAction<string>>;
 }
 
 export default function LocationSearch({ address, setAddress }: AddressProps) {
