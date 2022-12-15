@@ -4,10 +4,8 @@ import Interest from "../components/interestCard/interestCard";
 import CardComponent from "../components/interestCard/interestCard";
 import InterestCard from "../components/interestCard/interestCard";
 import LocationSearch from "../components/locationSearch/locationSearch";
-import useProtectedPage from "../hooks/useProtectedPage";
 
 export default function Home() {
-  const authContext = useProtectedPage();
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     const target = event.currentTarget as HTMLFormElement;
