@@ -22,7 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           participant: {
             select: {
               name: true,
-              avatar: true,
+              image: true,
               interests: true,
             },
           },

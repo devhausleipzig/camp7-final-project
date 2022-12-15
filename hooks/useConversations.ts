@@ -1,6 +1,7 @@
 import useProtectedPage from "./useProtectedPage";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { useAuthStore } from "../stores/authStore";
 
 export type Interest = {
   id: string;
@@ -31,9 +32,7 @@ export type Conversation = {
 };
 
 export function useConversations() {
-  const authContext = useProtectedPage();
-
-  const token = authContext.token;
+  const { token } = useAuthStore();
 
   return useQuery({
     queryKey: ["conversations"],
@@ -50,9 +49,7 @@ export function useConversations() {
 }
 
 export function useConversation(chatId: string) {
-  const authContext = useProtectedPage();
-
-  const token = authContext.token;
+  const { token } = useAuthStore();
 
   return useQuery({
     queryKey: ["conversations", chatId],

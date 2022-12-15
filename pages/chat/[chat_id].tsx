@@ -17,6 +17,7 @@ import { methods } from "../../utils/methods";
 import { CreateMessage } from "../../components/chatComponents/createMessage";
 import groupBy from "just-group-by";
 import { format } from "date-fns";
+import { useAuthStore } from "../../stores/authStore";
 
 async function GetMessages(
   setMessages: Dispatch<SetStateAction<Conversation[]>>,
@@ -40,7 +41,7 @@ export default function ChatPage() {
   const listRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { chat_id } = router.query;
-  const authContext = useProtectedPage();
+  const { user } = useAuthStore();
   const {
     data: conversation,
     isLoading,
@@ -69,15 +70,19 @@ export default function ChatPage() {
     .flatMap((entry) => {
       const [date, messages] = entry;
       return [
-        <div className="flex justify-around items-center text-[#603BAD] font-light text-sm">
+        <div
+          key={date}
+          className="flex justify-around items-center text-[#603BAD] font-light text-sm"
+        >
           <div className="w-1/4 h-[1px] bg-[#603BAD]"></div>
           {date}
           <div className="w-1/4 h-[1px] bg-[#603BAD]"></div>
         </div>,
         ...messages.map((message) => {
-          const ownMessage = message.authorId === authContext.user.id;
+          const ownMessage = message.authorId === user?.id;
           return (
             <div
+              key={message.id}
               className={clsx(
                 "flex",
                 ownMessage ? "justify-end pl-12" : "justify-start pr-12"
@@ -116,20 +121,11 @@ export default function ChatPage() {
         </button>
         <div className="flex items-center gap-4">
           {getAvatar(
-            getOtherParticipant(
-              conversation.participant,
-              authContext.user.name
-            ) ?? {}
+            getOtherParticipant(conversation.participant, user!.name) ?? {}
           )}
           <h2 className="text-white font-medium">
-            {getOtherParticipant(
-              conversation.participant,
-              authContext.user.name
-            )
-              ? getOtherParticipant(
-                  conversation.participant,
-                  authContext.user.name
-                )?.name
+            {getOtherParticipant(conversation.participant, user!.name)
+              ? getOtherParticipant(conversation.participant, user!.name)?.name
               : "Unknown"}
           </h2>
         </div>
@@ -145,10 +141,7 @@ export default function ChatPage() {
 
       <div className="absolute bottom-0 backdrop-blur-xs bg-white/30 flex justify-center h-16 items-center w-full">
         <div className="flex justify-items-center z-10 w-11/12 rounded-md border-2 border-[#603BAD]">
-          <CreateMessage
-            chat_id={chat_id as string}
-            author_id={authContext.user.id}
-          />
+          <CreateMessage chat_id={chat_id as string} author_id={user!.id} />
         </div>
       </div>
     </div>

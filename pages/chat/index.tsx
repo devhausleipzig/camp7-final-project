@@ -1,13 +1,13 @@
 import clsx from "clsx";
 import Link from "next/link";
 import ChatHeader from "../../components/chatComponents/header";
-import { Participant, useConversations } from "../../hooks/useConversations";
-import useProtectedPage from "../../hooks/useProtectedPage";
+import { useConversations } from "../../hooks/useConversations";
+import { useAuthStore } from "../../stores/authStore";
 import { getAvatar } from "../../utils/avatar";
 import { getOtherParticipant } from "../../utils/chat";
 
 export default function Chat() {
-  const authContext = useProtectedPage();
+  const { user } = useAuthStore();
   const { data: conversations, isLoading, isError } = useConversations();
 
   if (isError) return <p>Something went wrong</p>;
@@ -43,21 +43,13 @@ export default function Chat() {
                       )}
                     >
                       {getAvatar(
-                        getOtherParticipant(
-                          chat.participant,
-                          authContext.user.name
-                        ) ?? {}
+                        getOtherParticipant(chat.participant, user!.name) ?? {}
                       )}
                     </div>
                     <div className="flex  pl-3">
-                      {getOtherParticipant(
-                        chat.participant,
-                        authContext.user.name
-                      )
-                        ? getOtherParticipant(
-                            chat.participant,
-                            authContext.user.name
-                          )?.name
+                      {getOtherParticipant(chat.participant, user!.name)
+                        ? getOtherParticipant(chat.participant, user!.name)
+                            ?.name
                         : "Unknown"}
                     </div>
                   </div>

@@ -8,7 +8,9 @@ async function main() {
     where: {
       email: "dan@dan.com",
     },
-    update: {},
+    update: {
+      saltAndHash: await bcrypt.hash("test123", 10),
+    },
     create: {
       email: "dan@dan.com",
       name: "Dan",
@@ -20,7 +22,9 @@ async function main() {
     where: {
       email: "mustafa@mustafa.com",
     },
-    update: {},
+    update: {
+      saltAndHash: await bcrypt.hash("test123", 10),
+    },
     create: {
       email: "mustafa@mustafa.com",
       name: "Mustafa",
@@ -32,7 +36,9 @@ async function main() {
     where: {
       email: "ash@ash.com",
     },
-    update: {},
+    update: {
+      saltAndHash: await bcrypt.hash("test123", 10),
+    },
     create: {
       email: "ash@ash.com",
       name: "Ash",
@@ -43,7 +49,9 @@ async function main() {
     where: {
       email: "chirag@chirag.com",
     },
-    update: {},
+    update: {
+      saltAndHash: await bcrypt.hash("test123", 10),
+    },
     create: {
       email: "chirag@chirag.com",
       name: "Chirag",
@@ -54,7 +62,9 @@ async function main() {
     where: {
       email: "christie@christie.com",
     },
-    update: {},
+    update: {
+      saltAndHash: await bcrypt.hash("test123", 10),
+    },
     create: {
       email: "christie@christie.com",
       name: "Christie",

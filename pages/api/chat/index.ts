@@ -26,7 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 select: {
                   id: true,
                   name: true,
-                  avatar: true,
+                  image: true,
                   interests: true,
                 },
               },
