@@ -1,3 +1,7 @@
+// the options aren't displayed in the mobile preview in chrome
+// -> options are visible in normal preview
+// testing on an actual mobile device needs to be done
+
 export default function DateField() {
 	function generateArrayOfDays() {
 		const days = [];
@@ -35,7 +39,6 @@ export default function DateField() {
 				What's Your Date of Birth?
 			</h3>
 			<input
-				type="number"
 				placeholder="DD"
 				className="w-16 h-10 pl-1.5 text-center font-quicksand placeholder:font-quicksand placeholder-lightpurple placeholder:pl-3 outline-purple rounded-md border-lightpurple border text-purple"
 				min="1"
@@ -45,13 +48,12 @@ export default function DateField() {
 			></input>
 			<datalist id="days">
 				{generateArrayOfDays().map((day) => (
-					<option value={day}></option>
+					<option value={day} />
 				))}
 			</datalist>
 			<input
-				type="number"
 				placeholder="MM"
-				className="w-16 h-10 pl-1.5 text-center font-quicksand placeholder:font-quicksand placeholder-lightpurple placeholder:pl-2 mx-4 outline-purple rounded-md border-lightpurple border text-purple"
+				className="w-16 h-10 text-center font-quicksand placeholder:font-quicksand placeholder-lightpurple placeholder:pl-2 mx-4 outline-purple rounded-md border-lightpurple border text-purple"
 				min="1"
 				max="12"
 				list="months"
@@ -59,11 +61,10 @@ export default function DateField() {
 			></input>
 			<datalist id="months">
 				{generateArrayOfMonths().map((month) => (
-					<option value={month}></option>
+					<option value={month} />
 				))}
 			</datalist>
 			<input
-				type="number"
 				placeholder="YYYY"
 				className="w-20 h-10 pl-1.5 text-center font-quicksand placeholder:font-quicksand placeholder-lightpurple placeholder:pl-3 outline-purple rounded-md border-lightpurple border text-purple"
 				min="1930"
@@ -73,7 +74,7 @@ export default function DateField() {
 			></input>
 			<datalist id="years">
 				{generateArrayOfYears().map((year) => (
-					<option value={Number(year)}></option>
+					<option value={year} />
 				))}
 			</datalist>
 		</div>

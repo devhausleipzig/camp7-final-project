@@ -5,6 +5,9 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 const ImageUpload = () => {
 	const [file, setFile] = useState<File | null>(null);
 	const [imageURL, setImageURL] = useState<string | null>(null);
+	const [isActiveDelete, setIsActiveDelete] = useState(false);
+	const [isActiveUpload, setIsActiveUpload] = useState(false);
+
 	useEffect(() => {
 		if (imageURL) {
 			fetch("http://localhost:3000/api/user/images", {
@@ -50,6 +53,30 @@ const ImageUpload = () => {
 		);
 	}
 
+	const handleClickDelete = () => {
+		setIsActiveDelete((current) => !current);
+		setTimeout(() => {
+			setIsActiveDelete(false);
+		}, 200);
+	};
+
+	const handleClickUpload = () => {
+		setIsActiveUpload((current) => !current);
+		setTimeout(() => {
+			setIsActiveUpload(false);
+		}, 200);
+	};
+
+	const deleteButton = () => {
+		handleClickDelete();
+		deleteHandler();
+	};
+
+	const uploadButton = () => {
+		handleClickUpload();
+		uploadHandler();
+	};
+
 	return (
 		<section className="bg-[#EEF6EF]">
 			<label className="flex justify-center">
@@ -93,8 +120,12 @@ const ImageUpload = () => {
 			<br />
 			<div className="flex justify-around">
 				<button
-					className="w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple"
-					onClick={deleteHandler}
+					className={
+						isActiveDelete
+							? "w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple border border-purple"
+							: "w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple"
+					}
+					onClick={deleteButton}
 					disabled={!file}
 				>
 					<div className="flex items-center justify-around mx-1">
@@ -116,8 +147,12 @@ const ImageUpload = () => {
 					</div>
 				</button>
 				<button
-					className="w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple"
-					onClick={uploadHandler}
+					className={
+						isActiveUpload
+							? "w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple border border-purple"
+							: "w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple"
+					}
+					onClick={uploadButton}
 				>
 					<div className="flex items-center justify-around mx-1">
 						<svg
