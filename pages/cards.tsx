@@ -1,3 +1,5 @@
+import UserCard from "../components/userCard/userCard";
+
 export default function Cards() {
-  return <div>cards</div>;
+  return <UserCard />;
 }
