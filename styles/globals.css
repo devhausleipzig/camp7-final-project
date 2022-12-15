@@ -1,11 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  background-color: #eef6ef;
+body {
+  @apply bg-[#EEF6EF];
 }
-
-/* :not(#faaa) {
-  box-sizing: border-box;
-} */

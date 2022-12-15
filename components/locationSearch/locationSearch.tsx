@@ -1,61 +1,63 @@
-import React, { useEffect, useState } from "react";
 import { Combobox } from "@headlessui/react";
+import { MapPinIcon } from "@heroicons/react/24/outline";
+import { Dispatch, SetStateAction, useState } from "react";
+import { DistanceFilter } from "../../components/distanceFilter/distanceFilter";
+import { useGpsLocation, useLocation } from "../../hooks/useLocation";
 
-type MapboxAddress = Record<string, any> & { place_name: string };
-
-async function getMapboxSuggestions(
-	setter: React.Dispatch<React.SetStateAction<Array<MapboxAddress>>>,
-	query: string
-) {
-	const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=pk.eyJ1IjoicmVhbGx5Ym9hcmQiLCJhIjoiY2xhdXd6Yzd4MDA2ZTNvbHR5dGlrbzlhZyJ9.-VLPpmZjVi5zq_eeM-Q5yA&autocomplete=true`;
-	const response = await fetch(endpoint);
-	const results = await response.json();
-	setter(results?.features ?? []);
+interface AddressProps {
+  address: string;
+  setAddress: Dispatch<SetStateAction<string>>;
 }
 
-type LocationSearchProps = {
-	selected: string;
-	setSelected: React.Dispatch<React.SetStateAction<string>>;
-};
+export default function LocationSearch({ address, setAddress }: AddressProps) {
+  const [selected, setSelected] = useState("");
+  const { data: gps } = useGpsLocation();
+  const [query, setQuery] = useState("");
+  const { data } = useLocation(query);
 
-export default function LocationSearch({}: LocationSearchProps) {
-	const [addressList, setAddressList] = useState([] as Array<MapboxAddress>);
-	const [selected, setSelected] = useState("");
-	const [query, setQuery] = useState("");
-
-	useEffect(() => {
-		getMapboxSuggestions(setAddressList, query);
-	}, [query]);
-
-	return (
-		<div className="mt-8 mx-auto flex justify-center h-8 w-80">
-			<Combobox value={selected} onChange={setSelected}>
-				<Combobox.Input
-					className={
-						"w-80  bg-white border border-black p-1 relative"
-					}
-					onChange={(event) => setQuery(event.target.value)}
-					value={query}
-				/>
-				<Combobox.Options
-					className={
-						"bg-white w-80 absolute my-9 border border-black border-t-0"
-					}
-				>
-					{addressList.map((address, index) => {
-						console.log(address);
-						return (
-							<Combobox.Option
-								className={"cursor-pointer max-w-80 px-1"}
-								key={index}
-								value={address.place_name}
-							>
-								{address.place_name}
-							</Combobox.Option>
-						);
-					})}
-				</Combobox.Options>
-			</Combobox>
-		</div>
-	);
+  return (
+    <div className="p-4">
+      <div className="mt-8 relative mx-auto flex justify-between bg-white border border-black">
+        <Combobox value={selected} onChange={setSelected}>
+          <MapPinIcon
+            onClick={() => {
+              gps && setSelected(gps[0].place_name.toString());
+            }}
+            className="h-8 w-8 p-1 bg-purple-700 text-white bg-purple m-1 rounded-sm"
+          />
+          <Combobox.Input
+            placeholder="Location"
+            className={"px-1 flex-1 relative"}
+            onChange={(event) => setQuery(event.target.value)}
+            displayValue={() => selected}
+          />
+          <Combobox.Options
+            className={
+              "bg-white absolute my-9 border inset-x-0 border-black border-t-0"
+            }
+          >
+            <Combobox.Option
+              className={"cursor-pointer w-full px-1"}
+              value={""}
+            >
+              ❌ Clear
+            </Combobox.Option>
+            {data &&
+              data.map((address, index) => {
+                return (
+                  <Combobox.Option
+                    className={"cursor-pointer w-full px-1"}
+                    key={index}
+                    value={address.place_name}
+                  >
+                    {address.place_name}
+                  </Combobox.Option>
+                );
+              })}
+          </Combobox.Options>
+        </Combobox>
+        <DistanceFilter />
+      </div>
+    </div>
+  );
 }

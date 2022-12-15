@@ -19,8 +19,7 @@ export type Payload = {
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     if (req.method == methods.post) {
-      console.log(req.body);
-      const { email, password }: TokenData = JSON.parse(req.body);
+      const { email, password }: TokenData = req.body;
 
       const user = await prisma.user.findUniqueOrThrow({
         where: {
@@ -43,7 +42,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         res.status(200).json({
           token,
-          userId: user.id,
         });
       } else {
         res.status(401).json({
