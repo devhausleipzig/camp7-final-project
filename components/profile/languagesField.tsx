@@ -25,7 +25,7 @@ export default function LanguagesField() {
       <form className="w-full font-quicksand grid gap-6 grid-cols-2">
         {languages
           .sort((a, b) => (a.desc < b.desc ? -1 : 1))
-          .map((language) => (
+          .map(language => (
             <label
               htmlFor={language.value}
               className={clsx(
@@ -47,11 +47,11 @@ export default function LanguagesField() {
                 checked={selectedLanguages.includes(language.value)}
                 value={language.value}
                 className="absolute h-0 w-0 appearance-none"
-                onChange={(event) => {
+                onChange={event => {
                   event.target.checked
-                    ? setSelectedLanguages((prev) => [...prev, language.value])
+                    ? setSelectedLanguages(prev => [...prev, language.value])
                     : setSelectedLanguages(
-                        selectedLanguages.filter((l) => l !== language.value)
+                        selectedLanguages.filter(l => l !== language.value)
                       );
                 }}
               />

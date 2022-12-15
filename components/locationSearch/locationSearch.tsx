@@ -1,8 +1,8 @@
 import { Combobox } from "@headlessui/react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { DistanceFilter } from "../../components/distanceFilter/distanceFilter";
-import { useGpsLocation, useLocation } from "../../hooks/useLocation";
+import { Address, useGpsLocation, useLocation } from "../../hooks/useLocation";
 
 interface AddressProps {
   address: string;
@@ -10,7 +10,7 @@ interface AddressProps {
 }
 
 export default function LocationSearch({ address, setAddress }: AddressProps) {
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState<Address | null>(null);
   const { data: gps } = useGpsLocation();
   const [query, setQuery] = useState("");
   const { data } = useLocation(query);
@@ -21,15 +21,15 @@ export default function LocationSearch({ address, setAddress }: AddressProps) {
         <Combobox value={selected} onChange={setSelected}>
           <MapPinIcon
             onClick={() => {
-              gps && setSelected(gps[0].place_name.toString());
+              gps && setSelected(gps[0]);
             }}
             className="h-8 w-8 p-1 bg-purple-700 text-white bg-purple m-1 rounded-sm"
           />
           <Combobox.Input
             placeholder="Location"
             className={"px-1 flex-1 relative"}
-            onChange={(event) => setQuery(event.target.value)}
-            displayValue={() => selected}
+            onChange={event => setQuery(event.target.value)}
+            displayValue={() => selected?.place_name ?? ""}
           />
           <Combobox.Options
             className={
@@ -48,7 +48,7 @@ export default function LocationSearch({ address, setAddress }: AddressProps) {
                   <Combobox.Option
                     className={"cursor-pointer w-full px-1"}
                     key={index}
-                    value={address.place_name}
+                    value={address}
                   >
                     {address.place_name}
                   </Combobox.Option>

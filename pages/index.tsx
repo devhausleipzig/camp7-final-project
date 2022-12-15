@@ -4,10 +4,10 @@ import Interest from "../components/interestCard/interestCard";
 import CardComponent from "../components/interestCard/interestCard";
 import InterestCard from "../components/interestCard/interestCard";
 import LocationSearch from "../components/locationSearch/locationSearch";
-import useProtectedPage from "../hooks/useProtectedPage";
+
+async function queryUsers() {}
 
 export default function Home() {
-  const authContext = useProtectedPage();
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     const target = event.currentTarget as HTMLFormElement;
@@ -15,19 +15,13 @@ export default function Home() {
 
   const [address, setAddress] = useState("");
   const [distance, setDistance] = useState(0);
-  const [interests, setInterests] = useState([]);
   const [selectedInterests, setSelectedInterests] = useState<Array<string>>([]);
 
   return (
     <div>
       <main>
         <form onSubmit={handleSubmit}>
-          <LocationSearch
-            address={""}
-            setAddress={function (value: SetStateAction<string>): void {
-              throw new Error("Function not implemented.");
-            }}
-          />
+          <LocationSearch address={address} setAddress={setAddress} />
           <CardComponent
             selected={selectedInterests}
             setSelected={setSelectedInterests}

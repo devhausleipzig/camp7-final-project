@@ -16,7 +16,7 @@ export default function GenderField() {
         What's your Gender?
       </h3>
       <form className="w-full font-quicksand grid gap-6">
-        {genders.map((gender) => (
+        {genders.map(gender => (
           <label
             htmlFor={gender.value}
             key={gender.value}
@@ -35,7 +35,7 @@ export default function GenderField() {
               id={gender.value}
               value={gender.value}
               className="absolute h-0 w-0 appearance-none"
-              onChange={(event) => setSelectedGender(event.target.value)}
+              onChange={event => setSelectedGender(event.target.value)}
             />
             {selectedGender === gender.value && (
               <span className=" h-6 w-6 flex items-center justify-center rounded-full bg-lightpurple">
@@ -46,9 +46,9 @@ export default function GenderField() {
                   className="h-5 w-5 text-white"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
               </span>

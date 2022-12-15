@@ -9,7 +9,12 @@ module.exports = {
     extend: {
       colors: {
         purple: "#603BAD",
+        purplePale: "#DFD8EF",
+        purpleDark: "#3A2368",
         lightpurple: "#BFB1DE",
+        red: "#DC2626",
+        redPale: "#F8D4D4",
+        redDark: "#841717",
       },
       fontFamily: {
         quicksand: ["Quicksand", "sans-serif"],
