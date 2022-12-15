@@ -22,15 +22,15 @@ export function Notification({ notification }: NotificationProps) {
 
   return (
     <div
+      onClick={() => close(notification.id)}
       className={clsx(
-        "px-4 py-3 rounded text-white flex justify-between",
-        notification.status === "info" ? "bg-purple" : "bg-red-600"
+        "px-4 py-2 rounded flex justify-center border",
+        notification.status === "info"
+          ? "bg-purplePale border-purpleDark text-purpleDark"
+          : "bg-redPale border-redDark text-redDark"
       )}
     >
       <span>{notification.message}</span>
-      <button onClick={() => close(notification.id)}>
-        <XCircleIcon className="w-6 h-6 text-white/80 hover:text-white transition" />
-      </button>
     </div>
   );
 }
