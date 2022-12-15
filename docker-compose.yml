@@ -1,18 +1,18 @@
 version: "3.8"
 
 volumes:
-    pgsql-final-data:
+  pgsql-final-data:
 
 services:
-    pgsql-final:
-        image: postgres:latest
-        restart: unless-stopped
-        container_name: camp7-final-pgsql
-        ports:
-            - "5432:5432"
-        env_file:
-            - .env
-        volumes:
-            - type: volume
-              source: pgsql-final-data
-              target: /var/lib/postgresql/data
+  pgsql-final:
+    image: postgres:latest
+    restart: unless-stopped
+    container_name: camp7-final-pgsql
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - type: volume
+        source: pgsql-final-data
+        target: /var/lib/postgresql/data

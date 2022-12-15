@@ -1,15 +1,15 @@
 {
-	"sqltools.connections": [
-		{
-			"previewLimit": 50,
-			"server": "localhost",
-			"port": 7000,
-			"driver": "PostgreSQL",
-			"name": "pgsql",
-			"database": "main",
-			"username": "local_admin",
-			"password": "unsafeLocalPassword0!",
-			"connectionTimeout": 300
-		}
-	]
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 7000,
+      "driver": "PostgreSQL",
+      "name": "pgsql",
+      "database": "main",
+      "username": "local_admin",
+      "password": "unsafeLocalPassword0!",
+      "connectionTimeout": 300
+    }
+  ]
 }

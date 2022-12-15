@@ -21,7 +21,7 @@ const ImageUpload = () => {
   };
 
   function deleteHandler() {
-    setFile((current) => null);
+    setFile(current => null);
   }
 
   async function uploadHandler() {
@@ -35,15 +35,15 @@ const ImageUpload = () => {
 
     uploadTask.on(
       "state_changed",
-      (snapshot) => {
+      snapshot => {
         const progress = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
         console.log(progress);
       },
-      (error) => send({ message: "Image upload failed", status: "error" }),
+      error => send({ message: "Image upload failed", status: "error" }),
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+        getDownloadURL(uploadTask.snapshot.ref).then(url => {
           console.log(url);
           setImageURL(url);
           send({ message: "Image successfully uploaded", status: "info" });

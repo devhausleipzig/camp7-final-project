@@ -11,7 +11,7 @@ export default function DescriptionField() {
         Introduce Yourself
       </label>
       <textarea
-        onChange={(e) => setCharacterCount(440 - e.target.value.length)}
+        onChange={e => setCharacterCount(440 - e.target.value.length)}
         id="description"
         rows={8}
         className="p-2 w-[100%] text-lg font-nunito placeholder:font-nunito text-purple bg-white rounded-lg border border-lightpurple outline-purple placeholder:text-lightpurple"

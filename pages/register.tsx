@@ -6,137 +6,137 @@ import Link from "next/link";
 import Button, { ButtonVariant } from "../components/button/button";
 
 export type RegisterFormData = {
-	name: string;
-	email: string;
-	confirmEmail?: string;
-	password: string;
+  name: string;
+  email: string;
+  confirmEmail?: string;
+  password: string;
 };
 
 export default function Register() {
-	const [formData, setFormData] = useState({} as RegisterFormData);
+  const [formData, setFormData] = useState({} as RegisterFormData);
 
-	const [email, setEmail] = useState("");
-	const [confirmEmail, setConfirmEmail] = useState("");
-	const [emailsSame, setEmailsSame] = useState(true);
-	const [isValidEmail, setIsValidEmail] = useState(true);
+  const [email, setEmail] = useState("");
+  const [confirmEmail, setConfirmEmail] = useState("");
+  const [emailsSame, setEmailsSame] = useState(true);
+  const [isValidEmail, setIsValidEmail] = useState(true);
 
-	const router = useRouter();
+  const router = useRouter();
 
-	function emailEventHandler(event: React.ChangeEvent<HTMLInputElement>) {
-		const value = event.target.value;
-		setEmail(() => value); // setEmail(value);
-	}
+  function emailEventHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    const value = event.target.value;
+    setEmail(() => value); // setEmail(value);
+  }
 
-	function confirmEmailEventHandler(
-		event: React.ChangeEvent<HTMLInputElement>
-	) {
-		const value = event.target.value;
-		setConfirmEmail(() => value);
-	}
+  function confirmEmailEventHandler(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
+    const value = event.target.value;
+    setConfirmEmail(() => value);
+  }
 
-	function emailsSameEventHandler() {
-		let equal = email === confirmEmail;
-		setEmailsSame(() => equal); //sets boolean
-	}
+  function emailsSameEventHandler() {
+    let equal = email === confirmEmail;
+    setEmailsSame(() => equal); //sets boolean
+  }
 
-	const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
-	function validEmail() {
-		setIsValidEmail(emailRegex.test(email));
-	}
+  function validEmail() {
+    setIsValidEmail(emailRegex.test(email));
+  }
 
-	async function handleSubmit(event: FormEvent) {
-		event.preventDefault();
-		const target = event.currentTarget as HTMLFormElement;
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+    const target = event.currentTarget as HTMLFormElement;
 
-		const formData = new FormData(target);
-		const formDataObj = Object.fromEntries(
-			formData.entries()
-		) as RegisterFormData;
+    const formData = new FormData(target);
+    const formDataObj = Object.fromEntries(
+      formData.entries()
+    ) as RegisterFormData;
 
-		delete formDataObj["confirmEmail"];
+    delete formDataObj["confirmEmail"];
 
-		const response = await fetch(route({ pathname: "/api/auth/register" }), {
-			method: methods.post,
-			body: JSON.stringify(formDataObj),
-		});
+    const response = await fetch(route({ pathname: "/api/auth/register" }), {
+      method: methods.post,
+      body: JSON.stringify(formDataObj),
+    });
 
-		if (response.status != 201) {
-			// request unsuccessful
-		} else {
-			target.reset();
-			router.push({ pathname: "/login" });
-		}
-	}
+    if (response.status != 201) {
+      // request unsuccessful
+    } else {
+      target.reset();
+      router.push({ pathname: "/login" });
+    }
+  }
 
-	return (
-		<div className="h-screen bg-white font-sans my-5 ml-5 rounded-lg text-center text-purple-600">
-			<div>
-				<h2 className="text-xl font-bold pt-6">Register</h2>
-				<form className="p-8 text-left w-screen" onSubmit={handleSubmit}>
-					<label className="form_label">
-						Name
-						<input
-							type="text"
-							name="name"
-							placeholder="Your Name"
-							className="form_input"
-							size={32}
-							required
-						/>
-					</label>
-					<label className="form_label">
-						Email
-						<input
-							type="email"
-							name="email"
-							placeholder="Please enter your email"
-							className={`${isValidEmail ? "form_input" : "form_input_wrong"}`}
-							size={32}
-							onChange={emailEventHandler}
-							onBlur={validEmail}
-							required
-						/>
-					</label>
-					<label className="form_label">
-						Confirm Email
-						<input
-							type="email"
-							name="confirmEmail"
-							placeholder="Please re-enter your email"
-							className={`${emailsSame ? "form_input" : "form_input_wrong"} ${
-								email == "" || !isValidEmail ? "form_disabled" : ""
-							}`}
-							size={32}
-							onChange={confirmEmailEventHandler}
-							onBlur={emailsSameEventHandler}
-							disabled={email == "" || !isValidEmail}
-							required
-						/>
-					</label>
-					<label className="form_label">
-						Password
-						<input
-							type="password"
-							name="password"
-							placeholder="max. 8 characters (A-Z a-z 0-9 !@#$%)"
-							className="form_input"
-							size={32}
-							required
-						/>
-					</label>
-					<Button
-						label={"REGISTER"}
-						variant={ButtonVariant.fill}
-						type={"submit"}
-					/>
-				</form>
-				<Button
-					label={"LOGIN"}
-					link={{ pathname: "/login" }}
-					variant={ButtonVariant.transparent}
-				/>
-			</div>
-		</div>
-	);
+  return (
+    <div className="h-screen bg-white font-sans my-5 ml-5 rounded-lg text-center text-purple-600">
+      <div>
+        <h2 className="text-xl font-bold pt-6">Register</h2>
+        <form className="p-8 text-left w-screen" onSubmit={handleSubmit}>
+          <label className="form_label">
+            Name
+            <input
+              type="text"
+              name="name"
+              placeholder="Your Name"
+              className="form_input"
+              size={32}
+              required
+            />
+          </label>
+          <label className="form_label">
+            Email
+            <input
+              type="email"
+              name="email"
+              placeholder="Please enter your email"
+              className={`${isValidEmail ? "form_input" : "form_input_wrong"}`}
+              size={32}
+              onChange={emailEventHandler}
+              onBlur={validEmail}
+              required
+            />
+          </label>
+          <label className="form_label">
+            Confirm Email
+            <input
+              type="email"
+              name="confirmEmail"
+              placeholder="Please re-enter your email"
+              className={`${emailsSame ? "form_input" : "form_input_wrong"} ${
+                email == "" || !isValidEmail ? "form_disabled" : ""
+              }`}
+              size={32}
+              onChange={confirmEmailEventHandler}
+              onBlur={emailsSameEventHandler}
+              disabled={email == "" || !isValidEmail}
+              required
+            />
+          </label>
+          <label className="form_label">
+            Password
+            <input
+              type="password"
+              name="password"
+              placeholder="max. 8 characters (A-Z a-z 0-9 !@#$%)"
+              className="form_input"
+              size={32}
+              required
+            />
+          </label>
+          <Button
+            label={"REGISTER"}
+            variant={ButtonVariant.fill}
+            type={"submit"}
+          />
+        </form>
+        <Button
+          label={"LOGIN"}
+          link={{ pathname: "/login" }}
+          variant={ButtonVariant.transparent}
+        />
+      </div>
+    </div>
+  );
 }

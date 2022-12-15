@@ -12,7 +12,7 @@ export function useLocation(query: string) {
 
   return useQuery<Address[]>({
     queryKey: ["location", query],
-    queryFn: () => axios.get(endpoint).then((res) => res.data.features),
+    queryFn: () => axios.get(endpoint).then(res => res.data.features),
     enabled: !!query,
   });
 }
@@ -39,7 +39,7 @@ export function useGpsLocation() {
     queryKey: ["gpslocation", `${lat}-${lon}`],
     queryFn: () => {
       const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=pk.eyJ1IjoicmVhbGx5Ym9hcmQiLCJhIjoiY2xhdXd6Yzd4MDA2ZTNvbHR5dGlrbzlhZyJ9.-VLPpmZjVi5zq_eeM-Q5yA`;
-      return axios.get(endpoint).then((res) => res.data.features);
+      return axios.get(endpoint).then(res => res.data.features);
     },
     enabled: !!lat && !!lon,
   });

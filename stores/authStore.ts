@@ -13,7 +13,7 @@ type AuthState = {
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    set => ({
       token: "",
       user: null,
       setToken: (newToken: string) => set(() => ({ token: newToken })),

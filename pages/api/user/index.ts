@@ -6,51 +6,42 @@ import { BoundingRectangle } from "../../../utils/distance";
 import { methods } from "../../../utils/methods";
 
 const QueryUserModel = z
-	.object({
-		interests: z.optional(z.string()),
-		location: z.optional(z.string()),
-		radius: z.optional(z.string())
-	})
-	.refine(
-		(val) => {
-			const locationGiven = Boolean(val.location);
-			const radiusGiven = Boolean(val.radius);
-			console.log(locationGiven);
-			console.log(radiusGiven);
-			return (
-				(locationGiven || radiusGiven) && radiusGiven && locationGiven
-			);
-		},
-		{ message: "Location and Radius must both be specified." }
-	)
-	.transform((val) => {
-		return {
-			radius: val.radius ? Number(val.radius) : undefined,
-			location: val.location
-				? val.location.split(",").map(Number)
-				: undefined,
-			interests: val.interests ? val.interests.split(",") : undefined
-		};
-	});
+  .object({
+    interests: z.optional(z.string()),
+    location: z.optional(z.string()),
+    radius: z.optional(z.string()),
+  })
+  .refine(
+    val => {
+      const locationGiven = Boolean(val.location);
+      const radiusGiven = Boolean(val.radius);
+      console.log(locationGiven);
+      console.log(radiusGiven);
+      return (locationGiven || radiusGiven) && radiusGiven && locationGiven;
+    },
+    { message: "Location and Radius must both be specified." }
+  )
+  .transform(val => {
+    return {
+      radius: val.radius ? Number(val.radius) : undefined,
+      location: val.location ? val.location.split(",").map(Number) : undefined,
+      interests: val.interests ? val.interests.split(",") : undefined,
+    };
+  });
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-	try {
-		if (req.method == methods.get) {
-			const { interests, location, radius } = QueryUserModel.parse(
-				req.query
-			);
+  try {
+    if (req.method == methods.get) {
+      const { interests, location, radius } = QueryUserModel.parse(req.query);
 
-			const [refLat, refLon] = location!;
+      const [refLat, refLon] = location!;
 
-			const boundingRect = new BoundingRectangle(radius!, [
-				refLat,
-				refLon
-			]);
+      const boundingRect = new BoundingRectangle(radius!, [refLat, refLon]);
 
-			// this shit will break if any of radius, location, or interests are missing
-			// making all the parts of this query conditional is a bit tricky
-			res.json(
-				await prisma.$queryRaw`
+      // this shit will break if any of radius, location, or interests are missing
+      // making all the parts of this query conditional is a bit tricky
+      res.json(
+        await prisma.$queryRaw`
 					WITH prelim_query AS (
 						SELECT "user"."id" AS "id", "user"."name" AS "name", "location"."lat" AS "lat", "location"."lon" AS "lon"
 						FROM "user"
@@ -70,14 +61,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 						WHERE "interest"."name" = ${interests![0]}
 						OR "interest"."name" = ${interests![1]}
 					) AS "subquery" WHERE "subquery"."distance" < ${radius};`
-			);
+      );
 
-			return;
-		}
+      return;
+    }
 
-		res.status(500).json({ message: "Unknown request." });
-	} catch (err) {
-		console.log(err);
-		res.status(500).end();
-	}
+    res.status(500).json({ message: "Unknown request." });
+  } catch (err) {
+    console.log(err);
+    res.status(500).end();
+  }
 };

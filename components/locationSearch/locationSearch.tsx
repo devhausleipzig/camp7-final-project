@@ -5,8 +5,8 @@ import { DistanceFilter } from "../../components/distanceFilter/distanceFilter";
 import { Address, useGpsLocation, useLocation } from "../../hooks/useLocation";
 
 interface AddressProps {
-	address: string;
-	setAddress: Dispatch<SetStateAction<string>>;
+  address: string;
+  setAddress: Dispatch<SetStateAction<string>>;
 }
 
 export default function LocationSearch({ address, setAddress }: AddressProps) {
@@ -28,7 +28,7 @@ export default function LocationSearch({ address, setAddress }: AddressProps) {
           <Combobox.Input
             placeholder="Location"
             className={"px-1 flex-1 relative"}
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={event => setQuery(event.target.value)}
             displayValue={() => selected?.place_name ?? ""}
           />
           <Combobox.Options
