@@ -19,6 +19,7 @@ declare module "nextjs-routes" {
     | { pathname: "/"; query?: Query | undefined }
     | { pathname: "/login"; query?: Query | undefined }
     | { pathname: "/register"; query?: Query | undefined }
+    | { pathname: "/registration1"; query?: Query | undefined }
     | { pathname: "/settings"; query?: Query | undefined };
 
   type Query<Params = {}> = Params & {
