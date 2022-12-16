@@ -41,6 +41,7 @@ model Message {
   conversationId String
   author         User         @relation(fields: [authorId], references: [id])
   authorId       String
+  read           Boolean      @default(false)
 
   @@map("message")
 }

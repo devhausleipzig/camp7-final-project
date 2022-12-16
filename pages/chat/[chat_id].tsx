@@ -18,6 +18,7 @@ import groupBy from "just-group-by";
 import { format } from "date-fns";
 import { useAuthStore } from "../../stores/authStore";
 import Link from "next/link";
+import axios from "axios";
 
 async function GetMessages(
   setMessages: Dispatch<SetStateAction<Conversation[]>>,
@@ -72,7 +73,7 @@ export default function ChatPage() {
     new Date(el.createdAt).toLocaleDateString()
   );
   const messages = Object.entries(groupedMsgs)
-    .sort((a, b) => a[0].localeCompare(b[0]))
+    // .sort((a, b) => a[0].localeCompare(b[0]))
     .flatMap((entry) => {
       const [date, messages] = entry;
       return [
@@ -84,35 +85,39 @@ export default function ChatPage() {
           {date}
           <div className="w-1/4 h-[1px] bg-[#603BAD]"></div>
         </div>,
-        ...messages.map((message) => {
-          const ownMessage = message.authorId === user?.id;
-          return (
-            <div
-              key={message.id}
-              className={clsx(
-                "flex",
-                ownMessage ? "justify-end pl-12" : "justify-start pr-12"
-              )}
-            >
+        ...messages
+          .sort((a, b) =>
+            new Date(a.createdAt) < new Date(b.createdAt) ? -1 : 1
+          )
+          .map((message) => {
+            const ownMessage = message.authorId === user?.id;
+            return (
               <div
+                key={message.id}
                 className={clsx(
-                  "flex flex-col p-2 h-auto scroll-pb-1 break-words min-w-[90px] min-h-[45px]",
-                  ownMessage
-                    ? "bg-[#BCDCBF] rounded-l-2xl rounded-br-2xl"
-                    : "bg-[#BFB1DE] rounded-r-2xl rounded-bl-2xl"
+                  "flex",
+                  ownMessage ? "justify-end pl-12" : "justify-start pr-12"
                 )}
               >
-                {message.content}
-                <div className={clsx("flex h-[16px] p-1  text-xs self-end")}>
-                  {[
-                    format(new Date(message.createdAt), "p"),
-                    message.updatedAt !== message.createdAt ? " Edited" : "",
-                  ]}
+                <div
+                  className={clsx(
+                    "flex flex-col p-2 h-auto scroll-pb-1 break-words min-w-[90px] min-h-[45px]",
+                    ownMessage
+                      ? "bg-[#BCDCBF] rounded-l-2xl rounded-br-2xl"
+                      : "bg-[#BFB1DE] rounded-r-2xl rounded-bl-2xl"
+                  )}
+                >
+                  {message.content}
+                  <div className={clsx("flex h-[16px] p-1  text-xs self-end")}>
+                    {[
+                      format(new Date(message.createdAt), "p"),
+                      !message.read ? "read" : "unread",
+                    ]}
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        }),
+            );
+          }),
       ];
     });
 

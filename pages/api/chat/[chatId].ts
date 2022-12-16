@@ -46,6 +46,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(200).json(conversation);
     }
 
+    if (req.method === "PATCH") {
+      const { userId } = req.body;
+      await prisma.message.updateMany({
+        where: {
+          AND: {
+            conversationId: chatId,
+            authorId: {
+              not: userId,
+            },
+          },
+        },
+        data: {
+          read: true,
+        },
+      });
+      return res.status(201).end();
+    }
+
     if (req.method === methods.post) {
       const input = req.body as PostMessageBody;
 
