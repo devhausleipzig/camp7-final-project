@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button, { ButtonVariant } from "../components/button/button";
 import Header from "../components/header";
-import LocationSearch from "../components/locationSearch/locationSearch";
+import LocationRegister from "../components/locationSearch/locationRegister";
 import DateField from "../components/profile/dateField";
+import { Address } from "../hooks/useLocation";
 
 export default function Registration2() {
-  const [address, setAddress] = useState("");
+  const [location, setLocation] = useState<Address | null>(null);
+
+  useEffect(() => {
+    console.log("location", location?.center);
+  }, [location]);
+
   return (
     <div className="text-center h-screen">
       <Header />
@@ -13,7 +19,7 @@ export default function Registration2() {
       <h3 className="text-purple text-xl font-quicksand font-bold">
         Where Are You Based?
       </h3>
-      <LocationSearch address={address} setAddress={setAddress} />
+      <LocationRegister location={location} setLocation={setLocation} />
       <div className="absolute bottom-5 w-screen">
         <Button
           label={"CONTINUE"}

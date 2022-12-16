@@ -20,7 +20,7 @@ import {
 } from "react-icons/fa";
 import { Interest } from "@prisma/client";
 
-const interestsMap: Record<string, JSX.Element> = {
+export const interestsMap: Record<string, JSX.Element> = {
   art: <FaPalette size={24} />,
   baking: <FaBirthdayCake size={24} />,
   biking: <FaBicycle size={24} />,

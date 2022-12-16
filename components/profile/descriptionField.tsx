@@ -15,7 +15,7 @@ export default function DescriptionField() {
         id="description"
         rows={12}
         className="p-2 w-[100%] text-lg font-nunito placeholder:font-nunito text-purple bg-white rounded-lg border border-lightpurple outline-purple placeholder:text-lightpurple"
-        placeholder="Express yourself in max. 440 characters and share what's important to you. What should others know about you?"
+        placeholder="Express yourself in max. 300 characters and share what's important to you. What should others know about you?"
         maxLength={300}
       ></textarea>
       <p className="text-right text-purple text-sm pr-1">

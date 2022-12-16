@@ -4,19 +4,15 @@ import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { DistanceFilter } from "../../components/distanceFilter/distanceFilter";
 import { Address, useGpsLocation, useLocation } from "../../hooks/useLocation";
 
-interface AddressProps {
+interface LocationProps {
   location: Address | null;
   setLocation: Dispatch<SetStateAction<Address | null>>;
-  distance: number;
-  setDistance: Dispatch<SetStateAction<number>>;
 }
 
-export default function LocationSearch({
+export default function LocationRegister({
   location,
   setLocation,
-  distance,
-  setDistance,
-}: AddressProps) {
+}: LocationProps) {
   // const [selected, setSelected] = useState<Address | null>(null);
   const { data: gps } = useGpsLocation();
   const [query, setQuery] = useState("");
