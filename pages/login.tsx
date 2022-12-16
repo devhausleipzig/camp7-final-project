@@ -32,6 +32,7 @@ export default function Login() {
       });
 
       const userBody = await userResponse.json();
+      console.log(userBody);
 
       setUser(userBody);
       setToken(token);

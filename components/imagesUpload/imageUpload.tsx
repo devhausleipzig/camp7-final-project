@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import storage from "../../firebaseConfig";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useNotificationStore } from "../../stores/notificationStore";
+import clsx from "clsx";
 
 const ImageUpload = () => {
   const [file, setFile] = useState<File | null>(null);
   const { send } = useNotificationStore();
   const [imageURL, setImageURL] = useState<string | null>(null);
+
   useEffect(() => {
     if (imageURL) {
       fetch("http://localhost:3000/api/user/images", {
@@ -21,7 +23,7 @@ const ImageUpload = () => {
   };
 
   function deleteHandler() {
-    setFile((current) => null);
+    setFile(current => null);
   }
 
   async function uploadHandler() {
@@ -35,15 +37,15 @@ const ImageUpload = () => {
 
     uploadTask.on(
       "state_changed",
-      (snapshot) => {
+      snapshot => {
         const progress = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
         console.log(progress);
       },
-      (error) => send({ message: "Image upload failed", status: "error" }),
+      error => send({ message: "Image upload failed", status: "error" }),
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+        getDownloadURL(uploadTask.snapshot.ref).then(url => {
           console.log(url);
           setImageURL(url);
           send({ message: "Image successfully uploaded", status: "info" });
@@ -95,7 +97,7 @@ const ImageUpload = () => {
       <br />
       <div className="flex justify-around">
         <button
-          className="w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple"
+          className="disabled:opacity-50 w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple border border-transparent active:border-purple"
           onClick={deleteHandler}
           disabled={!file}
         >
@@ -118,8 +120,9 @@ const ImageUpload = () => {
           </div>
         </button>
         <button
-          className="w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple"
+          className="disabled:opacity-50 w-32 h-10 rounded-lg bg-white text-lg mb-4 text-purple border border-transparent active:border-purple"
           onClick={uploadHandler}
+          disabled={!file}
         >
           <div className="flex items-center justify-around mx-1">
             <svg

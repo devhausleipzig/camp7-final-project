@@ -1,8 +1,11 @@
 import create from "zustand";
 import { persist } from "zustand/middleware";
-import { User } from "@prisma/client";
+import { Interest, Location, User } from "@prisma/client";
 
-type AuthUser = Omit<User, "saltAndHash">;
+type AuthUser = Omit<User, "saltAndHash"> & {
+  location: Location;
+  interests: Interest[];
+};
 
 type AuthState = {
   token: string;
@@ -13,7 +16,7 @@ type AuthState = {
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    set => ({
       token: "",
       user: null,
       setToken: (newToken: string) => set(() => ({ token: newToken })),

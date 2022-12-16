@@ -14,10 +14,10 @@ type NotificationState = {
   close: (id: string) => void;
 };
 
-export const useNotificationStore = create<NotificationState>((set) => ({
+export const useNotificationStore = create<NotificationState>(set => ({
   notifications: [],
-  send: (n) =>
-    set((state) => {
+  send: n =>
+    set(state => {
       const { message, status, delay = 3000 } = n;
       const newNotification: Notification = {
         message,
@@ -27,8 +27,8 @@ export const useNotificationStore = create<NotificationState>((set) => ({
       };
       return { notifications: [...state.notifications, newNotification] };
     }),
-  close: (id) =>
-    set((state) => ({
-      notifications: state.notifications.filter((n) => n.id !== id),
+  close: id =>
+    set(state => ({
+      notifications: state.notifications.filter(n => n.id !== id),
     })),
 }));

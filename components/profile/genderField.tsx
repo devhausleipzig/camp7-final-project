@@ -16,7 +16,7 @@ export default function GenderField() {
         What's your Gender?
       </h3>
       <form className="w-full font-quicksand grid gap-6">
-        {genders.map((gender) => (
+        {genders.map(gender => (
           <label
             htmlFor={gender.value}
             key={gender.value}
@@ -35,7 +35,7 @@ export default function GenderField() {
               id={gender.value}
               value={gender.value}
               className="absolute h-0 w-0 appearance-none"
-              onChange={(event) => setSelectedGender(event.target.value)}
+              onChange={event => setSelectedGender(event.target.value)}
             />
             {selectedGender === gender.value && (
               <span className=" h-6 w-6 flex items-center justify-center rounded-full bg-lightpurple">

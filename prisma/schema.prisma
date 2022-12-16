@@ -19,6 +19,10 @@ model User {
   location      Location?      @relation("UserLocation")
   conversations Conversation[] @relation("UserConversations")
   messages      Message[]
+  liked         User[]         @relation("Match")
+  likedBy       User[]         @relation("Match")
+  rejected      User[]         @relation("Nope")
+  rejectedBy    User[]         @relation("Nope")
 
   @@map("user")
 }
