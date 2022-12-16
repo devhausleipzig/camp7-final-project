@@ -11,6 +11,7 @@ declare module "nextjs-routes" {
     | { pathname: "/api/chat/[chatId]"; query: Query<{ "chatId": string }> }
     | { pathname: "/api/chat/chat"; query?: Query | undefined }
     | { pathname: "/api/chat"; query?: Query | undefined }
+    | { pathname: "/api/user/[userId]"; query: Query<{ "userId": string }> }
     | { pathname: "/api/user/images"; query?: Query | undefined }
     | { pathname: "/api/user"; query?: Query | undefined }
     | { pathname: "/api/user/inputFields"; query?: Query | undefined }
@@ -20,6 +21,7 @@ declare module "nextjs-routes" {
     | { pathname: "/chat/[chat_id]"; query: Query<{ "chat_id": string }> }
     | { pathname: "/chat/example"; query?: Query | undefined }
     | { pathname: "/chat"; query?: Query | undefined }
+    | { pathname: "/chat/profile/[userId]"; query: Query<{ "userId": string }> }
     | { pathname: "/editProfile"; query?: Query | undefined }
     | { pathname: "/"; query?: Query | undefined }
     | { pathname: "/login"; query?: Query | undefined }

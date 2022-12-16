@@ -21,9 +21,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         include: {
           participant: {
             select: {
+              id: true,
               name: true,
               image: true,
               interests: true,
+              bornAt: true,
             },
           },
           messages: {

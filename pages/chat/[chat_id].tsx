@@ -17,6 +17,7 @@ import { CreateMessage } from "../../components/chatComponents/createMessage";
 import groupBy from "just-group-by";
 import { format } from "date-fns";
 import { useAuthStore } from "../../stores/authStore";
+import Link from "next/link";
 import axios from "axios";
 
 async function GetMessages(
@@ -58,7 +59,11 @@ export default function ChatPage() {
     listRef.current?.scrollTo({ top: height, behavior: "smooth" });
   }, [conversation]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (conversation) {
+      console.log(getOtherParticipant(conversation.participant, user!.name));
+    }
+  }, [conversation]);
 
   if (isError) return <p>Something went wrong</p>;
 
@@ -125,15 +130,24 @@ export default function ChatPage() {
         >
           <BackButton className="h-6 w-6 rounded-full" />
         </button>
+
         <div className="flex items-center gap-4">
-          {getAvatar(
-            getOtherParticipant(conversation.participant, user!.name) ?? {}
-          )}
-          <h2 className="text-white font-medium">
-            {getOtherParticipant(conversation.participant, user!.name)
-              ? getOtherParticipant(conversation.participant, user!.name)?.name
-              : "Unknown"}
-          </h2>
+          <Link
+            className="flex gap-3 items-center"
+            href={`/chat/profile/${
+              getOtherParticipant(conversation.participant, user!.name)?.id
+            }`}
+          >
+            {getAvatar(
+              getOtherParticipant(conversation.participant, user!.name) ?? {}
+            )}
+            <h2 className="text-white font-medium">
+              {getOtherParticipant(conversation.participant, user!.name)
+                ? getOtherParticipant(conversation.participant, user!.name)
+                    ?.name
+                : "Unknown"}
+            </h2>
+          </Link>
         </div>
         <div />
       </header>
