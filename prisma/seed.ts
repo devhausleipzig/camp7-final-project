@@ -1,29 +1,57 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { faker } from "@faker-js/faker";
+import _ from "lodash";
+
+async function prismaSerialInsert<K>(
+  prisma: PrismaClient,
+  model: keyof PrismaClient,
+  data: any[]
+) {
+  return await prisma.$transaction(
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    data.map(datum => prisma[model].create({ data: datum }))
+  );
+}
 
 const prisma = new PrismaClient();
 
+const interests = [
+  "Baking",
+  "Travel",
+  "Books",
+  "Movies",
+  "Outdoors",
+  "Swimming",
+  "Food",
+  "Gardening",
+  "Chess",
+  "Futbol",
+  "Biking",
+  "Gym",
+  "Pets",
+  "Gaming",
+  "Running",
+  "Art",
+  "Writing",
+  "Music",
+];
+
 async function main() {
-  const interests = [
-    "Baking",
-    "Travel",
-    "Books",
-    "Movies",
-    "Outdoors",
-    "Swimming",
-    "Food",
-    "Gardening",
-    "Chess",
-    "Futbol",
-    "Biking",
-    "Gym",
-    "Pets",
-    "Gaming",
-    "Running",
-    "Art",
-    "Writing",
-    "Music",
-  ];
+  await Promise.all(
+    interests.map(interest =>
+      prisma.interest.upsert({
+        where: {
+          name: interest,
+        },
+        update: {},
+        create: {
+          name: interest,
+        },
+      })
+    )
+  );
 
   await Promise.all(
     interests.map(interest =>
@@ -39,6 +67,32 @@ async function main() {
     )
   );
 
+  const fakePeople = Array.from({ length: 20 }, () => {
+    const firstName = faker.name.firstName();
+    const lastName = faker.name.lastName();
+
+    return {
+      email: faker.internet.exampleEmail(firstName, lastName).toLowerCase(),
+      name: [firstName, lastName].join(" "),
+      saltAndHash: bcrypt.hashSync("test123", 10),
+      image: faker.internet.avatar(),
+      interests: {
+        connect: _.sampleSize(interests, 6).map(interest => {
+          return { name: interest };
+        }),
+      },
+      location: {
+        create: {
+          address: faker.address.streetAddress(),
+          lat: _.random(50.7, 51.7),
+          lon: _.random(11.7, 12.7),
+        },
+      },
+    };
+  });
+
+  await prismaSerialInsert(prisma, "user", fakePeople);
+
   const dan = await prisma.user.upsert({
     where: {
       email: "dan@dan.com",
@@ -49,6 +103,7 @@ async function main() {
     create: {
       email: "dan@dan.com",
       name: "Dan",
+      image: faker.internet.avatar(),
       saltAndHash: await bcrypt.hash("test123", 10),
       interests: {
         connect: [
@@ -81,6 +136,7 @@ async function main() {
       email: "mustafa@mustafa.com",
       name: "Mustafa",
       saltAndHash: await bcrypt.hash("test123", 10),
+      image: faker.internet.avatar(),
       interests: {
         connect: [
           { name: "Futbol" },
@@ -112,6 +168,7 @@ async function main() {
       email: "ash@ash.com",
       name: "Ash",
       saltAndHash: await bcrypt.hash("test123", 10),
+      image: faker.internet.avatar(),
       interests: {
         connect: [
           { name: "Baking" },
@@ -131,6 +188,7 @@ async function main() {
       },
     },
   });
+
   const chirag = await prisma.user.upsert({
     where: {
       email: "chirag@chirag.com",
@@ -142,6 +200,7 @@ async function main() {
       email: "chirag@chirag.com",
       name: "Chirag",
       saltAndHash: await bcrypt.hash("test123", 10),
+      image: faker.internet.avatar(),
       interests: {
         connect: [
           { name: "Chess" },
@@ -161,6 +220,7 @@ async function main() {
       },
     },
   });
+
   const christie = await prisma.user.upsert({
     where: {
       email: "christie@christie.com",
@@ -172,6 +232,7 @@ async function main() {
       email: "christie@christie.com",
       name: "Christie",
       saltAndHash: await bcrypt.hash("test123", 10),
+      image: faker.internet.avatar(),
       interests: {
         connect: [
           { name: "Movies" },
@@ -192,7 +253,8 @@ async function main() {
     },
   });
 
-  await prisma.conversation.deleteMany();
+  await prisma.conversation.deleteMany({});
+
   const conversationDanMustafa = await prisma.conversation.create({
     data: {
       participant: {
@@ -200,6 +262,7 @@ async function main() {
       },
     },
   });
+
   const conversationAshChirag = await prisma.conversation.create({
     data: {
       participant: {
@@ -207,6 +270,7 @@ async function main() {
       },
     },
   });
+
   const conversationMustafaChristie = await prisma.conversation.create({
     data: {
       participant: {
@@ -214,6 +278,7 @@ async function main() {
       },
     },
   });
+
   const conversationMustafaAsh = await prisma.conversation.create({
     data: {
       participant: {

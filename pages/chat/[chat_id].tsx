@@ -69,12 +69,12 @@ export default function ChatPage() {
 
   if (isLoading) return <p>Loading...</p>;
 
-  const groupedMsgs = groupBy(conversation.messages, (el) =>
+  const groupedMsgs = groupBy(conversation.messages, el =>
     new Date(el.createdAt).toLocaleDateString()
   );
   const messages = Object.entries(groupedMsgs)
     // .sort((a, b) => a[0].localeCompare(b[0]))
-    .flatMap((entry) => {
+    .flatMap(entry => {
       const [date, messages] = entry;
       return [
         <div
@@ -89,7 +89,7 @@ export default function ChatPage() {
           .sort((a, b) =>
             new Date(a.createdAt) < new Date(b.createdAt) ? -1 : 1
           )
-          .map((message) => {
+          .map(message => {
             const ownMessage = message.authorId === user?.id;
             return (
               <div
@@ -123,13 +123,13 @@ export default function ChatPage() {
 
   return (
     <div className="w-screen h-screen overflow-hidden grid grid-rows-custom grid-cols-1">
-      <header className="flex items-center h-16 w-full justify-between bg-[#603BAD] py-3 px-5">
-        <button
+      <header className="flex items-center h-16 w-full justify-center bg-[#603BAD] py-3 px-5">
+        {/* <button
           onClick={() => router.back()}
           className="h-6 w-6 rounded-full flex items-center"
         >
           <BackButton className="h-6 w-6 rounded-full" />
-        </button>
+        </button> */}
 
         <div className="flex items-center gap-4">
           <Link
@@ -149,7 +149,6 @@ export default function ChatPage() {
             </h2>
           </Link>
         </div>
-        <div />
       </header>
       <div
         ref={listRef}

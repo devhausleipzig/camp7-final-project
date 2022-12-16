@@ -42,7 +42,7 @@ export default function Login() {
             Authorization: token,
           },
         })
-        .then((res) => res.data);
+        .then(res => res.data);
 
       router.push({ pathname: "/" });
     } catch (err) {
@@ -96,7 +96,7 @@ export default function Login() {
 
         <Button
           label={"REGISTER"}
-          link={{ pathname: "/register" }}
+          link={{ pathname: "/registration1" }}
           variant={ButtonVariant.transparent}
         />
       </div>

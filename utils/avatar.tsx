@@ -3,15 +3,19 @@ import clsx from "clsx";
 
 export function getAvatar(
   user: Partial<User>,
-  size: "default" | "large" = "default"
+  size: "default" | "large" | "full" = "default"
 ) {
-  if (user.image) {
+  if (user?.image) {
     return (
       <img
         src={user.image}
         className={clsx(
-          "object-cover rounded-full",
-          size === "default" ? "h-8 w-8" : "aspect-square w-24"
+          "object-cover ",
+          size === "default"
+            ? "h-8 w-8 rounded-full"
+            : size === "large"
+            ? "aspect-square w-24 rounded-full"
+            : "w-full h-full aspect-auto"
         )}
       />
     );
@@ -20,10 +24,14 @@ export function getAvatar(
       <div
         className={clsx(
           "flex items-center justify-center rounded-full bg-slate-500",
-          size === "default" ? "h-8 w-8" : "h-36 w-36"
+          size === "default"
+            ? "h-8 w-8"
+            : size === "large"
+            ? "h-36 w-36"
+            : "w-full h-full aspect-auto rounded-none"
         )}
       >
-        {user.name ? user.name[0].toUpperCase() : "U"}
+        {user?.name ? user.name[0].toUpperCase() : "U"}
       </div>
     );
   }
