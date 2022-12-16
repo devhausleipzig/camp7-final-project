@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { FormEvent, useContext } from "react";
 import Button, { ButtonVariant } from "../components/button/button";
+import { Conversation } from "../hooks/useConversations";
 import { useAuthStore } from "../stores/authStore";
 import { useNotificationStore } from "../stores/notificationStore";
 import { methods } from "../utils/methods";
@@ -31,9 +32,18 @@ export default function Login() {
       });
 
       const userBody = await userResponse.json();
+      console.log(userBody);
 
       setUser(userBody);
       setToken(token);
+      const conversations = await axios
+        .get<Conversation[]>("http://localhost:3000/api/chat", {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((res) => res.data);
+
       router.push({ pathname: "/" });
     } catch (err) {
       send({ status: "error", message: "Login failed" });

@@ -3,6 +3,7 @@ module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./utils/**/*.{js,ts,jsx,tsx}",
     "./layout/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
@@ -24,6 +25,13 @@ module.exports = {
       boxShadow: {
         bottomRight: "4px 4px 0px 0px rgba(88, 168, 92, 1)",
         bottomRightDarker: "4px 4px 0px 0px rgba(5, 96, 3, 1)",
+        bottomRightCard: "5px 4px 0px 2px rgba(0, 0, 0, 0.8)",
+      },
+      gridTemplateRows: {
+        custom: "1fr 11fr",
+      },
+      backdropBlur: {
+        xs: "1.5px",
       },
     },
   },

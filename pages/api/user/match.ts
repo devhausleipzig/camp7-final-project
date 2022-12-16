@@ -1,14 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../prisma/db";
-import { methods } from "../../../utils/methods";
-
 import jwt from "jsonwebtoken";
 import { Payload } from "../auth/login";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    if (req.method == methods.get) {
+    if (req.method == "GET") {
+      const { ids } = req.query;
       const token = req.headers.authorization;
 
       if (!token) {
@@ -21,8 +20,34 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         process.env.TOKEN_KEY as string
       ) as Payload;
 
-      const user = await prisma.user.findUniqueOrThrow({
-        where: { id: decodedToken.user_id },
+      const user = await prisma.user.findMany({
+        where: {
+          AND: [
+            {
+              id: {
+                in: (ids as string).split(","),
+              },
+            },
+            {
+              likedBy: {
+                every: {
+                  id: {
+                    not: decodedToken.user_id,
+                  },
+                },
+              },
+            },
+            {
+              rejectedBy: {
+                every: {
+                  id: {
+                    not: decodedToken.user_id,
+                  },
+                },
+              },
+            },
+          ],
+        },
         include: {
           interests: true,
           location: true,
@@ -33,7 +58,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
 
-    res.status(500).json({ message: "Unknown request." });
+    res.status(405).json({ message: "Method not allowed" });
   } catch (err) {
     if (err instanceof jwt.JsonWebTokenError) {
       res.status(401).json({ message: "Malformed token." });

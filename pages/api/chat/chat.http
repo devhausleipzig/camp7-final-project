@@ -1,0 +1,55 @@
+# @name login
+POST http://localhost:3000/api/auth/login
+content-type: text/plain
+
+{
+    "email": "mustafa@mustafa.com",
+    "password": "test123"
+}
+
+###
+
+@authToken = {{login.response.body.token}}
+@userId = {{login.response.body.userId}}
+
+# @name conversations
+GET http://localhost:3000/api/chat
+Authorization: {{authToken}}
+
+###
+
+POST http://localhost:3000/api/chat
+Content-Type: text/plain
+
+{
+    "sender": "50c781c5-2ac5-453e-bc65-715e9078ba3f",
+    "recipient": "6e17cf69-4d0d-487b-8753-eddefeff3bbb"
+}
+
+###
+
+@conversationId = {{conversations.response.body.$[0].id}}
+
+
+POST http://localhost:3000/api/chat/{{conversationId}}
+Content-Type: text/plain
+
+{
+    "content": "How are you",
+    "authorId": "{{userId}}"
+}
+
+###
+
+POST http://localhost:3000/api/chat/{{conversationId}}
+Content-Type: text/plain
+
+{
+    "content": "How are you",
+    "authorId": "fbbabd99-d755-4dfc-8129-171aff1a7409"
+}
+
+###
+
+GET http://localhost:3000/api/chat/{{conversationId}}
+

@@ -8,17 +8,46 @@ datasource db {
 }
 
 model User {
-  id          String     @id @default(uuid())
-  name        String
-  saltAndHash String
-  email       String     @unique
-  image       String?
-  bornAt      DateTime?
-  info        Info?      @relation("UserInfo")
-  interests   Interest[] @relation("UserInterests")
-  location    Location?  @relation("UserLocation")
+  id            String         @id @default(uuid())
+  name          String
+  saltAndHash   String
+  email         String         @unique
+  image         String?
+  bornAt        DateTime?
+  info          Info?          @relation("UserInfo")
+  interests     Interest[]     @relation("UserInterests")
+  location      Location?      @relation("UserLocation")
+  conversations Conversation[] @relation("UserConversations")
+  messages      Message[]
+  liked         User[]         @relation("Match")
+  likedBy       User[]         @relation("Match")
+  rejected      User[]         @relation("Nope")
+  rejectedBy    User[]         @relation("Nope")
 
   @@map("user")
+}
+
+model Conversation {
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  participant User[]    @relation("UserConversations")
+  messages    Message[]
+
+  @@map("conversation")
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  content        String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  conversationId String
+  author         User         @relation(fields: [authorId], references: [id])
+  authorId       String
+  read           Boolean      @default(false)
+
+  @@map("message")
 }
 
 model Info {
@@ -35,7 +64,7 @@ model Info {
 
 model Interest {
   id    String @id @default(uuid())
-  name  String
+  name  String @unique
   Users User[] @relation("UserInterests")
 
   @@map("interest")

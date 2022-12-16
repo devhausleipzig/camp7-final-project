@@ -4,6 +4,8 @@ import { z } from "zod";
 import { prisma } from "../../../prisma/db";
 import { BoundingRectangle } from "../../../utils/distance";
 import { methods } from "../../../utils/methods";
+import jwt from "jsonwebtoken";
+import { Payload } from "../auth/login";
 
 const QueryUserModel = z
   .object({
@@ -34,7 +36,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method == methods.get) {
       const { interests, location, radius } = QueryUserModel.parse(req.query);
 
-      const [refLat, refLon] = location!;
+      console.log(interests, location, radius);
+
+      const [refLon, refLat] = location!;
+      const token = req.headers.authorization;
+      if (!token) {
+        res.status(401).json({ message: "Authorization required." });
+        return;
+      }
+      const decodedToken = jwt.verify(
+        token,
+        process.env.TOKEN_KEY as string
+      ) as Payload;
 
       const boundingRect = new BoundingRectangle(radius!, [refLat, refLon]);
 
@@ -47,7 +60,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 						FROM "user"
 						JOIN "location"
 						ON "location"."userId" = "user"."id"
-						WHERE "location"."lat" > ${boundingRect.left}
+						WHERE NOT "user"."id" = ${decodedToken.user_id} 
+            AND "location"."lat" > ${boundingRect.left}
 						AND "location"."lat" < ${boundingRect.right}
 						AND "location"."lon" > ${boundingRect.top}
 						AND "location"."lon" < ${boundingRect.bottom}
@@ -66,7 +80,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
 
-    res.status(500).json({ message: "Unknown request." });
+    res.status(405).json({ message: "Method not allowed" });
   } catch (err) {
     console.log(err);
     res.status(500).end();

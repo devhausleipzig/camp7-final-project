@@ -28,8 +28,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       });
 
       const { saltAndHash } = user;
-
+      console.log(password);
       const match = await bcrypt.compare(password, saltAndHash);
+      console.log(match);
 
       if (match) {
         const token = jwt.sign(

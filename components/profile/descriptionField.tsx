@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function DescriptionField() {
-  const [characterCount, setCharacterCount] = useState(440);
+  const [characterCount, setCharacterCount] = useState(300);
   return (
     <div className="w-11/12 pl-8">
       <label
@@ -11,12 +11,12 @@ export default function DescriptionField() {
         Introduce Yourself
       </label>
       <textarea
-        onChange={e => setCharacterCount(440 - e.target.value.length)}
+        onChange={e => setCharacterCount(300 - e.target.value.length)}
         id="description"
         rows={12}
         className="p-2 w-[100%] text-lg font-nunito placeholder:font-nunito text-purple bg-white rounded-lg border border-lightpurple outline-purple placeholder:text-lightpurple"
         placeholder="Express yourself in max. 440 characters and share what's important to you. What should others know about you?"
-        maxLength={440}
+        maxLength={300}
       ></textarea>
       <p className="text-right text-purple text-sm pr-1">
         {characterCount} characters left
