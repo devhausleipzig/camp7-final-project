@@ -1,13 +1,18 @@
 import Link from "next/link";
 import clsx from "clsx";
 import { Route } from "nextjs-routes";
+import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 
 export enum ButtonVariant {
   transparent = "transparent",
   fill = "fill",
 }
 
-interface ButtonProps {
+interface ButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
   label?: string;
   link?: Route;
   variant: ButtonVariant;
