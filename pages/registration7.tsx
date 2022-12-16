@@ -9,13 +9,14 @@ export default function Registration6() {
       {/* <CardMultiSelect /> */}
       <div className="absolute bottom-5 w-screen">
         <Button
-          label={"CONTINUE"}
-          link={{ pathname: "/registration7" }}
+          label={"FINISH"}
+          link={{ pathname: "/" }}
           variant={ButtonVariant.fill}
+          type={"submit"}
         />
         <Button
           label={"BACK"}
-          link={{ pathname: "/registration5" }}
+          link={{ pathname: "/registration6" }}
           variant={ButtonVariant.transparent}
         />
       </div>
