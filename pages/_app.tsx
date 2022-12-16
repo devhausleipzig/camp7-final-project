@@ -14,6 +14,9 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
+    if (router.pathname.includes("registration")) {
+      return;
+    }
     if (!token) {
       router.replace({ pathname: "/login" });
     }

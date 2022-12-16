@@ -4,19 +4,28 @@ import ImageUpload from "../components/imagesUpload/imageUpload";
 import NameField from "../components/profile/nameField";
 
 export default function Registration1() {
-  <div>
-    <Header />;
-    <ImageUpload />;
-    <NameField />;
-    <Button
-      label={"CONTINUE"}
-      link={{ pathname: "/registration2" }}
-      variant={ButtonVariant.fill}
-    />
-    <Button
-      label={"REGISTER"}
-      link={{ pathname: "/register" }}
-      variant={ButtonVariant.transparent}
-    />
-  </div>;
+  return (
+    <div className="h-screen">
+      <Header />
+      <div className="grid gap-10">
+        <h1 className="text-purple text-2xl font-quicksand font-bold text-center ">
+          Create Your Profile
+        </h1>
+        <ImageUpload />
+        <NameField />
+      </div>
+      <div className="absolute bottom-8 w-screen">
+        <Button
+          label={"CONTINUE"}
+          link={{ pathname: "/registration2" }}
+          variant={ButtonVariant.fill}
+        />
+        <Button
+          label={"REGISTER"}
+          link={{ pathname: "/register" }}
+          variant={ButtonVariant.transparent}
+        />
+      </div>
+    </div>
+  );
 }
