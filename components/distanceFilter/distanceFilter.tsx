@@ -12,19 +12,19 @@ export function DistanceFilter({ distance, setDistance }: Props) {
   // const [selectedDistance, setSelectedDistance] = useState(distance[0]);
 
   return (
-    <div className="self-stretch relative">
+    <div className="self-stretch relative pt-[1.5px] pr-[2px]">
       <Listbox value={distance} onChange={setDistance}>
-        <Listbox.Button className="cursor-default bg-white pl-2 pr-2 h-full text-left shadow-md border border-black sm:text-sm">
+        <Listbox.Button className="cursor-default bg-white pl-2 pr-2 h-[36px] text-left shadow-md border border-purple text-purple rounded-md sm:text-sm">
           <span className="block truncate">{`${distance}km`}</span>
         </Listbox.Button>
 
-        <Listbox.Options className="mt-1 z-10 max-h-60 bg-white absolute right-0 shadow-lg ring-1 ring-black ring-opacity-5 sm:text-sm">
+        <Listbox.Options className="mt-1 z-10 max-h-60 bg-white absolute right-0 shadow-lg text-purple ring-1 ring-purpleDark ring-opacity-5 sm:text-sm">
           {distances.map(d => (
             <Listbox.Option
               key={d}
               className={({ active }) =>
                 `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                  active ? "bg-violet-800 text-white" : "text-gray-900"
+                  active ? "bg-violet-800 text-white" : "text-purple"
                 }`
               }
               value={d}
