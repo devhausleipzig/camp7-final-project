@@ -1,14 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../prisma/db";
-import { methods } from "../../../utils/methods";
-
 import jwt from "jsonwebtoken";
 import { Payload } from "../auth/login";
+import axios from "axios";
+import { Interest, User } from "@prisma/client";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    if (req.method == methods.get) {
+    if (req.method == "GET") {
       const token = req.headers.authorization;
 
       if (!token) {
@@ -16,15 +16,40 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return;
       }
 
+      const me = await axios
+        .get<User & { interests: Interest[] }>(
+          "http://localhost:3000/api/user/me",
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then(res => res.data);
+
+      console.log(me);
+
       const decodedToken = jwt.verify(
         token,
         process.env.TOKEN_KEY as string
       ) as Payload;
 
-      const user = await prisma.user.findUniqueOrThrow({
-        where: { id: decodedToken.user_id },
+      const user = await prisma.user.findMany({
+        where: {
+          likedBy: {
+            some: {
+              id: me.id,
+            },
+          },
+        },
         include: {
-          interests: true,
+          interests: {
+            where: {
+              name: {
+                in: me.interests.map(i => i.name),
+              },
+            },
+          },
           location: true,
         },
       });
@@ -33,7 +58,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
 
-    res.status(500).json({ message: "Unknown request." });
+    res.status(405).json({ message: "Method not allowed" });
   } catch (err) {
     if (err instanceof jwt.JsonWebTokenError) {
       res.status(401).json({ message: "Malformed token." });
