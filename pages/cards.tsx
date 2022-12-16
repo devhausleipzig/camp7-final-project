@@ -1,5 +1,11 @@
 import BackCard from "../components/userCard/backCard";
+import FrontCard from "../components/userCard/frontCard";
 
 export default function Cards() {
-  return <BackCard />;
+  return (
+    <div>
+      <BackCard />
+      {/* <FrontCard/>  */}
+    </div>
+  );
 }
