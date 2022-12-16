@@ -6,6 +6,7 @@ import { PencilIcon } from "@heroicons/react/24/solid";
 import { CakeIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useAuthStore } from "../../stores/authStore";
 
 interface CardMultiSelectProps {
   selected: Array<string>;
@@ -18,14 +19,15 @@ export default function CardMultiSelect({
   selected,
   setSelected,
 }: CardMultiSelectProps) {
-  const interests = [
-    { id: "1", svg: <BoltIcon />, name: "DANCING" },
-    { id: "2", svg: <BookOpenIcon />, name: "BOOKS" },
-    { id: "3", svg: <MusicalNoteIcon />, name: "MUSIC" },
-    { id: "4", svg: <GlobeAsiaAustraliaIcon />, name: "TRAVEL" },
-    { id: "5", svg: <PencilIcon />, name: "WRITING" },
-    { id: "6", svg: <CakeIcon />, name: "BAKING" },
-  ];
+  const { user } = useAuthStore();
+  // const interests = [
+  //   { id: "1", svg: <BoltIcon />, name: "DANCING" },
+  //   { id: "2", svg: <BookOpenIcon />, name: "BOOKS" },
+  //   { id: "3", svg: <MusicalNoteIcon />, name: "MUSIC" },
+  //   { id: "4", svg: <GlobeAsiaAustraliaIcon />, name: "TRAVEL" },
+  //   { id: "5", svg: <PencilIcon />, name: "WRITING" },
+  //   { id: "6", svg: <CakeIcon />, name: "BAKING" },
+  // ];
   const [maximumSelected, setMaximumSelected] = useState(false);
   useEffect(() => {
     if (selected.length >= maxSelectable) {
@@ -37,16 +39,21 @@ export default function CardMultiSelect({
   return (
     <div>
       <div className="h-full w-full grid grid-cols-3 place-items-center">
-        {interests.map((item, key) => (
-          <CheckBox
-            item={item}
-            key={key}
-            selected={selected}
-            setSelected={setSelected}
-            maximumSelected={maximumSelected}
-            setMaximumSelected={setMaximumSelected}
-          />
-        ))}
+        {user &&
+          user.interests.map((item, key) => (
+            <CheckBox
+              item={{
+                id: item.id,
+                name: item.name,
+                svg: <BoltIcon />,
+              }}
+              key={key}
+              selected={selected}
+              setSelected={setSelected}
+              maximumSelected={maximumSelected}
+              setMaximumSelected={setMaximumSelected}
+            />
+          ))}
       </div>
       <p className="text-center text-violet-800">
         <span className="font-bold">{selected.length}</span> of 2 interests
@@ -110,7 +117,7 @@ export function CheckBox({
           type="checkbox"
           checked={checked}
           className="leading-normal hidden"
-          value={item.id}
+          value={item.name}
           disabled={isDisabled}
           onChange={event => {
             const element = event.target;
