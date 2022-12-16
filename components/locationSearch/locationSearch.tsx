@@ -9,6 +9,7 @@ interface AddressProps {
   setLocation: Dispatch<SetStateAction<Address | null>>;
   distance: number;
   setDistance: Dispatch<SetStateAction<number>>;
+  withRadius: boolean;
 }
 
 export default function LocationSearch({
@@ -16,6 +17,7 @@ export default function LocationSearch({
   setLocation,
   distance,
   setDistance,
+  withRadius = true,
 }: AddressProps) {
   // const [selected, setSelected] = useState<Address | null>(null);
   const { data: gps } = useGpsLocation();
@@ -63,7 +65,9 @@ export default function LocationSearch({
               })}
           </Combobox.Options>
         </Combobox>
-        <DistanceFilter distance={distance} setDistance={setDistance} />
+        {withRadius && (
+          <DistanceFilter distance={distance} setDistance={setDistance} />
+        )}
       </div>
     </div>
   );

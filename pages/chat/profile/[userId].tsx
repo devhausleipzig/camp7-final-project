@@ -3,6 +3,7 @@ import BackButton from "../../../public/go_back_white.svg";
 import { useAuthStore } from "../../../stores/authStore";
 import { useUser, useUsers } from "../../../hooks/useUser";
 import { useRouter } from "next/router";
+import FrontCard from "../../../components/userCard/frontCard";
 
 export default function ParticipantProfile() {
   const router = useRouter();
@@ -26,6 +27,7 @@ export default function ParticipantProfile() {
         </div>
         <div />
       </header>
+      <FrontCard match={profile} user={user!} cardRef={null} />
     </div>
   );
 }

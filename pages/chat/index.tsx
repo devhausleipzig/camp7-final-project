@@ -14,8 +14,8 @@ export default function Chat() {
 
   return (
     <div className="h-screen w-screen">
-      <div className="flex flex-col justify-between h-full">
-        <ChatHeader />
+      <div className="flex flex-col h-full">
+        {/* <ChatHeader /> */}
 
         {/* TITLE Messasges */}
         <div className="text-xl text-white flex items-center h-[8%] w-full border-b-2 border-[#603BAD]">
@@ -27,7 +27,7 @@ export default function Chat() {
           {isLoading ? (
             <p>loading...</p>
           ) : (
-            conversations.map((chat) => {
+            conversations.map(chat => {
               return <ConversationItem key={chat.id} chat={chat} />;
             })
           )}
@@ -46,7 +46,7 @@ function ConversationItem({ chat }: ConversationItemProps) {
 
   const unreadMessage =
     chat.messages.length &&
-    chat.messages.filter((m) => m.authorId !== user!.id).some((m) => !m.read);
+    chat.messages.filter(m => m.authorId !== user!.id).some(m => !m.read);
 
   return (
     <Link

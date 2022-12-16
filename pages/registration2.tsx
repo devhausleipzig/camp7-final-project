@@ -13,7 +13,11 @@ export default function Registration2() {
       <h3 className="text-purple text-xl font-quicksand font-bold">
         Where Are You Based?
       </h3>
-      <LocationSearch address={address} setAddress={setAddress} />
+      <LocationSearch
+        address={address}
+        setAddress={setAddress}
+        withRadius={false}
+      />
       <div className="absolute bottom-5 w-screen">
         <Button
           label={"CONTINUE"}

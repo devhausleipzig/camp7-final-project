@@ -9,8 +9,8 @@ export default function Registration5() {
       <DescriptionField />
       <div className="absolute bottom-5 w-screen">
         <Button
-          label={"CONTINUE"}
-          link={{ pathname: "/registration6" }}
+          label={"FINISH"}
+          link={{ pathname: "/login" }}
           variant={ButtonVariant.fill}
         />
         <Button

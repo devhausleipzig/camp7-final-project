@@ -2,7 +2,7 @@ import create from "zustand";
 import { persist } from "zustand/middleware";
 import { Interest, Location, User } from "@prisma/client";
 
-type AuthUser = Omit<User, "saltAndHash"> & {
+export type AuthUser = Omit<User, "saltAndHash"> & {
   location: Location;
   interests: Interest[];
 };

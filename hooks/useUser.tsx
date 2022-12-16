@@ -1,12 +1,11 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useAuthStore } from "../stores/authStore";
-import { User } from "@prisma/client";
+import { Interest, Location, User } from "@prisma/client";
 
-export type UserProfile = {
-  id: string;
-  name: string;
-  image?: string;
+export type UserProfile = User & {
+  interests: Interest[];
+  location: Location;
 };
 
 export function useUsers() {
@@ -21,8 +20,8 @@ export function useUsers() {
             Authorization: token,
           },
         })
-        .then((res) => res.data),
-    onError: (err) => console.log("Error in Profile Query", err),
+        .then(res => res.data),
+    onError: err => console.log("Error in Profile Query", err),
   });
 }
 
@@ -38,8 +37,8 @@ export function useUser(userId: string) {
             Authorization: token,
           },
         })
-        .then((res) => res.data),
-    onError: (err) => console.log("Error in Profile Query", err),
+        .then(res => res.data),
+    onError: err => console.log("Error in Profile Query", err),
     enabled: !!userId,
   });
 }
