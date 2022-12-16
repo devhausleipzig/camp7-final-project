@@ -196,28 +196,29 @@ async function main() {
   const conversationDanMustafa = await prisma.conversation.create({
     data: {
       participant: {
-        connect: [dan, mustafa].map((user) => ({ id: user.id })),
+        connect: [dan, mustafa].map(user => ({ id: user.id })),
       },
     },
   });
   const conversationAshChirag = await prisma.conversation.create({
     data: {
       participant: {
-        connect: [ash, chirag].map((user) => ({ id: user.id })),
+        connect: [ash, chirag].map(user => ({ id: user.id })),
       },
     },
   });
   const conversationMustafaChristie = await prisma.conversation.create({
     data: {
       participant: {
-        connect: [mustafa, christie].map((user) => ({ id: user.id })),
+        connect: [mustafa, christie].map(user => ({ id: user.id })),
       },
     },
   });
   const conversationMustafaAsh = await prisma.conversation.create({
     data: {
       participant: {
-        connect: [mustafa, ash].map((user) => ({ id: user.id })),
+        connect: [mustafa, ash].map(user => ({ id: user.id })),
+      },
     },
   });
 }
