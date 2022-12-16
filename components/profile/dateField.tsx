@@ -40,7 +40,7 @@ export default function DateField() {
       </h3>
       <input
         placeholder="DD"
-        className="w-16 h-10 pl-1.5 text-center font-quicksand placeholder:font-quicksand placeholder-lightpurple placeholder:pl-3 outline-purple rounded-md border-lightpurple border text-purple"
+        className="w-16 h-10 pl-1.5 text-center font-quicksand placeholder:font-quicksand placeholder-lightpurple placeholder:text-center outline-purple rounded-md border-lightpurple border text-purple"
         min="1"
         max="31"
         list="days"
@@ -53,7 +53,7 @@ export default function DateField() {
       </datalist>
       <input
         placeholder="MM"
-        className="w-16 h-10 text-center font-quicksand placeholder:font-quicksand placeholder-lightpurple placeholder:pl-2 mx-4 outline-purple rounded-md border-lightpurple border text-purple"
+        className="w-16 h-10 pl-1.5 text-center font-quicksand placeholder:font-quicksand placeholder-lightpurple placeholder:text-center mx-4 outline-purple rounded-md border-lightpurple border text-purple"
         min="1"
         max="12"
         list="months"
@@ -66,7 +66,7 @@ export default function DateField() {
       </datalist>
       <input
         placeholder="YYYY"
-        className="w-20 h-10 pl-1.5 text-center font-quicksand placeholder:font-quicksand placeholder-lightpurple placeholder:pl-3 outline-purple rounded-md border-lightpurple border text-purple"
+        className="w-20 h-10 pl-1.5 text-center font-quicksand placeholder:font-quicksand placeholder-lightpurple placeholder:text-center outline-purple rounded-md border-lightpurple border text-purple"
         min="1930"
         max={maxYear}
         list="years"

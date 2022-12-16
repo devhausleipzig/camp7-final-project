@@ -1,12 +1,8 @@
 import { BoltIcon } from "@heroicons/react/24/solid";
-import { BookOpenIcon } from "@heroicons/react/24/solid";
-import { MusicalNoteIcon } from "@heroicons/react/24/solid";
-import { GlobeAsiaAustraliaIcon } from "@heroicons/react/24/solid";
-import { PencilIcon } from "@heroicons/react/24/solid";
-import { CakeIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useAuthStore } from "../../stores/authStore";
+import { getInterestIcon } from "../../utils/interests";
 
 interface CardMultiSelectProps {
   selected: Array<string>;
@@ -20,14 +16,6 @@ export default function CardMultiSelect({
   setSelected,
 }: CardMultiSelectProps) {
   const { user } = useAuthStore();
-  // const interests = [
-  //   { id: "1", svg: <BoltIcon />, name: "DANCING" },
-  //   { id: "2", svg: <BookOpenIcon />, name: "BOOKS" },
-  //   { id: "3", svg: <MusicalNoteIcon />, name: "MUSIC" },
-  //   { id: "4", svg: <GlobeAsiaAustraliaIcon />, name: "TRAVEL" },
-  //   { id: "5", svg: <PencilIcon />, name: "WRITING" },
-  //   { id: "6", svg: <CakeIcon />, name: "BAKING" },
-  // ];
   const [maximumSelected, setMaximumSelected] = useState(false);
   useEffect(() => {
     if (selected.length >= maxSelectable) {
@@ -36,6 +24,7 @@ export default function CardMultiSelect({
       setMaximumSelected(false);
     }
   }, [selected]);
+  if (!user) return null;
   return (
     <div>
       <div className="h-full w-full grid grid-cols-3 place-items-center">
@@ -45,7 +34,7 @@ export default function CardMultiSelect({
               item={{
                 id: item.id,
                 name: item.name,
-                svg: <BoltIcon />,
+                svg: getInterestIcon(item),
               }}
               key={key}
               selected={selected}
@@ -98,7 +87,7 @@ export function CheckBox({
       >
         <div
           className={clsx(
-            "w-8 h-8 m-2 my-4",
+            "w-12 h-12 m-2 flex items-center justify-center",
             checked ? "text-white" : "text-green-500"
           )}
         >

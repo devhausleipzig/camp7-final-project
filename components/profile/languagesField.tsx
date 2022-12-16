@@ -29,7 +29,7 @@ export default function LanguagesField() {
             <label
               htmlFor={language.value}
               className={clsx(
-                "relative flex border justify-between items-center bg-white p-4 rounded-lg",
+                "relative flex border justify-between items-center bg-white p-2 rounded-lg",
                 selectedLanguages.includes(language.value)
                   ? "border-purple"
                   : "border-transparent"

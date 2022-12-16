@@ -1,6 +1,6 @@
 export default function NameField() {
   return (
-    <div>
+    <div className="text-center">
       <input
         type="text"
         placeholder="Your Name"
