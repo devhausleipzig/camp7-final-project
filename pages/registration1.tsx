@@ -5,7 +5,7 @@ import NameField from "../components/profile/nameField";
 
 export default function Registration1() {
   return (
-    <div className="h-screen">
+    <div className="h-screen text-center">
       <Header />
       <div className="grid gap-10">
         <h1 className="text-purple text-2xl font-quicksand font-bold text-center ">
@@ -21,7 +21,7 @@ export default function Registration1() {
           variant={ButtonVariant.fill}
         />
         <Button
-          label={"REGISTER"}
+          label={"BACK"}
           link={{ pathname: "/register" }}
           variant={ButtonVariant.transparent}
         />

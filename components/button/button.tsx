@@ -25,7 +25,7 @@ export default function Button({
       <button
         type={type}
         className={clsx(
-          "w-full mt-4 h-10 text-xl font-bold rounded-full",
+          "w-11/12 mt-4 h-10 text-xl font-bold rounded-full",
           variant == ButtonVariant.transparent
             ? "bg-transparent text-purple"
             : variant == ButtonVariant.fill
