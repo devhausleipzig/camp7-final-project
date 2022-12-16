@@ -7,7 +7,7 @@ import { CakeIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-export default function UserCard() {
+export default function FrontCard() {
   const interests = [
     { id: "1", svg: <BoltIcon /> },
     { id: "2", svg: <BookOpenIcon /> },

@@ -1,5 +1,5 @@
-import UserCard from "../components/userCard/userCard";
+import BackCard from "../components/userCard/backCard";
 
 export default function Cards() {
-  return <UserCard />;
+  return <BackCard />;
 }
