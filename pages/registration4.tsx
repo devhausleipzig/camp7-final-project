@@ -8,7 +8,7 @@ export default function Registration4() {
     <div className="h-screen text-center">
       <Header />
       <LanguagesField />
-      <div className="absolute bottom-8 w-screen">
+      <div className="absolute bottom-5 w-screen">
         <Button
           label={"CONTINUE"}
           link={{ pathname: "/registration5" }}

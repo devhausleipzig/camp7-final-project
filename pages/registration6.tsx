@@ -1,21 +1,21 @@
 import Button, { ButtonVariant } from "../components/button/button";
 import Header from "../components/header";
-import GenderField from "../components/profile/genderField";
+import CardMultiSelect from "../components/interestCard/interestCard";
 
-export default function Registration3() {
+export default function Registration6() {
   return (
     <div className="h-screen text-center">
       <Header />
-      <GenderField />
+      <CardMultiSelect />
       <div className="absolute bottom-5 w-screen">
         <Button
           label={"CONTINUE"}
-          link={{ pathname: "/registration4" }}
+          link={{ pathname: "/registration7" }}
           variant={ButtonVariant.fill}
         />
         <Button
           label={"BACK"}
-          link={{ pathname: "/registration2" }}
+          link={{ pathname: "/registration5" }}
           variant={ButtonVariant.transparent}
         />
       </div>
