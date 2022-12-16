@@ -17,6 +17,10 @@ model User {
   info        Info?      @relation("UserInfo")
   interests   Interest[] @relation("UserInterests")
   location    Location?  @relation("UserLocation")
+  liked       User[]     @relation("Match")
+  likedBy     User[]     @relation("Match")
+  rejected    User[]     @relation("Nope")
+  rejectedBy  User[]     @relation("Nope")
 
   @@map("user")
 }
@@ -35,7 +39,7 @@ model Info {
 
 model Interest {
   id    String @id @default(uuid())
-  name  String
+  name  String @unique
   Users User[] @relation("UserInterests")
 
   @@map("interest")

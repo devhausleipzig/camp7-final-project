@@ -11,6 +11,8 @@ declare module "nextjs-routes" {
     | { pathname: "/api/user/images"; query?: Query | undefined }
     | { pathname: "/api/user"; query?: Query | undefined }
     | { pathname: "/api/user/inputFields"; query?: Query | undefined }
+    | { pathname: "/api/user/match"; query?: Query | undefined }
+    | { pathname: "/api/user/matches"; query?: Query | undefined }
     | { pathname: "/api/user/me"; query?: Query | undefined }
     | { pathname: "/api/user/test"; query?: Query | undefined }
     | { pathname: "/cards"; query?: Query | undefined }
@@ -18,6 +20,7 @@ declare module "nextjs-routes" {
     | { pathname: "/editProfile"; query?: Query | undefined }
     | { pathname: "/"; query?: Query | undefined }
     | { pathname: "/login"; query?: Query | undefined }
+    | { pathname: "/matches"; query?: Query | undefined }
     | { pathname: "/register"; query?: Query | undefined }
     | { pathname: "/settings"; query?: Query | undefined };
 
