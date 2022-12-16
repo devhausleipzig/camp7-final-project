@@ -59,7 +59,7 @@ const ImageUpload = () => {
       <label className="flex justify-center">
         {!file ? (
           <div className="w-[150px] h-[150px] text-white text-lg bg-[url('https://firebasestorage.googleapis.com/v0/b/camp7-18400.appspot.com/o/system%2Favatar_big.png?alt=media&token=4c7cadf8-46ac-4601-8145-c20a4bc48954')] bg-no-repeat ml-2">
-            <span className="my-9 mr-2 flex items-center">
+            <span className="my-9 mr-2 flex items-center text-center">
               Click here to upload your picture
             </span>
             <input

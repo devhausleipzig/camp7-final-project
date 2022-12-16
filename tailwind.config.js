@@ -20,6 +20,7 @@ module.exports = {
       fontFamily: {
         quicksand: ["Quicksand", "sans-serif"],
         nunito: ["Nunito", "sans-serif"],
+        signika: ["Signika", "sans-serif"],
       },
       boxShadow: {
         bottomRight: "4px 4px 0px 0px rgba(88, 168, 92, 1)",
