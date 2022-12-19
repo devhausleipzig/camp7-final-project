@@ -44,8 +44,8 @@ export function useConversations() {
             Authorization: token,
           },
         })
-        .then((res) => res.data),
-    onError: (err) => console.log("Error in Conversations Query", err),
+        .then(res => res.data),
+    onError: err => console.log("Error in Conversations Query", err),
   });
 }
 
@@ -61,8 +61,8 @@ export function useConversation(chatId: string) {
             Authorization: token,
           },
         })
-        .then((res) => res.data),
-    onError: (err) => console.log("Error in Conversation Query", err),
+        .then(res => res.data),
+    onError: err => console.log("Error in Conversation Query", err),
     onSuccess: async () => {
       axios.patch(`http://localhost:3000/api/chat/${chatId}`, {
         userId: user?.id,

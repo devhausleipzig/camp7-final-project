@@ -42,7 +42,7 @@ export function CreateMessage({ chat_id, author_id }: Props) {
         <input
           className="w-full h-full px-3 outline-none bg-white rounded-md"
           value={message}
-          onChange={(event) => setMessage(event.target.value)}
+          onChange={event => setMessage(event.target.value)}
           placeholder="type your message...."
         />
         <div className="flex bg-white items-center justify-center pr-10">

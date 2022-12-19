@@ -1,8 +1,6 @@
 import clsx from "clsx";
 import Link from "next/link";
-import { useEffect } from "react";
-import ChatHeader from "../../components/chatComponents/header";
-import { useConversations, Conversation } from "../../hooks/useConversations";
+import { Conversation, useConversations } from "../../hooks/useConversations";
 import { useAuthStore } from "../../stores/authStore";
 import { getAvatar } from "../../utils/avatar";
 import { getOtherParticipant } from "../../utils/chat";
@@ -18,12 +16,12 @@ export default function Chat() {
         {/* <ChatHeader /> */}
 
         {/* TITLE Messasges */}
-        <div className="text-xl text-white flex items-center h-[8%] w-full border-b-2 border-[#603BAD]">
-          <p className="text-[#603BAD] pl-8">Chats</p>
+        <div className="text-xl text-white flex items-center pb-4 w-full border-b-2 border-purple">
+          <p className="text-purple pl-8">Chats</p>
         </div>
         {/* The Chats Layout BODY */}
 
-        <div className="flex flex-col h-4/5 w-full p-3 gap-4 overflow-y-auto">
+        <div className="flex flex-col p-3 gap-4 overflow-y-auto">
           {isLoading ? (
             <p>loading...</p>
           ) : (

@@ -9,9 +9,11 @@ export default function DateField() {
     for (let i = 1; i <= 31; i++) {
       days.push(i);
     }
+    // return [...new Array(31)].map((_, idx) => idx + 1);
     return days;
   }
 
+  console.log(generateArrayOfDays());
   function generateArrayOfMonths() {
     const months = [];
 

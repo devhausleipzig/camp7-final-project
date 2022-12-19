@@ -53,6 +53,6 @@ export function getInterestImages(interests: Interest[]) {
   );
 }
 
-export function getInterestIcon(interest: Interest) {
-  return interestsMap[interest.name.toLowerCase()];
+export function getInterestIcon(interestName: string) {
+  return interestsMap[interestName.toLowerCase()];
 }

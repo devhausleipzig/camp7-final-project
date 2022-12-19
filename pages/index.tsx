@@ -12,7 +12,7 @@ import { useAuthStore } from "../stores/authStore";
 async function queryUsers() {}
 
 export default function Home() {
-  const { token } = useAuthStore();
+  const { token, user } = useAuthStore();
   const router = useRouter();
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -53,13 +53,17 @@ export default function Home() {
           <LocationSearch
             location={location}
             setLocation={setLocation}
+            withRadius
             distance={distance}
             setDistance={setDistance}
           />
-          <CardComponent
-            selected={selectedInterests}
-            setSelected={setSelectedInterests}
-          />
+          {user && (
+            <CardComponent
+              selected={selectedInterests}
+              setSelected={setSelectedInterests}
+              interests={user.interests.map(i => ({ name: i.name }))}
+            />
+          )}
           <div className="flex justify-center">
             <div className="w-full mx-4">
               <Button

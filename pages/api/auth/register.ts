@@ -1,11 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { z, ZodError } from "zod";
+import { z, ZodError, infer } from "zod";
 import { prisma } from "../../../prisma/db";
 import { methods } from "../../../utils/methods";
 import _ from "lodash";
 
 import bcrypt from "bcrypt";
-
 const PostUserAsyncModel = z
   .object({
     name: z.string(),

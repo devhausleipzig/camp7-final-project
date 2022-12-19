@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import Button, { ButtonVariant } from "../components/button/button";
 import Header from "../components/header";
-import LocationRegister from "../components/locationSearch/locationRegister";
+import LocationSearch from "../components/locationSearch/locationSearch";
 import DateField from "../components/profile/dateField";
+import { RegistrationWrapper } from "../components/registrationWrapper";
 import { Address } from "../hooks/useLocation";
 
 export default function Registration2() {
@@ -13,25 +14,15 @@ export default function Registration2() {
   }, [location]);
 
   return (
-    <div className="text-center h-screen">
-      <Header />
+    <RegistrationWrapper
+      next={{ pathname: "/registration3" }}
+      previous={{ pathname: "/registration1" }}
+    >
       <DateField />
       <h3 className="text-purple text-xl font-quicksand font-bold">
         Where Are You Based?
       </h3>
-      <LocationRegister location={location} setLocation={setLocation} />
-      <div className="absolute bottom-5 w-screen">
-        <Button
-          label={"CONTINUE"}
-          link={{ pathname: "/registration3" }}
-          variant={ButtonVariant.fill}
-        />
-        <Button
-          label={"BACK"}
-          link={{ pathname: "/registration1" }}
-          variant={ButtonVariant.transparent}
-        />
-      </div>
-    </div>
+      <LocationSearch location={location} setLocation={setLocation} />
+    </RegistrationWrapper>
   );
 }

@@ -11,6 +11,10 @@ body {
 }
 
 @layer components {
+  .heading-one {
+    @apply text-purple text-2xl font-quicksand font-bold text-center;
+  }
+
   .flip {
     perspective: 600px;
   }

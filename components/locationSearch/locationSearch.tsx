@@ -1,23 +1,29 @@
 import { Combobox } from "@headlessui/react";
 import { MapPinIcon } from "@heroicons/react/24/solid";
+import clsx from "clsx";
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { DistanceFilter } from "../../components/distanceFilter/distanceFilter";
 import { Address, useGpsLocation, useLocation } from "../../hooks/useLocation";
 
-interface AddressProps {
+type DistanceProps =
+  | { withRadius?: false; setDistance?: never; distance?: never }
+  | {
+      withRadius: true;
+      distance: number;
+      setDistance: Dispatch<SetStateAction<number>>;
+    };
+
+type AddressProps = {
   location: Address | null;
   setLocation: Dispatch<SetStateAction<Address | null>>;
-  distance: number;
-  setDistance: Dispatch<SetStateAction<number>>;
-  withRadius: boolean;
-}
+} & DistanceProps;
 
 export default function LocationSearch({
   location,
   setLocation,
   distance,
   setDistance,
-  withRadius = true,
+  withRadius = false,
 }: AddressProps) {
   // const [selected, setSelected] = useState<Address | null>(null);
   const { data: gps } = useGpsLocation();
@@ -28,15 +34,20 @@ export default function LocationSearch({
     <div className="p-4">
       <div className="mt-8 relative z-10 mx-auto flex justify-between bg-white border border-purple rounded-md">
         <Combobox value={location} onChange={setLocation}>
-          <MapPinIcon
-            onClick={() => {
-              gps && setLocation(gps[0]);
-            }}
-            className="h-8 w-8 p-1 text-purple m-1"
-          />
+          {withRadius && (
+            <MapPinIcon
+              onClick={() => {
+                gps && setLocation(gps[0]);
+              }}
+              className="h-8 w-8 p-1 text-purple m-1"
+            />
+          )}
           <Combobox.Input
             placeholder="Location"
-            className={"px-1 flex-1 relative text-purple"}
+            className={clsx(
+              "px-1 flex-1 relative text-purple rounded-md",
+              !withRadius && "pl-3"
+            )}
             onChange={event => setQuery(event.target.value)}
             displayValue={() => location?.place_name ?? ""}
           />
@@ -65,8 +76,15 @@ export default function LocationSearch({
               })}
           </Combobox.Options>
         </Combobox>
-        {withRadius && (
-          <DistanceFilter distance={distance} setDistance={setDistance} />
+        {withRadius ? (
+          <DistanceFilter distance={distance!} setDistance={setDistance!} />
+        ) : (
+          <MapPinIcon
+            onClick={() => {
+              gps && setLocation(gps[0]);
+            }}
+            className="h-8 w-8 p-1 text-purple m-1"
+          />
         )}
       </div>
     </div>

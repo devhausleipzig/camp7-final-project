@@ -7,7 +7,7 @@ declare module "vitest" {
   }
 }
 
-beforeEach((context) => {
+beforeEach(context => {
   const calculator = new Calculator();
   context.calculator = calculator;
 });

@@ -6,16 +6,16 @@ import LanguagesField from "../components/profile/languagesField";
 import NameField from "../components/profile/nameField";
 
 export default function Settings() {
-	return (
-		<div className="w-screen h-screen py-8 text-center bg-[#EEF6EF]">
-			<div className="mb-12 grid gap-8">
-				<ImageUpload />
-				<NameField />
-				<DescriptionField />
-				<GenderField />
-				<LanguagesField />
-				<DateField />
-			</div>
-		</div>
-	);
+  return (
+    <div className="w-screen h-screen py-8 text-center bg-[#EEF6EF]">
+      <div className="mb-12 grid gap-8">
+        <ImageUpload />
+        <NameField />
+        <DescriptionField />
+        <GenderField />
+        <LanguagesField />
+        <DateField />
+      </div>
+    </div>
+  );
 }

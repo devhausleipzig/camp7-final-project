@@ -101,10 +101,10 @@ export default function ChatPage() {
               >
                 <div
                   className={clsx(
-                    "flex flex-col p-2 h-auto scroll-pb-1 break-words min-w-[90px] min-h-[45px]",
+                    "flex flex-col p-2 h-auto scroll-pb-1 rounded-2xl break-words min-w-[90px] min-h-[45px]",
                     ownMessage
-                      ? "bg-[#BCDCBF] rounded-l-2xl rounded-br-2xl"
-                      : "bg-[#BFB1DE] rounded-r-2xl rounded-bl-2xl"
+                      ? "bg-[#BCDCBF] rounded-tr-none"
+                      : "bg-[#BFB1DE] rounded-tl-none"
                   )}
                 >
                   {message.content}

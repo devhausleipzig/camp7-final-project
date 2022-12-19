@@ -65,13 +65,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       });
 
       if (foundConversation) {
-        return res.status(409).json({ message: "Conversation already exists" });
+        return res.status(409).json({
+          chatId: foundConversation.id,
+          message: "Conversation already exists",
+        });
       }
 
       const conversation = await prisma.conversation.create({
         data: {
           participant: {
-            connect: [input.sender, input.recipient].map((id) => ({ id })),
+            connect: [input.sender, input.recipient].map(id => ({ id })),
           },
         },
       });

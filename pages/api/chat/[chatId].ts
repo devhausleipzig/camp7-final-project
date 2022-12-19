@@ -1,20 +1,28 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../../prisma/db";
 import { methods } from "../../../utils/methods";
+import { z, ZodError } from "zod";
+
+const querySchema = z.object({
+  chatId: z.string().uuid(),
+});
+
+const patchSchema = z.object({
+  userId: z.string().uuid(),
+});
 
 type PostMessageQuery = {
   chatId: string;
 };
 
-type PostMessageBody = {
-  content: string;
-  authorId: string;
-};
+const postMessageSchema = z.object({
+  content: z.string(),
+  authorId: z.string().uuid(),
+});
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { chatId } = req.query as PostMessageQuery;
-
   try {
+    const { chatId } = querySchema.parse(req.query);
     if (req.method == methods.get) {
       const conversation = await prisma.conversation.findUnique({
         where: { id: chatId },
@@ -47,7 +55,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (req.method === "PATCH") {
-      const { userId } = req.body;
+      const { userId } = patchSchema.parse(req.body);
       await prisma.message.updateMany({
         where: {
           AND: {
@@ -65,7 +73,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (req.method === methods.post) {
-      const input = req.body as PostMessageBody;
+      const input = postMessageSchema.parse(req.body);
 
       const message = await prisma.message.create({
         data: {
@@ -80,7 +88,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(405).json({ message: "Method not allowed" });
   } catch (err) {
+    if (err instanceof ZodError) {
+      res.status(422).send(err);
+    }
     console.log(err);
-    res.status(500).end();
+    res.status(500).send("Internal Server Error");
   }
 };

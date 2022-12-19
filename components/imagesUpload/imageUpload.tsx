@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import React, { useEffect, useState } from "react";
 import storage from "../../firebaseConfig";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useNotificationStore } from "../../stores/notificationStore";
-import clsx from "clsx";
 
 const ImageUpload = () => {
   const [file, setFile] = useState<File | null>(null);

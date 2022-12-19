@@ -1,21 +1,21 @@
-import { BoltIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useAuthStore } from "../../stores/authStore";
 import { getInterestIcon } from "../../utils/interests";
 
 interface CardMultiSelectProps {
   selected: Array<string>;
   setSelected: Dispatch<SetStateAction<Array<string>>>;
+  interests: string[];
+  maxSelectable?: number;
 }
-
-const maxSelectable = 2;
 
 export default function CardMultiSelect({
   selected,
   setSelected,
+  interests,
+  maxSelectable = 2,
 }: CardMultiSelectProps) {
-  const { user } = useAuthStore();
+  // const { user } = useAuthStore();
   const [maximumSelected, setMaximumSelected] = useState(false);
   useEffect(() => {
     if (selected.length >= maxSelectable) {
@@ -24,40 +24,31 @@ export default function CardMultiSelect({
       setMaximumSelected(false);
     }
   }, [selected]);
-  if (!user) return null;
+  // if (!user) return null;
   return (
     <div>
       <div className="h-full w-full grid grid-cols-3 place-items-center">
-        {user &&
-          user.interests.map((item, key) => (
-            <CheckBox
-              item={{
-                id: item.id,
-                name: item.name,
-                svg: getInterestIcon(item),
-              }}
-              key={key}
-              selected={selected}
-              setSelected={setSelected}
-              maximumSelected={maximumSelected}
-              setMaximumSelected={setMaximumSelected}
-            />
-          ))}
+        {interests.map(interest => (
+          <CheckBox
+            interest={interest}
+            key={interest}
+            selected={selected}
+            setSelected={setSelected}
+            maximumSelected={maximumSelected}
+            setMaximumSelected={setMaximumSelected}
+          />
+        ))}
       </div>
       <p className="text-center text-violet-800">
-        <span className="font-bold">{selected.length}</span> of 2 interests
-        chosen!
+        <span className="font-bold">{selected.length}</span> of {maxSelectable}{" "}
+        interests chosen!
       </p>
     </div>
   );
 }
 
 type CheckBoxProps = {
-  item: {
-    id: string;
-    svg: JSX.Element;
-    name: string;
-  };
+  interest: string;
   selected: Array<string>;
   setSelected: Dispatch<SetStateAction<Array<string>>>;
   maximumSelected: boolean;
@@ -65,13 +56,13 @@ type CheckBoxProps = {
 };
 
 export function CheckBox({
-  item,
+  interest,
   selected,
   setSelected,
   maximumSelected,
   setMaximumSelected,
 }: CheckBoxProps) {
-  const isSelected = selected.find(el => el === item.id);
+  const isSelected = selected.find(el => el === interest);
   const [checked, setChecked] = useState(!!isSelected);
 
   const isDisabled = checked ? false : maximumSelected;
@@ -91,7 +82,7 @@ export function CheckBox({
             checked ? "text-white" : "text-green-500"
           )}
         >
-          {item.svg}
+          {getInterestIcon(interest)}
         </div>
         <p
           className={clsx(
@@ -99,14 +90,14 @@ export function CheckBox({
             checked ? "text-white" : "text-green-500"
           )}
         >
-          {item.name}
+          {interest}
         </p>
 
         <input
           type="checkbox"
           checked={checked}
           className="leading-normal hidden"
-          value={item.name}
+          value={interest}
           disabled={isDisabled}
           onChange={event => {
             const element = event.target;
