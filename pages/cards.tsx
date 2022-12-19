@@ -100,6 +100,7 @@ export default function Cards() {
         >
           <RiCloseLine size={28} />
         </button>
+          
         <button
           onClick={() => {
             cardRef.current?.classList.toggle("flipping");
@@ -111,7 +112,7 @@ export default function Cards() {
         <button
           disabled={acting}
           onClick={() => {
-            act("reject");
+            act("like");
           }}
           className="rounded-full bg-white shadow-md p-4 text-purple"
         >

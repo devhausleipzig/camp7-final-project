@@ -14,7 +14,11 @@ export default function Registration6() {
         setSelected={setSelectedInterests}
       />
       <div className="bottom-5 w-auto mx-2">
-        <Button label={"SUBMIT"} variant={ButtonVariant.fill} type={"submit"} />
+        <Button
+          label={"SUBMIT"}
+          variant={ButtonVariant.fill}
+          link={{ pathname: "/login" }}
+        />
         <Button
           label={"BACK"}
           link={{ pathname: "/registration5" }}

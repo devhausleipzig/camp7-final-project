@@ -22,7 +22,7 @@ export default function Registration1() {
         />
         <Button
           label={"BACK"}
-          link={{ pathname: "/register" }}
+          link={{ pathname: "/login" }}
           variant={ButtonVariant.transparent}
         />
       </div>

@@ -24,7 +24,7 @@ export default function LocationRegister({
         <Combobox value={location} onChange={setLocation}>
           <Combobox.Input
             placeholder="Location"
-            className={"px-1 flex-1 text-purple relative"}
+            className={"px-1 flex-1 text-purple relative rounded-md"}
             onChange={event => setQuery(event.target.value)}
             displayValue={() => location?.place_name ?? ""}
           />

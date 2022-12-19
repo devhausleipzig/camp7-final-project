@@ -12,6 +12,7 @@ type AuthState = {
   user: AuthUser | null;
   setToken: (newToken: string) => void;
   setUser: (newUser: AuthUser) => void;
+  clear: () => void;
 };
 
 export const useAuthStore = create<AuthState>()(
